@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 namespace SaveLoad;
 
 /// <summary>
-/// De/serializes a <see cref="Aabb"/>.
+/// De/serializes an <see cref="Aabb"/>.
 /// </summary>
 public class AabbConverter : JsonConverter<Aabb>
 {

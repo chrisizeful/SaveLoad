@@ -15,7 +15,7 @@ public partial class ModEntry : Button
             NameLabel.Text = Mod.Name;
             CreatorLabel.Text = Mod.Creator;
             VersionLabel.Text = Mod.ModVersion.ToString();
-            Steam.Visible = Mod.SteamMod;
+            Steam.Visible = !Mod.Local;
         }
     }
     Mod mod;

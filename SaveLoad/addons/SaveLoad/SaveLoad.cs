@@ -12,6 +12,9 @@ using System.IO;
 
 namespace SaveLoad;
 
+/// <summary>
+/// The core Singleton class for the SaveLoad API.
+/// </summary>
 public class SaveLoad
 {
 
@@ -38,6 +41,10 @@ public class SaveLoad
     public IReadOnlyList<Mod> Mods => mods;
 
     Version gameVersion;
+    /// <summary>
+    /// The current version of the game - used to detect whether mods are compatible. Automatically
+    /// set from the ProjectSettings "config/Version" setting.
+    /// </summary>
     public Version GameVersion
     {
         get

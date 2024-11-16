@@ -7,7 +7,9 @@ using System;
 
 namespace SaveLoad;
 
-// Properly de/serializes a node and its children
+/// <summary>
+/// De/serializes a node and its children.
+/// </summary>
 public class NodeConverter : JsonConverter
 {
 

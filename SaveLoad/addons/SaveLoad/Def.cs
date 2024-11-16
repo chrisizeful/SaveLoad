@@ -8,13 +8,28 @@ using System.IO;
 
 namespace SaveLoad;
 
+/// <summary>
+/// Defines content.
+/// </summary>
 public abstract record Def
 {
 
+    /// <summary>
+    /// Which Mod this Def orginates from.
+    /// </summary>
     [JsonIgnore]
     public Mod Owner { get; set; }
+    /// <summary>
+    /// A unique name used to identify the Def.
+    /// </summary>
     public StringName Name { get; set; }
+    /// <summary>
+    /// An optional Def that this one inherits from.
+    /// </summary>
     public string Base { get; set; }
+    /// <summary>
+    /// If this Def exists only to provide properties to other Defs.
+    /// </summary>
     public bool Abstract { get; set; }
 }
 
@@ -104,7 +119,12 @@ public record InstanceDef : Def
 		});
 	}
 
-    public virtual object Create(InstanceDef def, params object[] parameters)
+    /// <summary>
+    /// Creates and populates an object of type <see cref="InstanceType"/>.
+    /// </summary>
+    /// <param name="parameters">Optional parameters for the constructor.</param>
+    /// <returns></returns>
+    public virtual object Create(params object[] parameters)
     {
         // Copy fields from def to created instance properties
         object instance = Activator.CreateInstance(InstanceType, parameters);
@@ -145,22 +165,33 @@ public record InstanceDef : Def
 public record NodeDef : InstanceDef
 {
 
+    /// <summary>
+    /// Path the a scene file.
+    /// </summary>
 	public string Scene { get; set; }
+    /// <summary>
+    /// Path to a C# or GDSCript file.
+    /// </summary>
     public string Script { get; set; }
 
-    public override object Create(InstanceDef def, params object[] parameters)
+    /// <summary>
+    /// Create and populates a node.
+    /// </summary>
+    /// <param name="def"></param>
+    /// <param name="parameters">Only used for the constructor if the node is created through reflection.</param>
+    /// <returns></returns>
+    public override object Create(params object[] parameters)
     {
-        NodeDef nd = (NodeDef) def;
         Node result;
-		if (nd.Script != null && nd.Scene != null)
-            result = Create<Node>(nd.Scene.ToString(), nd.Script.ToString());
-		else if (nd.Scene != null)
-            result = ResourceLoader.Load<PackedScene>(nd.Scene).Instantiate();
+		if (Script != null && Scene != null)
+            result = Create<Node>(Scene.ToString(), Script.ToString());
+		else if (Scene != null)
+            result = ResourceLoader.Load<PackedScene>(Scene).Instantiate();
 		else
-            result = (Node) Activator.CreateInstance(nd.InstanceType, parameters);
+            result = (Node) Activator.CreateInstance(InstanceType, parameters);
         // Set all properties when node is ready
 		Populate(result);
-		result.Name = def.Name;
+		result.Name = Name;
         return result;
     }
 

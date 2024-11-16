@@ -7,11 +7,15 @@ using System;
 namespace SaveLoad;
 
 /// <summary>
-/// Load resources from a path.
+/// De/serializes resources to strings using their ResourcePath. If the resource is not found, a default
+/// resource specified in <see cref="Defaults"/> will used if one exists.
 /// </summary>
 public class ResourceConverter : JsonConverter
 {
 
+    /// <summary>
+    /// Resource fallbacks to use when one does not exist at a requested path.
+    /// </summary>
     public static Dictionary<Type, string> Defaults = new()
     {
         { typeof(Texture2D), "res://addons/SaveLoad/assets/default/Missing.png" }

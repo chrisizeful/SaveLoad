@@ -1,0 +1,15 @@
+{
+	"ID": "CoolTheme",
+	"Name": "Cool Theme",
+	"Creator": "Chris Charbonneau",
+	"ModVersion": "1.0.0.0",
+	"GameVersion": "0.0.5.0",
+	"Description": "A very cool UI theme.",
+	"Dependencies": [
+	{
+		"Name": "Base",
+		"Creator": "Chris Charbonneau",
+		"ModVersion": "0.0.2.0"
+	}
+  ]
+}

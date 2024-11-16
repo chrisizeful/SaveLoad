@@ -7,6 +7,10 @@ using System.Collections.Generic;
 
 namespace SaveLoad;
 
+/// <summary>
+/// De/serializes an <see cref="InstanceDef"/> using its name if <see cref="UseCache"/> is enabled. Otherwise,
+/// creates a new instance and populates it.
+/// </summary>
 public class InstanceDefConverter : JsonConverter
 {
 

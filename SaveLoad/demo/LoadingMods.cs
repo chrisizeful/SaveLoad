@@ -17,7 +17,7 @@ public partial class LoadingMods : Control, ISaveLoadListener
 	public override void _Ready()
 	{
 		// Load mods
-		string[] mods = { "Base" };
+		string[] mods = { "CoolTheme", "EpicBackground" };
 		string[] folders = { "assets", "scripts", "addons", "scenes", ".godot/imported" };
 		SaveLoad.Instance.Load(this, folders, mods);
 	}

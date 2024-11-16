@@ -5,7 +5,7 @@ using System;
 namespace SaveLoad;
 
 /// <summary>
-/// Save/load <see cref="Variant"/>.
+/// De/serialize a <see cref="Variant"/>.
 /// </summary>
 public class VariantConverter : JsonConverter<Variant>
 {

@@ -4,6 +4,13 @@ using System;
 
 namespace SaveLoad;
 
+/// <summary>
+/// Converts a <see cref="Texture2D"/> to JSON. The Texture is de/serialized as an a string.
+/// 
+/// The string can be the full path:                    "res://assets/myimage.png"
+/// or formatted as an <see cref="AtlasTexture"/>:      "res://assets/myimage.png:[0,0,16,16]"
+/// or formatted as a <see cref="PaddedAtlasTexture"/>: "res://assets/myimage.png:[0,0,16,16]:[2,2]"
+/// </summary>
 public class Texture2DConverter : ResourceConverter
 {
 

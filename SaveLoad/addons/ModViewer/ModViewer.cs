@@ -101,7 +101,7 @@ public partial class ModViewer : Control
         {
             entry.Normal();
             // Check game version
-            int compare = entry.Mod.Version;
+            int compare = entry.Mod.VersionCompare;
             if (compare != 0)
                 entry.Warn($"Current game version {SaveLoad.Instance.GameVersion} is {(compare < 0 ? "older" : "newer")}");
             // Check dependencies exist, are enabled, and are the correct version
