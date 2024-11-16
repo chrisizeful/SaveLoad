@@ -95,7 +95,7 @@ public partial class ModViewer : Control
 
     public void Dependencies()
     {
-        #nullable enable
+#nullable enable
         IEnumerable<ModEntry> entries = Enabled.Entries.Concat(Disabled.Entries);
         foreach (ModEntry entry in entries)
         {
@@ -130,7 +130,7 @@ public partial class ModViewer : Control
                     entry.Error($"Incompatible mod {incompatible.Name} by {incompatible.Creator} enabled");
             }
         }
-        #nullable disable
+#nullable disable
     }
 
     ModEntry Entry(Mod mod)
@@ -174,13 +174,16 @@ public partial class ModViewer : Control
 
     FileDialog GetDialog(string title, FileDialog.FileModeEnum mode)
     {
-        FileDialog dialog = new FileDialog();
-        dialog.Title = title;
-        dialog.FileMode = mode;
-        dialog.MinSize = dialog.MaxSize = new Vector2I(1280, 720);
-        dialog.ModeOverridesTitle = false;
-        dialog.Unresizable = true;
-        dialog.Access = FileDialog.AccessEnum.Filesystem;
+        FileDialog dialog = new()
+        {
+            Title = title,
+            FileMode = mode,
+            MinSize = new(800, 600),
+            MaxSize = new(800, 600),
+            ModeOverridesTitle = false,
+            Unresizable = true,
+            Access = FileDialog.AccessEnum.Filesystem
+        };
         GetParent().AddChild(dialog);
         dialog.PopupCentered();
         return dialog;

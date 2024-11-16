@@ -4,7 +4,9 @@ using Godot;
 
 namespace SaveLoad;
 
-// Save/load color as a html string
+/// <summary>
+/// Converts a <see cref="Color"/> to JSON. The color is de/serialized as an HTML string.
+/// </summary>
 public class ColorConverter : JsonConverter<Color>
 {
 
@@ -15,7 +17,7 @@ public class ColorConverter : JsonConverter<Color>
 
     public override Color ReadJson(JsonReader reader, Type objectType, Color existingValue, bool hasExistingValue, JsonSerializer serializer)
     {
-        return new Color((string) reader.Value);
+        return new((string) reader.Value);
     }
 
     public object Convert(string input) => new Color(input);

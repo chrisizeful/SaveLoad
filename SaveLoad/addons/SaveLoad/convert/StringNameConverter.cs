@@ -4,6 +4,9 @@ using System;
 
 namespace SaveLoad;
 
+/// <summary>
+/// De/serializes a <seealso cref="StringName"/> to a string.
+/// </summary>
 public class StringNameConverter : JsonConverter<StringName>, IStringConverter
 {
 

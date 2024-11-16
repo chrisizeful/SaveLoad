@@ -4,7 +4,9 @@ using System;
 
 namespace SaveLoad;
 
-// Save/load variants
+/// <summary>
+/// Save/load <see cref="Variant"/>.
+/// </summary>
 public class VariantConverter : JsonConverter<Variant>
 {
 

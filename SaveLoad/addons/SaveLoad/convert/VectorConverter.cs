@@ -4,6 +4,9 @@ using System;
 
 namespace SaveLoad;
 
+/// <summary>
+/// De/serializes a <see cref="Vector2"/> to a string, i.e. "0.0,0.0".
+/// </summary>
 public class Vector2Converter : JsonConverter, IStringConverter
 {
 
@@ -30,6 +33,9 @@ public class Vector2Converter : JsonConverter, IStringConverter
     }
 }
 
+/// <summary>
+/// De/serializes a <see cref="Vector2I"/> to a string, i.e. "0,0".
+/// </summary>
 public class Vector2IConverter : JsonConverter, IStringConverter
 {
 
@@ -56,6 +62,9 @@ public class Vector2IConverter : JsonConverter, IStringConverter
     }
 }
 
+/// <summary>
+/// De/serializes a <see cref="Vector3"/> to a string, i.e. "0.0,0.0,0.0".
+/// </summary>
 public class Vector3Converter : JsonConverter, IStringConverter
 {
 
@@ -82,6 +91,9 @@ public class Vector3Converter : JsonConverter, IStringConverter
     }
 }
 
+/// <summary>
+/// De/serializes a <see cref="Vector3I"/> to a string, i.e. "0,0,0".
+/// </summary>
 public class Vector3IConverter : JsonConverter, IStringConverter
 {
 
@@ -108,6 +120,9 @@ public class Vector3IConverter : JsonConverter, IStringConverter
     }
 }
 
+/// <summary>
+/// De/serializes a <see cref="Vector4"/> to a string, i.e. "0.0,0.0,0.0,0.0".
+/// </summary>
 public class Vector4Converter : JsonConverter, IStringConverter
 {
 
@@ -134,6 +149,9 @@ public class Vector4Converter : JsonConverter, IStringConverter
     }
 }
 
+/// <summary>
+/// De/serializes a <see cref="Vector4I"/> to a string, i.e. "0,0,0,0".
+/// </summary>
 public class Vector4IConverter : JsonConverter, IStringConverter
 {
 

@@ -1,0 +1,40 @@
+[gd_scene load_steps=2 format=3 uid="uid://d7h1sl220m6a"]
+
+[ext_resource type="Script" path="res://demo/LoadingMods.cs" id="1_ee37q"]
+
+[node name="LoadingMods" type="MarginContainer" node_paths=PackedStringArray("ProgressBar", "Message")]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -32.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+script = ExtResource("1_ee37q")
+ProgressBar = NodePath("ProgressBar")
+Message = NodePath("ProgressBar/MarginContainer/Message")
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+show_percentage = false
+
+[node name="MarginContainer" type="MarginContainer" parent="ProgressBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="Message" type="Label" parent="ProgressBar/MarginContainer"]
+layout_mode = 2
+text = "Loading..."

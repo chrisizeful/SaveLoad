@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace  SaveLoad;
+namespace SaveLoad;
 
 public abstract record Def
 {

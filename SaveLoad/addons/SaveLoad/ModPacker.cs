@@ -2,6 +2,9 @@ using Godot;
 
 namespace SaveLoad;
 
+/// <summary>
+/// A helper class to for packing files for a mod.
+/// </summary>
 public class ModPacker
 {
     
@@ -12,7 +15,6 @@ public class ModPacker
 
     public bool Start(string name = default)
     {
-        DirAccess dir = DirAccess.Open(SaveLoad.PackParentDir);
         if (!Files.MakeDirRecursive(SaveLoad.PackSubdir))
             return false;
         _packer = new PckPacker();
@@ -36,14 +38,14 @@ public class ModPacker
 
     public static void Pack(string mod, string filename = default, params string[] folders)
     {
-        ModPacker packer = new ModPacker(mod);
+        ModPacker packer = new(mod);
         packer.Start(filename);
         foreach (string folder in folders)
             packer.AddFolder(folder);
         packer.Save();
     }
 
-    public static bool IsPacked(string mod, string name = default) => Godot.FileAccess.FileExists($"{SaveLoad.PackDir}{Name(mod, name)}.pck");
+    public static bool IsPacked(string mod, string name = default) => FileAccess.FileExists($"{SaveLoad.PackDir}{Name(mod, name)}.pck");
 
     private static string Name(string mod, string name)
     {

@@ -224,15 +224,12 @@ size_flags_vertical = 3
 [node name="Problems" parent="MarginContainer/HBoxContainer/PreviewContainer/PanelContainer/Preview/MetaContainer/VBoxContainer" instance=ExtResource("12_gp5ci")]
 visible = false
 layout_mode = 2
-script = null
 
 [node name="Dependencies" parent="MarginContainer/HBoxContainer/PreviewContainer/PanelContainer/Preview/MetaContainer/VBoxContainer" instance=ExtResource("12_gp5ci")]
 layout_mode = 2
-script = null
 
 [node name="Incompatible" parent="MarginContainer/HBoxContainer/PreviewContainer/PanelContainer/Preview/MetaContainer/VBoxContainer" instance=ExtResource("12_gp5ci")]
 layout_mode = 2
-script = null
 
 [node name="HSeparator" type="HSeparator" parent="MarginContainer/HBoxContainer/PreviewContainer/PanelContainer/Preview/MetaContainer/VBoxContainer"]
 layout_mode = 2

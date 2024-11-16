@@ -6,7 +6,9 @@ using System;
 
 namespace SaveLoad;
 
-// Load resources from a path
+/// <summary>
+/// Load resources from a path.
+/// </summary>
 public class ResourceConverter : JsonConverter
 {
 

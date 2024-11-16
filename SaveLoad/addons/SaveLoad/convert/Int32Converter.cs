@@ -3,7 +3,9 @@ using System;
 
 namespace SaveLoad;
 
-// Convert Int64 to Int32
+/// <summary>
+/// Convert Int64 to Int32.
+/// </summary>
 public class Int32Converter : JsonConverter
 {
 

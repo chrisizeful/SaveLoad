@@ -4,6 +4,9 @@ using Newtonsoft.Json;
 
 namespace SaveLoad;
 
+/// <summary>
+/// De/serializes a <see cref="Basis"/>.
+/// </summary>
 public class BasisConverter : JsonConverter<Basis>
 {
 

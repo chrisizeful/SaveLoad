@@ -4,7 +4,10 @@ using Newtonsoft.Json.Linq;
 
 namespace SaveLoad;
 
-// Reads defs by name and writes def name
+/// <summary>
+/// De/serializes a <see cref="Def"/> using its name if <see cref="UseCache"/> is enabled. Otherwise,
+/// creates a new instance and populates it.
+/// </summary>
 public class DefConverter : JsonConverter
 {
 
