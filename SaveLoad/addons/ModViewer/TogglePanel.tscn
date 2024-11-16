@@ -1,0 +1,37 @@
+[gd_scene load_steps=5 format=3 uid="uid://4xbi0hvqe810"]
+
+[ext_resource type="Script" path="res://addons/ModViewer/TogglePanel.cs" id="1_8lroj"]
+[ext_resource type="Texture2D" uid="uid://damj6xtrh71lu" path="res://addons/ModViewer/assets/icon-expand.png" id="1_sl2r1"]
+[ext_resource type="Script" path="res://addons/ModViewer/ToggleButton.cs" id="2_83u3u"]
+[ext_resource type="StyleBox" path="res://addons/ModViewer/assets/theme/GrayDark.tres" id="4_iv0ih"]
+
+[node name="TogglePanel" type="VBoxContainer"]
+offset_right = 320.0
+offset_bottom = 36.0
+script = ExtResource("1_8lroj")
+
+[node name="Header" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="ToggleButton" type="Button" parent="Header" node_paths=PackedStringArray("Toggle", "Content")]
+layout_mode = 2
+size_flags_horizontal = 3
+toggle_mode = true
+text = "Name"
+icon = ExtResource("1_sl2r1")
+alignment = 0
+script = ExtResource("2_83u3u")
+Toggle = NodePath("../../Panel")
+Content = NodePath("../../Panel/Content")
+
+[node name="Panel" type="PanelContainer" parent="."]
+visible = false
+layout_mode = 2
+theme_override_styles/panel = ExtResource("4_iv0ih")
+
+[node name="Content" type="MarginContainer" parent="Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 0

@@ -1,0 +1,13 @@
+[gd_resource type="Shader" format=3 uid="uid://cwicwtetrjfg7"]
+
+[resource]
+code = "shader_type canvas_item;
+
+uniform sampler2D mask;
+uniform float alpha : hint_range(0.0f, 1.0f) = 1.0f;
+
+void fragment() {
+    vec4 color = texture(TEXTURE, UV);
+    color.a *= texture(mask, UV).a * alpha;
+    COLOR = color;
+}"

@@ -1,0 +1,246 @@
+[gd_scene load_steps=14 format=3 uid="uid://k1hpaqep5oso"]
+
+[ext_resource type="Script" path="res://addons/ModViewer/ModViewer.cs" id="1_og5xy"]
+[ext_resource type="StyleBox" uid="uid://j38e18d1mhjf" path="res://addons/ModViewer/assets/theme/Window.tres" id="3_yhuwg"]
+[ext_resource type="Texture2D" uid="uid://blhn386tm437g" path="res://addons/ModViewer/assets/icon-search.png" id="4_vs512"]
+[ext_resource type="Script" path="res://addons/ModViewer/DropList.cs" id="5_yesp2"]
+[ext_resource type="Texture2D" uid="uid://l0nbixql4sw4" path="res://addons/ModViewer/assets/icon-refresh.png" id="6_6uycd"]
+[ext_resource type="Texture2D" uid="uid://cdveq0m13wxyd" path="res://addons/ModViewer/assets/icon-import.png" id="7_04n7i"]
+[ext_resource type="Texture2D" uid="uid://crdttd5dvec4r" path="res://addons/ModViewer/assets/icon-export.png" id="8_umv8w"]
+[ext_resource type="Script" path="res://addons/ModViewer/ModPreview.cs" id="9_futgm"]
+[ext_resource type="Shader" uid="uid://cwicwtetrjfg7" path="res://addons/ModViewer/assets/Mask.tres" id="9_yxgv7"]
+[ext_resource type="Texture2D" uid="uid://3xr7cmob6n6g" path="res://addons/ModViewer/assets/ModMask.png" id="10_hbwfb"]
+[ext_resource type="PackedScene" uid="uid://4xbi0hvqe810" path="res://addons/ModViewer/TogglePanel.tscn" id="12_gp5ci"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_05itc"]
+bg_color = Color(0.317647, 0.317647, 0.317647, 1)
+border_color = Color(0.317647, 0.317647, 0.317647, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hcila"]
+shader = ExtResource("9_yxgv7")
+shader_parameter/alpha = 1.0
+shader_parameter/mask = ExtResource("10_hbwfb")
+
+[node name="ModViewer" type="PanelContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("3_yhuwg")
+script = ExtResource("1_og5xy")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="DisabledContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/DisabledContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Disabled"
+
+[node name="SearchDisabled" type="LineEdit" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/DisabledContainer"]
+layout_mode = 2
+placeholder_text = "Search..."
+clear_button_enabled = true
+right_icon = ExtResource("4_vs512")
+caret_blink = true
+caret_blink_interval = 0.5
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/DisabledContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/DisabledContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 0
+
+[node name="Disabled" type="VBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/DisabledContainer/ScrollContainer/MarginContainer" node_paths=PackedStringArray("Viewer")]
+layout_mode = 2
+script = ExtResource("5_yesp2")
+Viewer = NodePath("../../../../../../../..")
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/DisabledContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Refresh" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/DisabledContainer/PanelContainer"]
+layout_mode = 2
+focus_neighbor_left = NodePath("../../../EnabledContainer/PanelContainer/HBoxContainer/Export")
+focus_neighbor_right = NodePath("../../../EnabledContainer/PanelContainer/HBoxContainer/Import")
+text = "Refresh"
+icon = ExtResource("6_6uycd")
+flat = true
+alignment = 0
+
+[node name="VSeparator" type="VSeparator" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+
+[node name="EnabledContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/EnabledContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Enabled"
+
+[node name="SearchEnabled" type="LineEdit" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/EnabledContainer"]
+layout_mode = 2
+placeholder_text = "Search..."
+clear_button_enabled = true
+right_icon = ExtResource("4_vs512")
+caret_blink = true
+caret_blink_interval = 0.5
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/EnabledContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/EnabledContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 0
+
+[node name="Enabled" type="VBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/EnabledContainer/ScrollContainer/MarginContainer" node_paths=PackedStringArray("Viewer")]
+layout_mode = 2
+script = ExtResource("5_yesp2")
+Viewer = NodePath("../../../../../../../..")
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/EnabledContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/EnabledContainer/PanelContainer"]
+layout_mode = 2
+
+[node name="Import" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/EnabledContainer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_neighbor_left = NodePath("../../../../DisabledContainer/PanelContainer/Refresh")
+focus_neighbor_right = NodePath("../Export")
+text = "Import List"
+icon = ExtResource("7_04n7i")
+flat = true
+
+[node name="Export" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/EnabledContainer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_neighbor_left = NodePath("../Import")
+focus_neighbor_right = NodePath("../../../../DisabledContainer/PanelContainer/Refresh")
+text = "Export List"
+icon = ExtResource("8_umv8w")
+flat = true
+
+[node name="PreviewContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(640, 0)
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/HBoxContainer/PreviewContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Preview" type="VBoxContainer" parent="MarginContainer/HBoxContainer/PreviewContainer/PanelContainer"]
+layout_mode = 2
+script = ExtResource("9_futgm")
+
+[node name="IconContainer" type="PanelContainer" parent="MarginContainer/HBoxContainer/PreviewContainer/PanelContainer/Preview"]
+custom_minimum_size = Vector2(584, 256)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_05itc")
+
+[node name="Icon" type="TextureRect" parent="MarginContainer/HBoxContainer/PreviewContainer/PanelContainer/Preview/IconContainer"]
+material = SubResource("ShaderMaterial_hcila")
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/PreviewContainer/PanelContainer/Preview/IconContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/PreviewContainer/PanelContainer/Preview/IconContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = -8
+alignment = 2
+
+[node name="Name" type="Label" parent="MarginContainer/HBoxContainer/PreviewContainer/PanelContainer/Preview/IconContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 8
+text = "Name"
+clip_text = true
+
+[node name="Creator" type="Label" parent="MarginContainer/HBoxContainer/PreviewContainer/PanelContainer/Preview/IconContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_colors/font_color = Color(0.729412, 0.729412, 0.729412, 1)
+text = "Creator"
+clip_text = true
+
+[node name="ModVersion" type="Label" parent="MarginContainer/HBoxContainer/PreviewContainer/PanelContainer/Preview/IconContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_colors/font_color = Color(0.729412, 0.729412, 0.729412, 1)
+text = "1.0.0.0"
+clip_text = true
+
+[node name="MetaContainer" type="ScrollContainer" parent="MarginContainer/HBoxContainer/PreviewContainer/PanelContainer/Preview"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/PreviewContainer/PanelContainer/Preview/MetaContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Problems" parent="MarginContainer/HBoxContainer/PreviewContainer/PanelContainer/Preview/MetaContainer/VBoxContainer" instance=ExtResource("12_gp5ci")]
+visible = false
+layout_mode = 2
+script = null
+
+[node name="Dependencies" parent="MarginContainer/HBoxContainer/PreviewContainer/PanelContainer/Preview/MetaContainer/VBoxContainer" instance=ExtResource("12_gp5ci")]
+layout_mode = 2
+script = null
+
+[node name="Incompatible" parent="MarginContainer/HBoxContainer/PreviewContainer/PanelContainer/Preview/MetaContainer/VBoxContainer" instance=ExtResource("12_gp5ci")]
+layout_mode = 2
+script = null
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/HBoxContainer/PreviewContainer/PanelContainer/Preview/MetaContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Description" type="RichTextLabel" parent="MarginContainer/HBoxContainer/PreviewContainer/PanelContainer/Preview/MetaContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+bbcode_enabled = true
+text = "Description"
+fit_content = true

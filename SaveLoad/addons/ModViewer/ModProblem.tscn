@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://c3og1m5126tjo"]
+
+[ext_resource type="StyleBox" path="res://addons/ModViewer/assets/theme/Red.tres" id="1_k8wtu"]
+[ext_resource type="Script" path="res://addons/ModViewer/ModPreview.cs" id="2_jyte8"]
+[ext_resource type="Texture2D" uid="uid://cbve6yhjv3pi3" path="res://addons/ModViewer/assets/icon-exclamation.png" id="2_lyx0s"]
+
+
+[node name="ModProblem" type="PanelContainer"]
+theme_override_styles/panel = ExtResource("1_k8wtu")
+script = ExtResource("2_jyte8")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("2_lyx0s")
+stretch_mode = 3
+
+[node name="Problem" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Problems"
+autowrap_mode = 3

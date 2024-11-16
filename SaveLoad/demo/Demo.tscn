@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://cit43j8rekhpn"]
+
+[ext_resource type="Script" path="res://demo/Demo.cs" id="1_k4qtw"]
+[ext_resource type="PackedScene" uid="uid://k1hpaqep5oso" path="res://addons/ModViewer/ModViewer.tscn" id="2_4jm7g"]
+
+[node name="Demo" type="Node2D"]
+script = ExtResource("1_k4qtw")
+
+[node name="GUI" type="CanvasLayer" parent="."]
+
+[node name="Root" type="MarginContainer" parent="GUI"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="ModViewer" parent="GUI/Root" instance=ExtResource("2_4jm7g")]
+layout_mode = 2
