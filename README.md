@@ -5,7 +5,7 @@ SaveLoad is a C# serialization and modding API for the Godot game engine. It ena
 ### Features
 - **Serialization**
 - **ModViewer**
-- **DependencyGraph** for specifying mod dependencies and incompatibilies, and detecting cyclic dependecies.
+- **DependencyGraph** for specifying mod dependencies/incompatibilies, and detecting cyclic dependecies/references.
 - **PCK and DLL Support**
 - **A/sycnhronous Loading**
 - **Un/load individual mods**
