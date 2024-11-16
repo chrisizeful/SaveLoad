@@ -18,14 +18,28 @@ public abstract record Def
     public bool Abstract { get; set; }
 }
 
+/// <summary>
+/// A type of Def that defines an object of type <see cref="InstanceType"/> which can be instantiated and populated with its data.
+/// </summary>
 public record InstanceDef : Def
 {
 
+    /// <summary>
+    /// The type of object to instantiate.
+    /// </summary>
     public Type InstanceType { get; set; }
 
+    /// <summary>
+    /// The data that an instantiated object will be populated with.
+    /// </summary>
     public Dictionary<string, object> Properties { get; set; }
 
-    // Create an instance of this def
+    /// <summary>
+    /// Create an instance of this def.
+    /// </summary>
+    /// <typeparam name="T">The type to cast to.</typeparam>
+    /// <param name="parameters">Parameters for the object constructor.</param>
+    /// <returns></returns>
     public virtual T Instance<T>(params object[] parameters)
     {
         // Enable duplicate mode
@@ -41,6 +55,12 @@ public record InstanceDef : Def
         return (T) Create(deserial, parameters);
     }
 
+    /// <summary>
+    /// Create an instance of this def.
+    /// </summary>
+    /// <typeparam name="T">The type to cast to.</typeparam>
+    /// <param name="parameters">Parameters for the object constructor.</param>
+    /// <returns></returns>
     public async virtual Task<T> InstanceAsync<T>(params object[] parameters)
 	{
 		return await Task.Run(() => {
@@ -49,7 +69,13 @@ public record InstanceDef : Def
 		});
 	}
 
-    // Create a new instance that copies property layout of @base
+    /// <summary>
+    /// Create a new instance that copies the property layout of @base.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="base"></param>
+    /// <param name="parameters"></param>
+    /// <returns></returns>
     public virtual T Instance<T>(T @base, params object[] parameters)
     {
         T instance = Instance<T>(parameters);
@@ -63,6 +89,13 @@ public record InstanceDef : Def
         return instance;
     }
 
+    /// <summary>
+    /// Create a new instance that copies the property layout of @base.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="base"></param>
+    /// <param name="parameters"></param>
+    /// <returns></returns>
     public async virtual Task<T> InstanceAsync<T>(T @base, params object[] parameters)
 	{
 		return await Task.Run(() => {
@@ -71,7 +104,7 @@ public record InstanceDef : Def
 		});
 	}
 
-    public virtual object Create(InstanceDef def,  params object[] parameters)
+    public virtual object Create(InstanceDef def, params object[] parameters)
     {
         // Copy fields from def to created instance properties
         object instance = Activator.CreateInstance(InstanceType, parameters);
@@ -103,6 +136,12 @@ public record InstanceDef : Def
     }
 }
 
+/// <summary>
+/// A type of InstanceDef that allows for specifying a scene file and/or a script file.
+/// If both are provided, the scene is instantiated and the script attached to it. If
+/// only a scene is provided that is what is instantiated. The InstanceType property
+/// is used a final fallback for what object to create.
+/// </summary>
 public record NodeDef : InstanceDef
 {
 
@@ -125,12 +164,18 @@ public record NodeDef : InstanceDef
         return result;
     }
 
-    // Create scene at path with script at scriptPath attached
+    /// <summary>
+    /// Create scene at path with script at scriptPath attached.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="path">The path to the scene file.</param>
+    /// <param name="scriptPath">The path to the C# or GDScript file.</param>
+    /// <returns></returns>
 	public static T Create<T>(string path, string scriptPath) where T : Node
 	{
 		Node node = ResourceLoader.Load<PackedScene>(path).Instantiate();
 		var id = node.GetInstanceId();
-		node.SetScript(ResourceLoader.Load<CSharpScript>(scriptPath));
+		node.SetScript(ResourceLoader.Load(scriptPath));
 		return GodotObject.InstanceFromId(id) as T;
 	}
 }

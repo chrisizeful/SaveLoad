@@ -17,8 +17,8 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1"/>
   </ItemGroup>
   <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)LICENSE.md" Pack="true" PackagePath=""/>
-    <None Include="$(MSBuildThisFileDirectory)README.md" Pack="true" PackagePath=""/>
+    <None Include="$(MSBuildThisFileDirectory)..\LICENSE.md" Pack="true" PackagePath=""/>
+    <None Include="$(MSBuildThisFileDirectory)..\README.md" Pack="true" PackagePath=""/>
     </ItemGroup>
   <ItemGroup>
     <Content Include="addons\SaveLoad\**\*.*"/>

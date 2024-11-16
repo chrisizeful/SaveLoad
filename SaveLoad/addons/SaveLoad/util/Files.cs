@@ -4,11 +4,20 @@ using System.Runtime.CompilerServices;
 
 namespace SaveLoad;
 
+/// <summary>
+/// Contains a variety of utility functions for easing interactions with files.
+/// </summary>
 public static class Files
 {
 
     private static readonly Dictionary<string, string> _cache = new();
 
+    /// <summary>
+    /// Returns the contents of a text file.
+    /// </summary>
+    /// <param name="path">The path of the file to read.</param>
+    /// <param name="cacheText">If the result should be cached for future use.</param>
+    /// <returns></returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static string GetAsText(string path, bool cacheText = true)
     {
@@ -24,14 +33,27 @@ public static class Files
         return text;
     }
 
+    /// <summary>
+    /// Removes text that was previously cached by <see cref="GetAsText"/>.
+    /// </summary>
+    /// <param name="path">The path of the file.</param>
+    /// <returns>If the text existed and was removed.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool Remove(string path) => _cache.Remove(path);
+
+    /// <summary>
+    /// Clear all text previously cached by <see cref="GetAsText"/>.
+    /// </summary>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void ClearCache() => _cache.Clear();
 
-    // Fetch the full path to all files in a folder
-    // Specify file type (i.e. png)
-    // Optionally recursivelly search sub folders
+    /// <summary>
+    /// Fetch the fully qualified path to all files in a folder, optionally specifying a type.
+    /// </summary>
+    /// <param name="path">The path of the root directory to check.</param>
+    /// <param name="type">The type of files to check for. Can include '.' or just be the extension.</param>
+    /// <param name="recursive">Whether to rescursively check all sub directories.</param>
+    /// <returns></returns>
     public static List<string> ListFiles(string path, string type = null, bool recursive = false)
     {
         List<string> files = new();
@@ -83,7 +105,12 @@ public static class Files
         dir.ListDirEnd();
     }
 
-    // Return all sub directories in a folder
+    /// <summary>
+    /// Return all sub directories in a folder.
+    /// </summary>
+    /// <param name="path">The path of the root directory to check.</param>
+    /// <param name="recursive">Whether to rescursively check all sub directories.</param>
+    /// <returns></returns>
     public static List<string> ListDirs(string path, bool recursive = true)
     {
         List<string> directories = new();
@@ -126,7 +153,11 @@ public static class Files
         dir.ListDirEnd();
     }
 
-    // Deletes a directory and all it's contents, set self to false to keep root path folder
+    /// <summary>
+    /// Deletes a directory and all of it's contents, optioanlly keeping the root folder.
+    /// </summary>
+    /// <param name="path">The path of the directory to delete.</param>
+    /// <param name="self">Whether or not to delete the root folder.</param>
     public static void DeleteDir(string path, bool self = true)
     {
         if (!DirAccess.DirExistsAbsolute(path))
@@ -141,6 +172,11 @@ public static class Files
         dir.Dispose();
     }
 
+    /// <summary>
+    /// Write the text to the file at path, overwriting any existing content in the file.
+    /// </summary>
+    /// <param name="path"></param>
+    /// <param name="text"></param>
     public static void Write(string path, string text)
     {
         if (!MakeDirRecursive(path))
@@ -152,6 +188,11 @@ public static class Files
         file.Dispose();
     }
 
+    /// <summary>
+    /// Safely wraps the DirAcess.MakeDirRecursiveAbsolute method.
+    /// </summary>
+    /// <param name="path"></param>
+    /// <returns></returns>
     public static bool MakeDirRecursive(string path)
     {
         string dir = path.GetBaseDir();

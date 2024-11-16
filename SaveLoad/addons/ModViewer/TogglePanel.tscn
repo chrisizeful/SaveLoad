@@ -6,8 +6,9 @@
 [ext_resource type="StyleBox" path="res://addons/ModViewer/assets/theme/GrayDark.tres" id="4_iv0ih"]
 
 [node name="TogglePanel" type="VBoxContainer"]
-offset_right = 320.0
-offset_bottom = 36.0
+offset_right = 128.0
+offset_bottom = 31.0
+size_flags_horizontal = 3
 script = ExtResource("1_8lroj")
 
 [node name="Header" type="HBoxContainer" parent="."]

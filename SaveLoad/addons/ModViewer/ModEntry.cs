@@ -30,11 +30,7 @@ public partial class ModEntry : Button
     public List<(Conflict, string)> messages = new();
     public IReadOnlyList<(Conflict, string)> Messages => messages;
 
-    public Conflict ConflictType
-    {
-        get;
-        private set;
-    }
+    public Conflict ConflictType { get; private set; }
 
     public void Normal()
     {

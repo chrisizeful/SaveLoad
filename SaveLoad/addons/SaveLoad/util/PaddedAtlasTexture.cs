@@ -2,6 +2,9 @@ using Godot;
 
 namespace SaveLoad;
 
+/// <summary>
+/// An atlas texture that contains padding on all sides of it.
+/// </summary>
 public partial class PaddedAtlasTexture : AtlasTexture
 {
 

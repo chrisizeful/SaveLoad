@@ -4,6 +4,9 @@ using System.Linq;
 
 namespace SaveLoad;
 
+/// <summary>
+/// Contains utility extension functions.
+/// </summary>
 public static class SLExtensions
 {
 

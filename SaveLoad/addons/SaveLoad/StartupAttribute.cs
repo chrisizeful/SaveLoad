@@ -2,6 +2,9 @@ using System;
 
 namespace SaveLoad;
 
+/// <summary>
+/// A method attribute that allows a mod to specify its entry point.
+/// </summary>
 #nullable enable
 [AttributeUsage(AttributeTargets.Method)]
 public class StartupAttribute : Attribute
@@ -12,4 +15,3 @@ public class StartupAttribute : Attribute
     public StartupAttribute() : this(null) {}
     public StartupAttribute(params object[]? parameters) => Parameters = parameters;
 }
-#nullable disable
