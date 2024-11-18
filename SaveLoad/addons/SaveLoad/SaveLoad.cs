@@ -214,6 +214,8 @@ public class SaveLoad
     }
 
     // Load all enabled mods
+    // TODO Allow folders to be null/empty to load all sub-folders
+    // TODO Allow enabled to empty to load all mods in the mods folder
     public async void Load(ISaveLoadListener listener, string[] folders, params string[] enabled)
     {
         // Pack mods (including internal)
