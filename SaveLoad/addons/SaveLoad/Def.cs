@@ -58,7 +58,7 @@ public record InstanceDef : Def
     public virtual T Instance<T>(params object[] parameters)
     {
         // Enable duplicate mode
-        JsonSerializer serializer = SaveLoad.CreateDefault();
+        JsonSerializer serializer = SaveLoad.Instance.CreateDefault();
         DefConverter dc = serializer.Converter<DefConverter>();
         InstanceDefConverter idc = serializer.Converter<InstanceDefConverter>();
         dc.UseCache = idc.UseCache = true;

@@ -114,7 +114,7 @@ public class SaveLoad
         Serializer = JsonSerializer.CreateDefault();
     }
     
-    public static JsonSerializer CreateDefault()
+    public JsonSerializer CreateDefault()
     {
         _instance ??= new SaveLoad();
         return JsonSerializer.CreateDefault();
@@ -213,8 +213,14 @@ public class SaveLoad
         return jos;
     }
 
-    // Load all enabled mods
-    // TODO Allow folders to be null/empty to load all sub-folders
+    /// <summary>
+    /// Load all enabled mods.
+    /// </summary>
+    /// <param name="listener">Optional ISaveLoadListener for listening to callbacks.</param>
+    /// <param name="folders">The list of sub-directories to include for each mod.</param>
+    /// <param name="enabled">The list of mods to load.</param>
+    /// <exception cref="Exception">Thrown if a mods DLL failed to load.</exception>
+    ///TODO Allow folders to be null/empty to load all sub-folders
     // TODO Allow enabled to empty to load all mods in the mods folder
     public async void Load(ISaveLoadListener listener, string[] folders, params string[] enabled)
     {
@@ -322,7 +328,10 @@ public class SaveLoad
         return graph.DataOrder();
     }
 
-    // Unload mod by path
+    /// <summary>
+    /// Unload mods.
+    /// </summary>
+    /// <param name="unload"></param>
     public void Unload(params Mod[] unload)
     {
         foreach (Mod mod in unload)
@@ -335,13 +344,25 @@ public class SaveLoad
             defTypes.Remove(t);
     }
 
+    /// <summary>
+    /// Unload all currently loaded mods.
+    /// </summary>
     public void Unload() => Unload(mods.ToArray());
 
-    // Get def of type T with name
+    /// <summary>
+    /// Get def of type T with name.
+    /// </summary>
+    /// <typeparam name="T">The type to cast the returned Def to.</typeparam>
+    /// <param name="name">The name of the Def.</param>
+    /// <returns>The loaded Def.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public T Get<T>(string name) where T : Def => (T) defNames[name];
 
-    // Get list of defs of type T
+    /// <summary>
+    /// Get all loaded defs of type T.
+    /// </summary>
+    /// <typeparam name="T">The type to cast the returned list of Defs to.</typeparam>
+    /// <returns>A list of all loaded defs of type T.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public List<T> Get<T>() where T : Def 
     {
@@ -378,6 +399,9 @@ public class SaveLoad
     }
 }
 
+/// <summary>
+/// Used by <see cref="SaveLoad.Load"/> to monitor progress.
+/// </summary>
 public interface ISaveLoadListener
 {
 
