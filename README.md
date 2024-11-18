@@ -15,7 +15,7 @@ JSON converters are provided for every Godot type.
 #### ModViewer
 A themed UI scene that allows for managing lists of mods.
 
-#### PCK and DLL Support
+#### Automatic PCK Packing and DLL Support
 
 #### A/sycnhronous Loading
 
