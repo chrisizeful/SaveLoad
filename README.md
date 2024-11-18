@@ -13,7 +13,7 @@ Allows for specifying per-mod dependencies and incompatibilities. Checks for and
 JSON converters are provided for every Godot type.
 
 #### ModViewer
-A themed UI scene to that allows for managing lists of mods.
+A themed UI scene that allows for managing lists of mods.
 
 #### PCK and DLL Support
 
