@@ -18,6 +18,7 @@ A themed UI scene to that allows for managing lists of mods.
 #### PCK and DLL Support
 
 #### A/sycnhronous Loading
+// AssetLoad and SaveLoad
 
 #### Un/load individual mods
 
@@ -57,7 +58,7 @@ public void Complete() {}
 Mod C# assemblies are not sandboxed or otherwise prevented from executing arbitrary code. Meaning, mods users download from the internet have the capability to execute malicious code such as deleting user files. Read more on this issue [here](https://github.com/godotengine/godot/issues/7753) and [here](https://github.com/godotengine/godot-proposals/issues/5010).
 
 #### Work in Progress
-SaveLoad has been used in numerous personal projects and tested in exported projects on both Windows and Linux. However, it has yet to be thoroughly evaluated in a comercially available game.
+SaveLoad has been used in numerous personal projects and tested in exported projects on both Windows and Linux. However, it has yet to be thoroughly evaluated in a comercially available game. Any issues and pull requests are much appreciated.
 
 ## Licensing
 SaveLoad is licensed under MIT - you are free to use it however you wish.

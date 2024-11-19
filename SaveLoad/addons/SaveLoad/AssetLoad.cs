@@ -6,6 +6,9 @@ using System;
 
 namespace SaveLoad;
 
+/// <summary>
+/// A singleton helper class for asynchronously loading assets.
+/// </summary>
 public class AssetLoad
 {
 
@@ -23,7 +26,11 @@ public class AssetLoad
 
     private AssetLoad() {}
 
-    // Load all assets in directory path asynchronously
+    /// <summary>
+    /// Load all assets in a directory path asynchronously.
+    /// </summary>
+    /// <param name="path">The path of the directory.</param>
+    /// <returns></returns>
     public async Task<List<string>> Load(string path)
     {
         return await Task.Run(() => {
@@ -43,6 +50,10 @@ public class AssetLoad
         });
     }
 
+    /// <summary>
+    /// Load an asset at a path asynchronously.
+    /// </summary>
+    /// <param name="file">The path of the file.</param>
     public void LoadFile(string file)
     {
         Error error = ResourceLoader.LoadThreadedRequest(file, "", true);
@@ -50,6 +61,11 @@ public class AssetLoad
             GD.PrintErr($"AssetLoad#LoadFile: Failed to load file at {file} ({error})");
     }
 
+    /// <summary>
+    /// Load an asset pack (.pck) at a path asynchronously.
+    /// </summary>
+    /// <param name="file">The path to the .pck file.</param>
+    /// <returns></returns>
     public async Task<bool> LoadResourcePack(string file)
     {
         return await Task.Run(() => {
@@ -60,6 +76,11 @@ public class AssetLoad
         });
     }
 
+    /// <summary>
+    /// Load all asset packs (.pck) in a folder asynchronously.
+    /// </summary>
+    /// <param name="folder">The path to the root directory.</param>
+    /// <returns></returns>
     public async Task<bool[]> LoadResourcePacks(string folder)
     {
         List<string> files = Files.ListFiles(folder, ".pck", true);
@@ -69,6 +90,11 @@ public class AssetLoad
         return await Task.WhenAll(tasks.ToArray());
     }
 
+    /// <summary>
+    /// Loads an assembly asynchronously.
+    /// </summary>
+    /// <param name="file">The fullly qualified path to an assembly (.dll).</param>
+    /// <returns></returns>
     public async Task<Assembly> LoadAssembly(string file)
     {
         return await Task.Run(() => {
@@ -84,6 +110,11 @@ public class AssetLoad
         });
     }
 
+    /// <summary>
+    /// Can be called each frame to (i.e. in Process()) to hook into callbacks and update a loading screen.
+    /// </summary>
+    /// <param name="files">The list of files that were requested to be loaded.</param>
+    /// <param name="listener">An IAssetLoadListener that listens to callbacks.</param>
     public void GetStatus(List<string> files, IAssetLoadListener listener)
     {
         if (files == null || files.Count == 0)
@@ -113,9 +144,22 @@ public class AssetLoad
     }
 }
 
+/// <summary>
+/// Used by <see cref="AssetLoad.GetStatus(List{string}, IAssetLoadListener)"/> to get the status
+/// of asynchronously loaded assets.
+/// </summary>
 public interface IAssetLoadListener
 {
 
+    /// <summary>
+    /// Called continuously.
+    /// </summary>
+    /// <param name="loaded">The number of assets that have finished loading.</param>
+    /// <param name="total">The total number of assets that were requested to load.</param>
+    /// <param name="progress">The percent of assets that have finished loading.</param>
     public void AssetProgress(int loaded, int total, float progress) {}
+    /// <summary>
+    /// Called when all assets have finished loading.
+    /// </summary>
     public void AssetComplete() {}
 }

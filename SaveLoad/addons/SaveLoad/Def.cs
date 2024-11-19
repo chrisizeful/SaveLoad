@@ -9,7 +9,7 @@ using System.IO;
 namespace SaveLoad;
 
 /// <summary>
-/// Defines content.
+/// Defines content with a unique name.
 /// </summary>
 public abstract record Def
 {
