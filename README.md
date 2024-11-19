@@ -25,7 +25,7 @@ The folder structure of mods is up to you. You can either enforce they be setup 
 
 #### Creating Defs
 
-First, you must create a record that extends Def. Then, you can create JSON files using that type. Note that Defs can safely reference other Defs - the DefConverter resolves them by name and the DependencyGraph resolves the order to load them in.
+First, you must create a record that extends Def. Then, you can create JSON files using that type. Defs can safely reference other Defs - the DefConverter resolves them by name and the DependencyGraph resolves the order to load them in. Note that a single file can contain any number of defs.
 ```C#
 namespace MyGame;
 
@@ -38,13 +38,68 @@ public record ShirtDef : Def
 ```
 ```JSON
 {
-	"$type": "MyGame.ShirtDef, MyGame",
-	"Name": "DressShirt",
+    "$type": "MyGame.ShirtDef, MyGame",
+    "Name": "DressShirt",
     "Texture": "res://assets/shirt/DressShirt.png",
-	"Alternatives": [
-		"FancyShirt",
+    "Alternatives": [
+        "FancyShirt",
         "FancierShirt"
-	]
+    ]
+}
+```
+
+There are two built-in types that extend Def and can be instantiated: InstanceDef and NodeDef. An InstanceDef defines data that populates an object. It requires that an InstanceType be defined and optional dictionary of Properties to fill the object with. A NodeDef is similar, but can take an optional Scene path to instantiate and an optional Script path to attach to the scene. A custom Def can extend to 
+```C#
+// The source for InstanceDef3D for reference
+public class InstanceDef3D : Node3D
+{
+
+    public StringName Definition { get; set; }
+	public InstanceDef Def => SaveLoad.Instance.Get<InstanceDef>(Definition);
+}
+```
+
+```C#
+namespace MyGame;
+
+public record EnemyDef : InstanceDef
+{
+
+    public Texture2D Texture { get; set; }
+}
+```
+```JSON
+{
+    "$type": "MyGame.EnemyDef, MyGame",
+    "Name": "DressShirt",
+    "InstanceType": "GodotSharp.Node3D, GodotSharp",
+    "Texture": "res://assets/Enemy.png",
+    "Properties": {
+        "Position": "1.0,2.0,3.0",
+    }
+}
+{
+    "$type": "SaveLoad.InstanceDef, SaveLoad",
+    "Name": "EvilCharacter",
+    "InstanceType": "SaveLoad.InstanceDef3D, SaveLoad",
+    "Scene": "res://scenes/Character.tcsn",
+    "Script": "res://scenes/EvilCharacter.tscn",
+    "Texture": "res://assets/EvilCharacter.png",
+    "Properties": {
+        "Position": "1.0,2.0,3.0",
+    }
+}
+{
+    "$type": "SaveLoad.CharacterDef, SaveLoad",
+    "Name": "GoodCharacter",
+    "InstanceType": "GodotSharp.Node3D, GodotSharp",
+    "Scene": "res://scenes/Character.tcsn",
+    "Script": "res://scenes/GoodCharacter.tscn",
+    "Texture": "res://assets/GoodCharacter.png",
+    "Properties": {
+        "Position": "3.0,1.0,0.0",
+        "Scale": "2.0,2.0,2.0"
+    }
 }
 ```
 

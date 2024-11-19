@@ -4,6 +4,8 @@ using System;
 
 namespace SaveLoad;
 
+// TODO Use Regex to allow x/y/z to be separated with "," or ", "
+
 /// <summary>
 /// De/serializes a <see cref="Vector2"/> to a string, i.e. "0.0,0.0".
 /// </summary>
