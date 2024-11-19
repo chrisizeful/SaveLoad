@@ -13,9 +13,9 @@ Allows for specifying per-mod dependencies and incompatibilities. Checks for and
 JSON converters are provided for every Godot type.
 
 #### ModViewer
-A themed UI scene to that allows for managing lists of mods.
+A themed UI scene that allows for managing lists of mods.
 
-#### PCK and DLL Support
+#### Automatic PCK Packing and DLL Support
 
 #### A/sycnhronous Loading
 // AssetLoad and SaveLoad
@@ -55,7 +55,7 @@ public void Complete() {}
 ## Warnings
 
 #### Arbitrary Code Execution
-Mod C# assemblies are not sandboxed or otherwise prevented from executing arbitrary code. Meaning, mods users download from the internet have the capability to execute malicious code such as deleting user files. Read more on this issue [here](https://github.com/godotengine/godot/issues/7753) and [here](https://github.com/godotengine/godot-proposals/issues/5010).
+Mod C# assemblies are not sandboxed or otherwise prevented from executing arbitrary code. Meaning, mods users download from the internet have the capability to execute malicious code such as deleting user files. Deploy at your own risk and provide a warning to users. Read more on this issue [here](https://github.com/godotengine/godot/issues/7753) and [here](https://github.com/godotengine/godot-proposals/issues/5010).
 
 #### Work in Progress
 SaveLoad has been used in numerous personal projects and tested in exported projects on both Windows and Linux. However, it has yet to be thoroughly evaluated in a comercially available game. Any issues and pull requests are much appreciated.
