@@ -12,6 +12,9 @@ namespace SaveLoad;
 public class AssetLoad
 {
 
+    /// <summary>
+    /// The singleton instance.
+    /// </summary>
     public static AssetLoad Instance
     {
         get

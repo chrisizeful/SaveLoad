@@ -13,11 +13,14 @@ using System.IO;
 namespace SaveLoad;
 
 /// <summary>
-/// The core Singleton class for the SaveLoad API.
+/// The core singleton class for the SaveLoad API.
 /// </summary>
 public class SaveLoad
 {
 
+    /// <summary>
+    /// The singleton instance.
+    /// </summary>
     public static SaveLoad Instance
     {
         get
@@ -28,16 +31,28 @@ public class SaveLoad
     }
     private static SaveLoad _instance;
 
+    /// <summary>
+    /// Pre-configured JsonSerializer instance and settings will all default converters.
+    /// </summary>
     public JsonSerializer Serializer { get; private set; }
     public JsonSerializerSettings Settings { get; private set; }
 
     private Dictionary<Type, List<Def>> defTypes { get; } = new();
+    /// <summary>
+    /// Loaded mods by type.
+    /// </summary>
     public IReadOnlyDictionary<Type, List<Def>> DefTypes => defTypes;
 
     private Dictionary<string, Def> defNames { get; } = new();
+    /// <summary>
+    /// Loaded mods by their unique name.
+    /// </summary>
     public IReadOnlyDictionary<string, Def> DefNames => defNames;
 
     private List<Mod> mods { get; } = new();
+    /// <summary>
+    /// All currently loaded mods.
+    /// </summary>
     public IReadOnlyList<Mod> Mods => mods;
 
     Version gameVersion;
@@ -57,6 +72,10 @@ public class SaveLoad
         }
     }
 
+    /// <summary>
+    /// The parent directory where mod .pck files will be packed to. In debug mode, this in in the project (res://)
+    /// folder, and in exported projects this is next to the running executable.
+    /// </summary>
     public static string PackParentDir
     {
 #if DEBUG
@@ -66,9 +85,19 @@ public class SaveLoad
 #endif
     }
 
+    /// <summary>
+    /// The directory relative to <see cref="PackParentDir"/> where mod .pck files will be packed to.
+    /// </summary>
     public static string PackSubdir => "mods/packed/";
+    /// <summary>
+    /// The fully qualified directory to pack .pck files into.
+    /// </summary>
     public static string PackDir => PackParentDir + PackSubdir;
 
+    /// <summary>
+    /// The directory where mods are stored. In debug mode, this is in the parent directory alongside the project. In an
+    /// exported project this is next to th erunning executable. In both cases, the folder name is "Mods".
+    /// </summary>
     public static string ModDir
     {
 #if DEBUG
