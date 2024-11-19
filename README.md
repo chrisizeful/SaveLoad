@@ -46,26 +46,35 @@ public record ShirtDef : Def
 }
 ```
 
-There are two built-in types that extend Def and can be instantiated: InstanceDef and NodeDef. An InstanceDef defines data that populates an object. It requires that an InstanceType be defined and optional dictionary of Properties to fill the object with. A NodeDef is similar, but can take an optional Scene path to instantiate and an optional Script path to attach to the scene. A custom Def can extend to 
+#### InstanceDef and NodeDef
+
+There are two built-in types that extend Def and can be instantiated: InstanceDef and NodeDef. An InstanceDef defines data that populates an object. The data is duplicated per instance so that it is unique. These Defs require that an InstanceType be defined and an optional dictionary of Properties to fill the object with. If your object is a simple Node2D or Node3D, you can choose to set the Type to one of the built-in InstanceDef2D or InstanceDef3D classes. A NodeDef is similar to an InstanceDef, but can take an optional Scene path to load/instantiate and an optional Script path to attach to the scene.
+
+If the Type has a StringName Definition property, it will be set to the name of the Def used to create it. For one, this allows you to fetch data from the Def (see the IsCool property below). It exists in the Def but is not set on the instantiated object.
+
+The source for InstanceDef3D for reference:
 ```C#
-// The source for InstanceDef3D for reference
 public class InstanceDef3D : Node3D
 {
 
-    public StringName Definition { get; set; }
+	public StringName Definition { get; set; }
 	public InstanceDef Def => SaveLoad.Instance.Get<InstanceDef>(Definition);
 }
 ```
 
+An example of defining a custom InstanceDef that has two Properties which are not set on instantiated objects:
 ```C#
 namespace MyGame;
 
 public record EnemyDef : InstanceDef
 {
 
-    public Texture2D Texture { get; set; }
+	public bool IsCool { get; set; }
+	public Texture2D Texture { get; set; }
 }
 ```
+
+An example of JSON that defines InstanceDefs:
 ```JSON
 {
     "$type": "MyGame.EnemyDef, MyGame",
@@ -103,7 +112,27 @@ public record EnemyDef : InstanceDef
 
 #### Using Defs
 
-// TODO SaveLoad.Get, SaveLoad.GetInstance, SaveLoad.Create
+// TODO SaveLoad.Create
+
+SaveLoad provides numerous methods to get Defs of a certain type. Additionally, Defs can be fetched by name:
+```JSON
+// All of type
+foreach (CharacterDef def in SaveLoad.Instance.Get<CharacterDef>())
+	// Add to a character select screen, maybe...
+// Single of type
+CharacterDef def = SaveLoad.Instance.Get<CharacterDef>("OrcDef");
+```
+
+Fetching InstanceDefs is slighly different, as the InstanceType needs to be specified alongside the Def Type:
+```JSON
+// All
+foreach (CharacterInstanceDef def in SaveLoad.Instance.GetInstance<Character2D, CharacterInstanceDef>())
+	// Add to a character select screen, maybe...
+// Single, by name
+CharacterInstanceDef def = SaveLoad.Instance.GetInstance<Character2D, CharacterInstanceDef>("OrcInstanceDef");
+```
+
+Once you have a reference to an instance def, you can instantiate it by calling 
 
 #### Loading Mods
 The SaveLoad class is a singleton where the majority of your interactions with API will occur. It is recommended you load a list of mods (instead of each individually) so their load order can be correctly resolved. To load a list of mods you can specify the names of the mods and the sub-folders to include:
