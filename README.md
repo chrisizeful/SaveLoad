@@ -15,8 +15,6 @@ SaveLoad is a C# serialization and modding API for the Godot game engine. It ena
 
 ## Usage
 
-The SaveLoad class is a singleton where the majority of your interactions with API will occur.
-
 #### Folder Structure
 
 By default, the mods folder is placed next to the project directory. This is done to 1) prevent your project from importing assets from mods and 2) allow the mods folder to be placed next to the exectuable when exported. An additional directory (mods/packed) is created to store packed .pck files. See SaveLoad.PackDir and SaveLoad.ModDir.
@@ -103,8 +101,12 @@ public record EnemyDef : InstanceDef
 }
 ```
 
+#### Using Defs
+
+// TODO SaveLoad.Get, SaveLoad.GetInstance, SaveLoad.Create
+
 #### Loading Mods
-To load a list of mods you can specify the names of the mods and the sub-folders to include:
+The SaveLoad class is a singleton where the majority of your interactions with API will occur. It is recommended you load a list of mods (instead of each individually) so their load order can be correctly resolved. To load a list of mods you can specify the names of the mods and the sub-folders to include:
 ```C#
 string[] mods = { "CoolTheme", "EpicBackground" };
 string[] folders = { "assets", "scripts", "addons", "scenes", ".godot/imported" };
@@ -121,6 +123,11 @@ public void Progress(int loaded, int total) {}
 
 // Done loading, switch scenes...
 public void Complete() {}
+```
+
+You can also load and unload individual mods:
+```C#
+SaveLoad.Unload(mod1, mod2, ...);
 ```
 
 ## Warnings

@@ -143,6 +143,10 @@ public class SaveLoad
         Serializer = JsonSerializer.CreateDefault();
     }
     
+    /// <summary>
+    /// Create a JsonSerializer with the default settings and converters.
+    /// </summary>
+    /// <returns></returns>
     public JsonSerializer CreateDefault()
     {
         _instance ??= new SaveLoad();
@@ -400,9 +404,22 @@ public class SaveLoad
         return defs.Cast<T>().ToList();
     }
  
+    /// <summary>
+    /// Return the InstanceDef matching name and the generic paramters.
+    /// </summary>
+    /// <typeparam name="I">The type of the InstanceDef.</typeparam>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="name">The type the object the InstanceDef instantiates to.</param>
+    /// <returns></returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public I GetInstance<I, T>(string name) where I : InstanceDef => GetInstances<I, T>().Find(i => i.Name == name);
 
+    /// <summary>
+    /// Return a list of all InstanceDefs that meet the generic parameters.
+    /// </summary>
+    /// <typeparam name="I">The type of the InstanceDef.</typeparam>
+    /// <typeparam name="T">The type the object the InstanceDef instantiates to.</typeparam>
+    /// <returns></returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public List<I> GetInstances<I, T>() where I : InstanceDef
     {
@@ -411,11 +428,18 @@ public class SaveLoad
         return defs;
     }
     
-    // Create an InstanceDef 
+    /// <summary>
+    /// Helper function for quickly instantiating an InstanceDef.
+    /// </summary>
+    /// <typeparam name="I">The type of the InstanceDef.</typeparam>
+    /// <typeparam name="T">The type the object the InstanceDef instantiates to.</typeparam>
+    /// <param name="name">The name of the Def.</param>
+    /// <param name="parameters">Optional paramters to use for a constructor.</param>
+    /// <returns></returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public T Create<I, T>(string name, params object[] parameters) where I : InstanceDef => GetInstance<I, T>(name).Instance<T>(parameters);
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public T Create<I, T>(string name, T @base, params object[] parameters) where I : InstanceDef => GetInstance<I, T>(name).Instance<T>(@base, parameters);
+    public T Create<I, T>(string name, T @base, params object[] parameters) where I : InstanceDef => GetInstance<I, T>(name).Instance(@base, parameters);
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Task<T> CreateAsync<I, T>(string name, params object[] parameters) where I : InstanceDef => GetInstance<I, T>(name).InstanceAsync<T>(parameters);
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
