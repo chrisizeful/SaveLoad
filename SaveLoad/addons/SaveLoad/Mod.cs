@@ -94,7 +94,7 @@ public sealed record Mod
     /// </summary>
     public int VersionCompare
     {
-        get => SaveLoad.Instance.GameVersion.CompareTo(GameVersion);
+        get => SaveLoader.Instance.GameVersion.CompareTo(GameVersion);
     }
 
     /// <summary>

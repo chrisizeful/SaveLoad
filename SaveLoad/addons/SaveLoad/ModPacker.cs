@@ -20,10 +20,10 @@ public class ModPacker
     /// <returns>If the directory at filename was successfully created.</returns>
     public bool Start(string filename = default)
     {
-        if (!Files.MakeDirRecursive(SaveLoad.PackSubdir))
+        if (!Files.MakeDirRecursive(SaveLoader.PackSubdir))
             return false;
         packer = new PckPacker();
-        packer.PckStart($"{SaveLoad.PackDir}{Name(mod, filename)}.pck");
+        packer.PckStart($"{SaveLoader.PackDir}{Name(mod, filename)}.pck");
         return true;
     }
     
@@ -39,7 +39,7 @@ public class ModPacker
         foreach(string file in Files.ListFiles($"{mod}/{folder}", null, true))
         {
             int idx = file.IndexOf(folder);
-            packer.AddFile($"{SaveLoad.PackParentDir}{file.Substr(idx, file.Length - idx)}", file);
+            packer.AddFile($"{SaveLoader.PackParentDir}{file.Substr(idx, file.Length - idx)}", file);
         }
     }
 
@@ -54,7 +54,7 @@ public class ModPacker
     /// <param name="mod">The name of the mod.</param>
     /// <param name="filename">Optionally specify a filename different from the mod name.</param>
     /// <param name="folders">A list of folders to pack.</param>
-    // TODO Allow folders to be empty/null to be pack all sub-directories
+    // TODO Allow folders to be empty/null to pack all sub-directories
     public static void Pack(string mod, string filename = default, params string[] folders)
     {
         ModPacker packer = new(mod);
@@ -70,7 +70,7 @@ public class ModPacker
     /// <param name="mod">The name of the mod.</param>
     /// <param name="filename">Optionally specify a filename different from the mod name.</param>
     /// <returns></returns>
-    public static bool IsPacked(string mod, string filename = default) => FileAccess.FileExists($"{SaveLoad.PackDir}{Name(mod, filename)}.pck");
+    public static bool IsPacked(string mod, string filename = default) => FileAccess.FileExists($"{SaveLoader.PackDir}{Name(mod, filename)}.pck");
 
     private static string Name(string mod, string filename)
     {

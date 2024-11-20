@@ -3,14 +3,17 @@
 [ext_resource type="Script" path="res://addons/ModViewer/ModEntry.cs" id="1_qavi5"]
 [ext_resource type="Texture2D" uid="uid://ueoy7ke8simb" path="res://addons/ModViewer/assets/icon-steam.png" id="2_bdt8p"]
 
-
-[node name="ModEntry" type="Button"]
+[node name="ModEntry" type="Button" node_paths=PackedStringArray("NameLabel", "CreatorLabel", "VersionLabel", "External")]
 custom_minimum_size = Vector2(128, 80)
 offset_right = 321.0
 offset_bottom = 80.0
 size_flags_horizontal = 3
 toggle_mode = true
 script = ExtResource("1_qavi5")
+NameLabel = NodePath("MarginContainer/VBoxContainer/HBoxContainer2/Name")
+CreatorLabel = NodePath("MarginContainer/VBoxContainer/HBoxContainer/Creator")
+VersionLabel = NodePath("MarginContainer/VBoxContainer/HBoxContainer/Version")
+External = NodePath("MarginContainer/VBoxContainer/HBoxContainer2/External")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -33,7 +36,7 @@ size_flags_horizontal = 3
 text = "Name"
 clip_text = true
 
-[node name="Steam" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
+[node name="External" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
 visible = false
 layout_mode = 2
 texture = ExtResource("2_bdt8p")

@@ -15,21 +15,21 @@ namespace SaveLoad;
 /// <summary>
 /// The core singleton class for the SaveLoad API.
 /// </summary>
-public class SaveLoad
+public class SaveLoader
 {
 
     /// <summary>
     /// The singleton instance.
     /// </summary>
-    public static SaveLoad Instance
+    public static SaveLoader Instance
     {
         get
         {
-            _instance ??= new SaveLoad();
+            _instance ??= new SaveLoader();
             return _instance;
         }
     }
-    private static SaveLoad _instance;
+    private static SaveLoader _instance;
 
     /// <summary>
     /// Pre-configured JsonSerializer instance and settings will all default converters.
@@ -104,7 +104,7 @@ public class SaveLoad
 #endif
     }
 
-    private SaveLoad()
+    private SaveLoader()
     {
         JsonConvert.DefaultSettings = () => Settings;
         Settings = new JsonSerializerSettings()
@@ -146,7 +146,7 @@ public class SaveLoad
     /// <returns></returns>
     public JsonSerializer CreateDefault()
     {
-        _instance ??= new SaveLoad();
+        _instance ??= new SaveLoader();
         return JsonSerializer.CreateDefault();
     }
 
@@ -301,7 +301,7 @@ public class SaveLoad
     /// <param name="folders">The list of sub-directories to include for each mod.</param>
     /// <param name="enabled">The list of mods to load, or nothing for all mods.</param>
     /// <exception cref="Exception">Thrown if a mods DLL failed to load.</exception>
-    public async void Load(ISaveLoadListener listener, string[] folders, params string[] enabled)
+    public async void Load(ISaveLoaderListener listener, string[] folders, params string[] enabled)
     {
         // Use all mods if enabled isn't specified
         if (enabled.Length == 0)
@@ -514,9 +514,9 @@ public class SaveLoad
 }
 
 /// <summary>
-/// Used by <see cref="SaveLoad.Load"/> to monitor progress.
+/// Used by <see cref="SaveLoader.Load"/> to monitor progress.
 /// </summary>
-public interface ISaveLoadListener
+public interface ISaveLoaderListener
 {
 
     public void Loading(string def) {}

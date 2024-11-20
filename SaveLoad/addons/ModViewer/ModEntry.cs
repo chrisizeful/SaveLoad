@@ -15,17 +15,21 @@ public partial class ModEntry : Button
             NameLabel.Text = Mod.Name;
             CreatorLabel.Text = Mod.Creator;
             VersionLabel.Text = Mod.ModVersion.ToString();
-            Steam.Visible = !Mod.Local;
+            External.Visible = !Mod.Local;
         }
     }
     Mod mod;
 
     public bool CanDrop { get; set; } = true;
 
-    public Label NameLabel => (Label) FindChild("Name");
-    public Label CreatorLabel => (Label) FindChild("Creator");
-    public Label VersionLabel => (Label) FindChild("Version");
-    public TextureRect Steam => (TextureRect) FindChild("Steam");
+    [Export]
+    public Label NameLabel { get; private set; }
+    [Export]
+    public Label CreatorLabel { get; private set; }
+    [Export]
+    public Label VersionLabel { get; private set; }
+    [Export]
+    public TextureRect External { get; private set; }
 
     public List<(Conflict, string)> messages = new();
     public IReadOnlyList<(Conflict, string)> Messages => messages;

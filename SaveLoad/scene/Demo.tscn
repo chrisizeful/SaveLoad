@@ -3,10 +3,9 @@
 [ext_resource type="Script" path="res://scene/Demo.cs" id="1_k4qtw"]
 [ext_resource type="PackedScene" uid="uid://k1hpaqep5oso" path="res://addons/ModViewer/ModViewer.tscn" id="2_4jm7g"]
 
-[node name="Demo" type="Node2D" node_paths=PackedStringArray("Characters", "GUI", "Viewer")]
+[node name="Demo" type="Node2D" node_paths=PackedStringArray("Characters", "Viewer")]
 script = ExtResource("1_k4qtw")
 Characters = NodePath("Characters")
-GUI = NodePath("GUI")
 Viewer = NodePath("GUI/Root/ModViewer")
 
 [node name="Characters" type="Node2D" parent="."]
@@ -16,7 +15,6 @@ texture_filter = 1
 zoom = Vector2(3, 3)
 
 [node name="GUI" type="CanvasLayer" parent="."]
-visible = false
 
 [node name="Root" type="MarginContainer" parent="GUI"]
 anchors_preset = 15
@@ -29,5 +27,12 @@ theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
 
+[node name="Label" type="Label" parent="GUI/Root"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "ESC: Toggle ModViewer UI"
+
 [node name="ModViewer" parent="GUI/Root" instance=ExtResource("2_4jm7g")]
+visible = false
 layout_mode = 2

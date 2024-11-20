@@ -5,6 +5,9 @@ using System.Linq;
 
 namespace SaveLoad;
 
+// TODO This should ideally be split into two parts:
+// - One that is solely the UI.
+// - One that is just the implementation and can be used to implement different UIs.
 public partial class ModViewer : Control
 {
 
@@ -41,7 +44,7 @@ public partial class ModViewer : Control
         Import.Pressed += OnImportPressed;
         Export.Pressed += OnExportPressed;
         // Refresh, set enabled to currently loaded mods
-        foreach (Mod mod in SaveLoad.Instance.Mods)
+        foreach (Mod mod in SaveLoader.Instance.Mods)
         {
             loaded.Add(mod);
             Enabled.AddChild(Entry(mod));
@@ -64,11 +67,11 @@ public partial class ModViewer : Control
     void OnRefreshPressed()
     {
         // Load mods
-        var paths = Files.ListDirs(SaveLoad.ModDir, false);
+        var paths = Files.ListDirs(SaveLoader.ModDir, false);
         paths.RemoveAll(p => loaded.FindIndex(m => m.Directory == p) != -1);
         foreach (string path in paths)
         {
-            Mod mod = SaveLoad.Instance.Load<Mod>($"{path}/meta/Metadata.json");
+            Mod mod = SaveLoader.Instance.Load<Mod>($"{path}/meta/Metadata.json");
             mod.Directory = path;
             loaded.Add(mod);
         }
@@ -97,7 +100,7 @@ public partial class ModViewer : Control
             // Check game version
             int compare = entry.Mod.VersionCompare;
             if (compare != 0)
-                entry.Warn($"Current game version {SaveLoad.Instance.GameVersion} is {(compare < 0 ? "older" : "newer")}");
+                entry.Warn($"Current game version {SaveLoader.Instance.GameVersion} is {(compare < 0 ? "older" : "newer")}");
             // Check dependencies exist, are enabled, and are the correct version
             foreach (Mod.Dependency dependency in entry.Mod.Dependencies)
             {

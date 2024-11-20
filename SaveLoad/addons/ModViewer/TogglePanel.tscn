@@ -5,11 +5,12 @@
 [ext_resource type="Script" path="res://addons/ModViewer/ToggleButton.cs" id="2_83u3u"]
 [ext_resource type="StyleBox" path="res://addons/ModViewer/assets/theme/GrayDark.tres" id="4_iv0ih"]
 
-[node name="TogglePanel" type="VBoxContainer"]
+[node name="TogglePanel" type="VBoxContainer" node_paths=PackedStringArray("Button")]
 offset_right = 128.0
 offset_bottom = 31.0
 size_flags_horizontal = 3
 script = ExtResource("1_8lroj")
+Button = NodePath("Header/ToggleButton")
 
 [node name="Header" type="HBoxContainer" parent="."]
 layout_mode = 2

@@ -7,7 +7,7 @@ namespace SaveLoad;
 /// An example of loading mods asynchronously and displaying progress via a <see cref="Godot.ProgressBar"/>
 /// and a <see cref="Label"/>.
 /// </summary>
-public partial class LoadingMods : Control, ISaveLoadListener
+public partial class LoadingMods : Control, ISaveLoaderListener
 {
 
 	/// <summary>
@@ -36,7 +36,7 @@ public partial class LoadingMods : Control, ISaveLoadListener
 		}
 		// Load mods and specify folders to include
 		string[] folders = { "assets", "scripts", "addons", "scenes", ".godot/imported" };
-		SaveLoad.Instance.Load(this, folders, Mods.ToArray());
+		SaveLoader.Instance.Load(this, folders, Mods.ToArray());
 	}
 
 	// These methods are called asynchronously by SaveLoad, so to keep Godot happy any interaction with the SceneTree must

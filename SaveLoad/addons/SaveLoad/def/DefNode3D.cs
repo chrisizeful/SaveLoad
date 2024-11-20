@@ -40,6 +40,6 @@ public partial class DefNode3D : Node3D
 	/// <param name="parent">The root node to check the children of.</param>
     public static void Replace(Node parent)
 	{
-		Replace(parent, (def) => ((InstanceDef) SaveLoad.Instance.DefNames[def.DefName]).Instance<Node3D>());
+		Replace(parent, (def) => ((InstanceDef) SaveLoader.Instance.DefNames[def.DefName]).Instance<Node3D>());
 	}
 }

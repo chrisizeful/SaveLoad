@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://k1hpaqep5oso"]
+[gd_scene load_steps=18 format=3 uid="uid://k1hpaqep5oso"]
 
 [ext_resource type="StyleBox" uid="uid://t5ndc3sd3g3j" path="res://addons/ModViewer/assets/theme/Textbox.tres" id="1_gai81"]
 [ext_resource type="Script" path="res://addons/ModViewer/ModViewer.cs" id="1_og5xy"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://addons/ModViewer/DropList.cs" id="5_yesp2"]
 [ext_resource type="Texture2D" uid="uid://l0nbixql4sw4" path="res://addons/ModViewer/assets/icon-refresh.png" id="6_6uycd"]
 [ext_resource type="Texture2D" uid="uid://cdveq0m13wxyd" path="res://addons/ModViewer/assets/icon-import.png" id="7_04n7i"]
+[ext_resource type="Texture2D" uid="uid://ci8drtnpeuya0" path="res://addons/ModViewer/assets/icon-reload.png" id="7_gwq5l"]
 [ext_resource type="Texture2D" uid="uid://crdttd5dvec4r" path="res://addons/ModViewer/assets/icon-export.png" id="8_umv8w"]
 [ext_resource type="Script" path="res://addons/ModViewer/ModPreview.cs" id="9_futgm"]
 [ext_resource type="Shader" uid="uid://cwicwtetrjfg7" path="res://addons/ModViewer/assets/Mask.tres" id="9_yxgv7"]
@@ -140,7 +141,7 @@ size_flags_horizontal = 3
 focus_neighbor_left = NodePath("../../../../EnabledContainer/PanelContainer/HBoxContainer/Export")
 focus_neighbor_right = NodePath("../../../../EnabledContainer/PanelContainer/HBoxContainer/Import")
 text = "Reload"
-icon = ExtResource("6_6uycd")
+icon = ExtResource("7_gwq5l")
 flat = true
 
 [node name="VSeparator" type="VSeparator" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
@@ -203,9 +204,17 @@ text = "Export List"
 icon = ExtResource("8_umv8w")
 flat = true
 
-[node name="Preview" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+[node name="Preview" type="VBoxContainer" parent="MarginContainer/HBoxContainer" node_paths=PackedStringArray("Icon", "ModName", "ModCreator", "ModVersion", "Problems", "Dependencies", "Incompatible", "Description")]
 layout_mode = 2
 script = ExtResource("9_futgm")
+Icon = NodePath("IconContainer/Icon")
+ModName = NodePath("IconContainer/MarginContainer/VBoxContainer/Name")
+ModCreator = NodePath("IconContainer/MarginContainer/VBoxContainer/Creator")
+ModVersion = NodePath("IconContainer/MarginContainer/VBoxContainer/ModVersion")
+Problems = NodePath("MetaContainer/VBoxContainer/Problems")
+Dependencies = NodePath("MetaContainer/VBoxContainer/Dependencies")
+Incompatible = NodePath("MetaContainer/VBoxContainer/Incompatible")
+Description = NodePath("MetaContainer/VBoxContainer/Description")
 
 [node name="IconContainer" type="PanelContainer" parent="MarginContainer/HBoxContainer/Preview"]
 custom_minimum_size = Vector2(484, 256)

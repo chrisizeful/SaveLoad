@@ -2,6 +2,10 @@ using Godot;
 
 namespace SaveLoad;
 
+/// <summary>
+/// A button that works in conjuguntion with <see cref="TogglePanel"/> to show/hide
+/// the panel when pressed.
+/// </summary>
 public partial class ToggleButton : Button
 {
 

@@ -145,7 +145,7 @@ public class NodeConverter : JsonConverter
     public override bool CanConvert(Type objectType)
     {
         // Ensure this converter is only used as fallback if no Node-specific one exist for the type
-        foreach (JsonConverter converter in SaveLoad.Instance.Settings.Converters)
+        foreach (JsonConverter converter in SaveLoader.Instance.Settings.Converters)
             if (converter != this && converter.CanConvert(objectType))
                 return false;
         return typeof(Node).IsAssignableFrom(objectType);

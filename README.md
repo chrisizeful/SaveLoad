@@ -1,4 +1,5 @@
 # SaveLoad
+[![NuGet](https://img.shields.io/nuget/v/SaveLoad.svg)](https://www.nuget.org/packages/SaveLoad/)
 
 SaveLoad is a C# serialization, modding, and game content API for the Godot game engine.. It enables you to structure your game's content in a user-friendly way which can be easily expanded or modified. See below for a list of features and a basic API overview. Addiontionally, it is recommended to look at the demo project to see how a typical game may setup folders and mods.
 
@@ -11,7 +12,7 @@ SaveLoad can be used as an addon by copying the folder located in addons (SaveLo
 - **Serialization:** JSON converters are provided for every Godot type. Easily serialize and deserialize entire Nodes and their children, or other types.
 - **Automatic PCK Packing:** Mod creators do not have to use Godot to manually pack their mods. Instead, the API packs all mods when the game is first run.
 - **DLL Support:** Load C# assemblies that can hook into the game via StartupAttribute.
-- **A/sycnhronous Loading:** Easily load assets asychronously via AssetLoad. Load mods synchronously or asynchronously via SaveLoad. Both provide callbacks allowing you to update a loading screen.
+- **A/sycnhronous Loading:** Easily load assets asychronously via AssetLoad. Load mods synchronously or asynchronously via SaveLoader. Both provide callbacks allowing you to update a loading screen.
 - **Un/load individual mods** Load entire directories of mods or load and unload individual mods. Enable users to create lists of mods which they can de/activate one by one or entirely.
 - **ModViewer (UNFINISHED):** A themed UI scene that allows for managing, activating/deactivating lists of mods and individual mods.
 
@@ -19,25 +20,27 @@ SaveLoad can be used as an addon by copying the folder located in addons (SaveLo
 
 #### Folder Structure
 
-By default, the mods folder is placed next to the project directory. This is done to 1) prevent your project from importing assets from mods and 2) allow the mods folder to be placed next to the exectuable when exported. An additional directory (mods/packed) is created to store packed .pck files. See SaveLoad.PackDir and SaveLoad.ModDir.
+By default, the mods folder is placed next to the project directory. This is done to 1) prevent your project from importing assets from mods and 2) allow the mods folder to be placed next to the exectuable when exported. An additional directory (mods/packed) is created to store packed .pck files. See SaveLoader.PackDir and SaveLoader.ModDir.
 
 The folder structure of mods is up to you. You can either enforce they be setup a specific way, or load all files in each mod folder. See the loading mods section for more information. Mods are usually their own Godot projects. However, that is only required if they use assets (i.e. textures) since Godot requires they have an .import file. If a mod only defines Defs, it does not have to be a Godot project.
 
 #### Loading Mods
-The SaveLoad class is a singleton where the majority of your interactions with API will occur. It is recommended you load a list of mods (instead of each individually) so their load order can be correctly resolved. To load a list of mods you can specify the names of the mods and the sub-directories to include (the defs sub-directory is automatically included).
+The SaveLoader class is a singleton where the majority of your interactions with API will occur. It is recommended you load a list of mods (instead of each individually) so their load order can be correctly resolved. To load a list of mods you can specify the names of the mods and the sub-directories to include (the defs sub-directory is automatically included).
 ```C#
+using namespace SaveLoad;
+
 string[] mods = { "CoolTheme", "EpicBackground" };
 string[] folders = { "assets", "scripts", "addons", "scenes", ".godot/imported" };
-SaveLoad.Instance.Load(this, folders, mods);
+SaveLoader.Instance.Load(this, folders, mods);
 ```
 
 Or, you can not specify a mods list to load every mod the user has in their mods folder:
 ```C#
 string[] folders = ...;
-SaveLoad.Instance.Load(this, folders);
+SaveLoader.Instance.Load(this, folders);
 ```
 
-The prior code loads mods asychronously. The first parameter in the Load() function is an optional ISaveLoadListener for listening to callbacks. Note that since these methods may be called asynchronously, all interactions with the SceneTree should be done with SetDeferred() and CallDeferred().
+The prior code loads mods asychronously. The first parameter in the Load() function is an optional ISaveLoaderListener for listening to callbacks. Note that since these methods may be called asynchronously, all interactions with the SceneTree should be done with SetDeferred() and CallDeferred().
 ```C#
 // Optionally update a ProgressBar's text with the asset currently being loaded...
 public void Loading(string def) {}    
@@ -52,9 +55,9 @@ public void Complete() {}
 You can also load and unload individual mods:
 ```C#
 // Individual
-SaveLoad.Unload(mod1, mod2, ...);
+SaveLoader.Unload(mod1, mod2, ...);
 // ...or all currently loaded mods
-SaveLoad.Unload();
+SaveLoader.Unload();
 ```
 
 #### Creating Defs
@@ -94,7 +97,7 @@ public class InstanceDef3D : Node3D
 {
 
 	public StringName Definition { get; set; }
-	public InstanceDef Def => SaveLoad.Instance.Get<InstanceDef>(Definition);
+	public InstanceDef Def => SaveLoader.Instance.Get<InstanceDef>(Definition);
 }
 ```
 
@@ -148,37 +151,37 @@ An example of JSON that defines InstanceDefs:
 
 #### Using Defs
 
-SaveLoad provides numerous methods to get Defs of a certain type. Additionally, Defs can be fetched by name:
+SaveLoader provides numerous methods to get Defs of a certain type. Additionally, Defs can be fetched by name:
 ```C#
 // All of type
-foreach (CharacterDef def in SaveLoad.Instance.Get<CharacterDef>())
+foreach (CharacterDef def in SaveLoader.Instance.Get<CharacterDef>())
 	// Add to a character select screen, maybe...
 // Single of type
-CharacterDef def = SaveLoad.Instance.Get<CharacterDef>("OrcDef");
+CharacterDef def = SaveLoader.Instance.Get<CharacterDef>("OrcDef");
 ```
 
 Fetching InstanceDefs is slighly different, as the InstanceType needs to be specified alongside the Def Type:
 ```C#
 // All
-foreach (CharacterInstanceDef def in SaveLoad.Instance.GetInstance<CharacterInstanceDef, InstanceDef>())
+foreach (CharacterInstanceDef def in SaveLoader.Instance.GetInstance<CharacterInstanceDef, InstanceDef>())
 	// Add to a character select screen, maybe...
 // Single, by name
-CharacterInstanceDef def = SaveLoad.Instance.GetInstance<CharacterInstanceDef, Character2D>("OrcInstanceDef");
+CharacterInstanceDef def = SaveLoader.Instance.GetInstance<CharacterInstanceDef, Character2D>("OrcInstanceDef");
 ```
 
 You can also use the DefNames and DefTypes dictionaries to access Defs directly:
 ```C#
-CharacterInstanceDef def = (CharacterInstanceDef) SaveLoad.Instance.DefNames["OrcInstanceDef"];
+CharacterInstanceDef def = (CharacterInstanceDef) SaveLoader.Instance.DefNames["OrcInstanceDef"];
 // or to get a list
-List<CharacterInstanceDef> defs = (CharacterInstanceDef) SaveLoad.Instance.DefTypes[typeof(CharacterInstanceDef)];
+List<CharacterInstanceDef> defs = (CharacterInstanceDef) SaveLoader.Instance.DefTypes[typeof(CharacterInstanceDef)];
 ```
 
-To create an object from an InstanceDef you can use the Instance() method or use SaveLoad.Create() for easy creation:
+To create an object from an InstanceDef you can use the Instance() method or use SaveLoader.Create() for easy creation:
 ```C#
-CharacterInstanceDef def = SaveLoad.Instance.GetInstance<CharacterInstanceDef, Character2D>("OrcInstanceDef");
+CharacterInstanceDef def = SaveLoader.Instance.GetInstance<CharacterInstanceDef, Character2D>("OrcInstanceDef");
 Character2D character = def.Instance<CharacterInstanceDef>();
 // or if you don't have a reference to the def...
-character = SaveLoad.Instance.Create<CharacterInstanceDef, Character2D>("OrcInstanceDef");
+character = SaveLoader.Instance.Create<CharacterInstanceDef, Character2D>("OrcInstanceDef");
 ```
 
 #### Mod DLL Usage
@@ -195,18 +198,17 @@ public static void OnStartup()
 
 #### Object Serialization
 
-SaveLoad provides methods for easily saving and loading any object:
+SaveLoader provides methods for easily saving and loading any object:
 ```C#
 Node node = ...
-string json = SaveLoad.Save(node);
+string json = SaveLoader.Save(node);
 // or save directly to a file
-SaveLoad.Save("res://save.json", node);
+SaveLoader.Save("res://save.json", node);
 
-Node loaded = SaveLoad.LoadJson(json);
+Node loaded = SaveLoader.LoadJson(json);
 // or load directly from a file
-loaded = SaveLoad.Load("res://save.json");
+loaded = SaveLoader.Load("res://save.json");
 ```
-
 
 ## Warnings
 
@@ -219,4 +221,4 @@ SaveLoad has been used in numerous personal projects and tested in exported proj
 ## Licensing
 SaveLoad is licensed under MIT - you are free to use it however you wish.
 
-The demo uses assets from Kenney's CC0 licensed [Tiny Dungeon](https://kenney.nl/assets/tiny-dungeon) asset pack. It also uses Nidhoggn's CC0 licensed [Backgrounds](https://opengameart.org/content/backgrounds-3).
+The demo uses assets from Kenney's CC0 licensed [Tiny Dungeon](https://kenney.nl/assets/tiny-dungeon) asset pack. It also uses Nidhoggn's CC0 licensed [Backgrounds](https://opengameart.org/content/backgrounds-3). The ModViewer scene uses assets from Kenney's CC0 licensed [Game Icons](https://kenney.nl/assets/game-icons).

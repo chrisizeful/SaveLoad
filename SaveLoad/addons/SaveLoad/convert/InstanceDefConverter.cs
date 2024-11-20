@@ -28,7 +28,7 @@ public class InstanceDefConverter : JsonConverter
         // Caching
         if (UseCache)
         {
-            var defNames = SaveLoad.Instance.DefNames;
+            var defNames = SaveLoader.Instance.DefNames;
             if (defNames != null && reader.TokenType == JsonToken.String)
             {
                 string name = (string) reader.Value;
