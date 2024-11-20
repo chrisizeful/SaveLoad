@@ -37,10 +37,10 @@ VSeparator/styles/separator = SubResource("StyleBoxLine_qj3sp")
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_05itc"]
 bg_color = Color(0.317647, 0.317647, 0.317647, 1)
 border_color = Color(0.317647, 0.317647, 0.317647, 1)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_hcila"]
 shader = ExtResource("9_yxgv7")
@@ -187,7 +187,7 @@ layout_mode = 2
 script = ExtResource("9_futgm")
 
 [node name="IconContainer" type="PanelContainer" parent="MarginContainer/HBoxContainer/Preview"]
-custom_minimum_size = Vector2(584, 256)
+custom_minimum_size = Vector2(484, 256)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_05itc")
 
