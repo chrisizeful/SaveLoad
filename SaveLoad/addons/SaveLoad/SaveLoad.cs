@@ -424,7 +424,13 @@ public class SaveLoad
     {
         foreach (Mod mod in unload)
         {
-            mod.Defs.ForEach(d => defNames.Remove(d));
+            mod.Defs.ForEach(d => {
+                Def def = defNames[d];
+                Type type = def.GetType();
+                defNames.Remove(d);
+                if (defTypes.TryGetValue(type, out var defs))
+                    defs.Remove(def);
+            });
             mods.Remove(mod);
             // TODO await SteamWorkshop.StopTrack(mod);
         }
