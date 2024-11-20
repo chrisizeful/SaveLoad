@@ -53,7 +53,7 @@ public record InstanceDef : Def
     /// Create an instance of this def.
     /// </summary>
     /// <typeparam name="T">The type to cast to.</typeparam>
-    /// <param name="parameters">Parameters for the object constructor.</param>
+    /// <param name="parameters">Optional parameters for the object constructor.</param>
     /// <returns></returns>
     public virtual T Instance<T>(params object[] parameters)
     {
@@ -67,14 +67,14 @@ public record InstanceDef : Def
         serializer.Serialize(writer, this);
         StringReader reader = new(writer.ToString());
         InstanceDef deserial = (InstanceDef) serializer.Deserialize(reader, GetType());
-        return (T) Create(deserial, parameters);
+        return (T) deserial.Create(parameters);
     }
 
     /// <summary>
     /// Create an instance of this def.
     /// </summary>
     /// <typeparam name="T">The type to cast to.</typeparam>
-    /// <param name="parameters">Parameters for the object constructor.</param>
+    /// <param name="parameters">Optional parameters for the object constructor.</param>
     /// <returns></returns>
     public async virtual Task<T> InstanceAsync<T>(params object[] parameters)
 	{
