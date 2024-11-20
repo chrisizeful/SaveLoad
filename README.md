@@ -79,7 +79,7 @@ An example of JSON that defines InstanceDefs:
 {
     "$type": "MyGame.EnemyDef, MyGame",
     "Name": "DressShirt",
-    "InstanceType": "GodotSharp.Node3D, GodotSharp",
+    "InstanceType": "Godot.Node3D, GodotSharp",
     "Texture": "res://assets/Enemy.png",
     "Properties": {
         "Position": "1.0,2.0,3.0",
@@ -99,7 +99,7 @@ An example of JSON that defines InstanceDefs:
 {
     "$type": "SaveLoad.CharacterDef, SaveLoad",
     "Name": "GoodCharacter",
-    "InstanceType": "GodotSharp.Node3D, GodotSharp",
+    "InstanceType": "Godot.Node3D, GodotSharp",
     "Scene": "res://scenes/Character.tcsn",
     "Script": "res://scenes/GoodCharacter.tscn",
     "Texture": "res://assets/GoodCharacter.png",
