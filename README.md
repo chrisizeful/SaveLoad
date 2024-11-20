@@ -1,6 +1,6 @@
 # SaveLoad
 
-SaveLoad is a C# serialization and modding API for the Godot game engine. It enables you to structure your game's content in a user-friendly way which can be easily expanded or modified. See below for a list of features and a basic API overview. Addiontionally, it is recommended to look at the demo project to see how a typical game may setup folders and mods.
+SaveLoad is a C# serialization, modding, and game content API for the Godot game engine.. It enables you to structure your game's content in a user-friendly way which can be easily expanded or modified. See below for a list of features and a basic API overview. Addiontionally, it is recommended to look at the demo project to see how a typical game may setup folders and mods.
 
 ## Features Overview
 
@@ -22,11 +22,17 @@ By default, the mods folder is placed next to the project directory. This is don
 The folder structure of mods is up to you. You can either enforce they be setup a specific way, or load all files in each mod folder. See the loading mods section for more information. Mods are usually their own Godot projects. However, that is only required if they use assets (i.e. textures) since Godot requires they have an .import file. If a mod only defines Defs, it does not have to be a Godot project.
 
 #### Loading Mods
-The SaveLoad class is a singleton where the majority of your interactions with API will occur. It is recommended you load a list of mods (instead of each individually) so their load order can be correctly resolved. To load a list of mods you can specify the names of the mods and the sub-directories to include (the defs sub-directory is automatically included):
+The SaveLoad class is a singleton where the majority of your interactions with API will occur. It is recommended you load a list of mods (instead of each individually) so their load order can be correctly resolved. To load a list of mods you can specify the names of the mods and the sub-directories to include (the defs sub-directory is automatically included).
 ```C#
 string[] mods = { "CoolTheme", "EpicBackground" };
 string[] folders = { "assets", "scripts", "addons", "scenes", ".godot/imported" };
 SaveLoad.Instance.Load(this, folders, mods);
+```
+
+Or, you can not specify a mods list to load every mod the user has in their mods folder:
+```C#
+string[] folders = ...;
+SaveLoad.Instance.Load(this, folders);
 ```
 
 The prior code loads mods asychronously. The first parameter in the Load() function is an optional ISaveLoadListener for listening to callbacks:

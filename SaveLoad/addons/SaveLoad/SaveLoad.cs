@@ -58,16 +58,13 @@ public class SaveLoad
     Version gameVersion;
     /// <summary>
     /// The current version of the game - used to detect whether mods are compatible. Automatically
-    /// set from the ProjectSettings "config/Version" setting.
+    /// set from the ProjectSettings "application/config/version" setting.
     /// </summary>
     public Version GameVersion
     {
         get
         {
-            if (gameVersion != null)
-                return gameVersion;
-            string current = ProjectSettings.GetSetting("config/Version", "1.0.0").AsString();
-            gameVersion = new(current);
+            gameVersion ??= new(ProjectSettings.GetSetting("application/config/version", "1.0.0.0").AsString());
             return gameVersion;
         }
     }
@@ -298,21 +295,27 @@ public class SaveLoad
     }
 
     /// <summary>
-    /// Load all enabled mods.
+    /// Loads all specified mods, or if enabled is not specified loads all mods in the mods folder.
     /// </summary>
     /// <param name="listener">Optional ISaveLoadListener for listening to callbacks.</param>
     /// <param name="folders">The list of sub-directories to include for each mod.</param>
-    /// <param name="enabled">The list of mods to load.</param>
+    /// <param name="enabled">The list of mods to load, or nothing for all mods.</param>
     /// <exception cref="Exception">Thrown if a mods DLL failed to load.</exception>
-    ///TODO Allow folders to be null/empty to load all sub-folders
-    // TODO Allow enabled to empty to load all mods in the mods folder
     public async void Load(ISaveLoadListener listener, string[] folders, params string[] enabled)
     {
-        // Pack mods (including internal)
+        // Use all mods if enabled isn't specified
+        if (enabled.Length == 0)
+        {
+            var dirs = Files.ListDirs(ModDir, false);
+            for (int i = 0; i < dirs.Count; i++)
+                dirs[i] = Path.GetFileName(dirs[i]);
+            enabled = dirs.ToArray();
+        }
 #if DEBUG
+        // Begin packing (including internal)
         ModPacker.Pack(PackParentDir, "Internal", folders);
-        foreach (string modPath in enabled)
-            ModPacker.Pack($"{ModDir}{modPath}", modPath, folders);
+        foreach (string mod in enabled)
+            ModPacker.Pack($"{ModDir}{mod}", mod, folders);
         // Load mod packs, internal last
         foreach (string mod in enabled)
             await AssetLoad.Instance.LoadResourcePack($"{PackDir}{mod}.pck");
