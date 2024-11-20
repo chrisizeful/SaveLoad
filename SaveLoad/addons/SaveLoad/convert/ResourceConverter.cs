@@ -7,8 +7,8 @@ using System;
 namespace SaveLoad;
 
 /// <summary>
-/// De/serializes resources to strings using their ResourcePath. If the resource is not found, a default
-/// resource specified in <see cref="Defaults"/> will used if one exists.
+/// De/serializes resources to strings using their ResourcePath. If the resource is not found, a
+/// default resource specified in <see cref="Defaults"/> will used (if one exists).
 /// </summary>
 public class ResourceConverter : JsonConverter
 {

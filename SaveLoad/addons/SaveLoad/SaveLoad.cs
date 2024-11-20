@@ -334,9 +334,10 @@ public class SaveLoad
             mod.Assemblies
                 .SelectMany(assembly => assembly.GetTypes())
                 .SelectMany(type => type.GetMethods(BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public))
-                .Select(method => (method, method.GetCustomAttribute<StartupAttribute>()))
-                .Where(pair => pair.Item2 != null).ToList()
-                .ForEach(pair => pair.method.Invoke(null, pair.Item2.Parameters));         
+                .Select(method => (method, attribute: method.GetCustomAttribute<StartupAttribute>()))
+                .Where(pair => pair.attribute != null)
+                .ToList()
+                .ForEach(pair => pair.method.Invoke(null, pair.attribute.Parameters));
         }
     }
 

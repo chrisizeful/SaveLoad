@@ -5,6 +5,9 @@ using System.Collections.Generic;
 
 namespace SaveLoad;
 
+/// <summary>
+/// A resolver that ignores a list of properties when serializing.
+/// </summary>
 public class IgnoreResolver : DefaultContractResolver
 {
 

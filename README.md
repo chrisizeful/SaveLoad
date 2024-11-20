@@ -5,13 +5,13 @@ SaveLoad is a C# serialization and modding API for the Godot game engine. It ena
 ## Features Overview
 
 - **Def System:** Inspiried by the modding system of [Rimworld](https://rimworldgame.com/), every piece of game content is defined in JSON as a 'Def'. Allows for the easy creation, extension, organization, and updating of game content without the need for code.
-- **DependencyGraph:** Allows for specifying per-mod dependencies and incompatibilities. Checks for and prevents cyclic dependencies and references. Provided each mod properly configures its list of dependencies and incompatibilities, users don't need to worry about the order of their mod list as it will automatically be ordered correctly. Additionally, this allows defs to safely reference other defs.
-- **Serialization:** JSON converters are provided for every Godot type.
-- **ModViewer:** A themed UI scene that allows for managing lists of mods.
-- **Automatic PCK Packing:** Mod creators do not have to use Godot to manually pack their mods. Instead, the API packs all mods when the game is run.
+- **DependencyGraph:** Allows for specifying per-mod dependencies and incompatibilities. Checks for and prevents cyclic dependencies and references. Provided each mod properly configures its list of dependencies and incompatibilities, users don't need to worry about the order of their mod list as it will automatically be ordered correctly. Additionally, this allows Defs to safely reference other Defs.
+- **Serialization:** JSON converters are provided for every Godot type. Easily serialize and deserialize entire Nodes and their children, or other types.
+- **Automatic PCK Packing:** Mod creators do not have to use Godot to manually pack their mods. Instead, the API packs all mods when the game is first run.
 - **DLL Support:** Load C# assemblies that can hook into the game via StartupAttribute.
 - **A/sycnhronous Loading:** Easily load assets asychronously via AssetLoad. Load mods synchronously or asynchronously via SaveLoad. Both provide callbacks allowing you to update a loading screen.
 - **Un/load individual mods** Load entire directories of mods or load and unload individual mods. Enable users to create lists of mods which they can de/activate one by one or entirely.
+- **ModViewer (UNFINISHED):** A themed UI scene that allows for managing, activating/deactivating lists of mods and individual mods.
 
 ## Usage
 
@@ -112,8 +112,6 @@ An example of JSON that defines InstanceDefs:
 
 #### Using Defs
 
-// TODO SaveLoad.Create
-
 SaveLoad provides numerous methods to get Defs of a certain type. Additionally, Defs can be fetched by name:
 ```C#
 // All of type
@@ -130,6 +128,21 @@ foreach (CharacterInstanceDef def in SaveLoad.Instance.GetInstance<CharacterInst
 	// Add to a character select screen, maybe...
 // Single, by name
 CharacterInstanceDef def = SaveLoad.Instance.GetInstance<CharacterInstanceDef, Character2D>("OrcInstanceDef");
+```
+
+You can also use the DefNames and DefTypes dictionaries to access Defs directory:
+```C#
+CharacterInstanceDef def = (CharacterInstanceDef) SaveLoad.Instance.DefNames["OrcInstanceDef"];
+// or to get a list
+List<CharacterInstanceDef> defs = (CharacterInstanceDef) SaveLoad.Instance.DefTypes[typeof(CharacterInstanceDef)];
+```
+
+To create an object from an InstanceDef you can use the Instance() method or use the SaveLoad.Instance() for easy creation:
+```C#
+CharacterInstanceDef def = SaveLoad.Instance.GetInstance<CharacterInstanceDef, Character2D>("OrcInstanceDef");
+Character2D character = def.Instance<CharacterInstanceDef>();
+// or if you don't a reference to the def...
+character = SaveLoad.Instance.Create<CharacterInstanceDef, Character2D>("OrcInstanceDef");
 ```
 
 Once you have a reference to an instance def, you can instantiate it by calling 
@@ -157,6 +170,18 @@ public void Complete() {}
 You can also load and unload individual mods:
 ```C#
 SaveLoad.Unload(mod1, mod2, ...);
+```
+
+#### Mod DLL Usage
+
+A mod can hook into your game by using StartupAttribute on a static method. This method is automatically called when the mod is loaded. Note that depending on a how a mod is loaded, it could be called synchronously or asynchronously. Thus, all interactions with the SceneTree should be done with SetDeferred() and CallDeferred().
+```C#
+[Startup]
+public static void OnStartup()
+{
+    SceneTree tree = (SceneTree) Engine.GetMainLoop();
+    // Modify SceneTree, add custom nodes, etc...
+}
 ```
 
 ## Warnings

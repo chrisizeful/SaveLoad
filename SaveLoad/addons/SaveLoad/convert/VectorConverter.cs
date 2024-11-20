@@ -1,13 +1,12 @@
 using Godot;
 using Newtonsoft.Json;
 using System;
+using System.Text.RegularExpressions;
 
 namespace SaveLoad;
 
-// TODO Use Regex to allow x/y/z to be separated with "," or ", "
-
 /// <summary>
-/// De/serializes a <see cref="Vector2"/> to a string, i.e. "0.0,0.0".
+/// De/serializes a <see cref="Vector2"/> to a string, i.e. "0.0,0.0" or "0.0, 0.0".
 /// </summary>
 public class Vector2Converter : JsonConverter, IStringConverter
 {
@@ -30,13 +29,13 @@ public class Vector2Converter : JsonConverter, IStringConverter
     
     public object Convert(string input)
     {
-        string[] split = input.Split(',');
+        string[] split = Regex.Split(input, ",\\s*");
         return new Vector2(float.Parse(split[0]), float.Parse(split[1]));
     }
 }
 
 /// <summary>
-/// De/serializes a <see cref="Vector2I"/> to a string, i.e. "0,0".
+/// De/serializes a <see cref="Vector2I"/> to a string, i.e. "0,0" or "0, 0".
 /// </summary>
 public class Vector2IConverter : JsonConverter, IStringConverter
 {
@@ -59,13 +58,13 @@ public class Vector2IConverter : JsonConverter, IStringConverter
 
     public object Convert(string input)
     {
-        string[] split = input.Split(',');
+        string[] split = Regex.Split(input, ",\\s*");
         return new Vector2I(int.Parse(split[0]), int.Parse(split[1]));
     }
 }
 
 /// <summary>
-/// De/serializes a <see cref="Vector3"/> to a string, i.e. "0.0,0.0,0.0".
+/// De/serializes a <see cref="Vector3"/> to a string, i.e. "0.0,0.0,0.0" or "0.0, 0.0, 0.0".
 /// </summary>
 public class Vector3Converter : JsonConverter, IStringConverter
 {
@@ -88,13 +87,13 @@ public class Vector3Converter : JsonConverter, IStringConverter
 
     public object Convert(string input)
     {
-        string[] split = input.Split(',');
+        string[] split = Regex.Split(input, ",\\s*");
         return new Vector3(float.Parse(split[0]), float.Parse(split[1]), float.Parse(split[2]));
     }
 }
 
 /// <summary>
-/// De/serializes a <see cref="Vector3I"/> to a string, i.e. "0,0,0".
+/// De/serializes a <see cref="Vector3I"/> to a string, i.e. "0,0,0" or "0, 0, 0".
 /// </summary>
 public class Vector3IConverter : JsonConverter, IStringConverter
 {
@@ -117,13 +116,13 @@ public class Vector3IConverter : JsonConverter, IStringConverter
 
     public object Convert(string input)
     {
-        string[] split = input.Split(',');
+        string[] split = Regex.Split(input, ",\\s*");
         return new Vector3I(int.Parse(split[0]), int.Parse(split[1]), int.Parse(split[2]));
     }
 }
 
 /// <summary>
-/// De/serializes a <see cref="Vector4"/> to a string, i.e. "0.0,0.0,0.0,0.0".
+/// De/serializes a <see cref="Vector4"/> to a string, i.e. "0.0,0.0,0.0,0.0" or "0.0, 0.0, 0.0, 0.0".
 /// </summary>
 public class Vector4Converter : JsonConverter, IStringConverter
 {
@@ -146,13 +145,13 @@ public class Vector4Converter : JsonConverter, IStringConverter
     
     public object Convert(string input)
     {
-        string[] split = input.Split(',');
+        string[] split = Regex.Split(input, ",\\s*");
         return new Vector4(float.Parse(split[0]), float.Parse(split[1]), float.Parse(split[2]), float.Parse(split[3]));
     }
 }
 
 /// <summary>
-/// De/serializes a <see cref="Vector4I"/> to a string, i.e. "0,0,0,0".
+/// De/serializes a <see cref="Vector4I"/> to a string, i.e. "0,0,0,0" or "0, 0, 0, 0".
 /// </summary>
 public class Vector4IConverter : JsonConverter, IStringConverter
 {
@@ -175,7 +174,7 @@ public class Vector4IConverter : JsonConverter, IStringConverter
     
     public object Convert(string input)
     {
-        string[] split = input.Split(',');
+        string[] split = Regex.Split(input, ",\\s*");
         return new Vector4I(int.Parse(split[0]), int.Parse(split[1]), int.Parse(split[2]), int.Parse(split[3]));
     }
 }

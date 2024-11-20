@@ -8,6 +8,9 @@ namespace SaveLoad;
 public partial class PaddedAtlasTexture : AtlasTexture
 {
 
+    /// <summary>
+    /// The excluded pixels surrouding around the texture.
+    /// </summary>
     public Vector2 Padding { get; set; } = Vector2.Zero;
 
     public void SetRegion(Rect2 region, Vector2 padding)
