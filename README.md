@@ -19,7 +19,7 @@ SaveLoad is a C# serialization and modding API for the Godot game engine. It ena
 
 By default, the mods folder is placed next to the project directory. This is done to 1) prevent your project from importing assets from mods and 2) allow the mods folder to be placed next to the exectuable when exported. An additional directory (mods/packed) is created to store packed .pck files. See SaveLoad.PackDir and SaveLoad.ModDir.
 
-The folder structure of mods is up to you. You can either enforce they be setup a specific way, or load all files in each mod folder. See the loading mods section for more information.
+The folder structure of mods is up to you. You can either enforce they be setup a specific way, or load all files in each mod folder. See the loading mods section for more information. Mods are usually their own Godot projects. However, that is only required if they use assets (i.e. textures) since Godot requires they have an .import file. If a mod only defines Defs, it does not have to be a Godot project.
 
 #### Creating Defs
 
@@ -135,7 +135,7 @@ CharacterInstanceDef def = SaveLoad.Instance.GetInstance<CharacterInstanceDef, C
 Once you have a reference to an instance def, you can instantiate it by calling 
 
 #### Loading Mods
-The SaveLoad class is a singleton where the majority of your interactions with API will occur. It is recommended you load a list of mods (instead of each individually) so their load order can be correctly resolved. To load a list of mods you can specify the names of the mods and the sub-folders to include:
+The SaveLoad class is a singleton where the majority of your interactions with API will occur. It is recommended you load a list of mods (instead of each individually) so their load order can be correctly resolved. To load a list of mods you can specify the names of the mods and the sub-directories to include (the defs sub-directory is automatically included):
 ```C#
 string[] mods = { "CoolTheme", "EpicBackground" };
 string[] folders = { "assets", "scripts", "addons", "scenes", ".godot/imported" };
