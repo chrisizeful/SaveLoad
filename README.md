@@ -21,6 +21,34 @@ By default, the mods folder is placed next to the project directory. This is don
 
 The folder structure of mods is up to you. You can either enforce they be setup a specific way, or load all files in each mod folder. See the loading mods section for more information. Mods are usually their own Godot projects. However, that is only required if they use assets (i.e. textures) since Godot requires they have an .import file. If a mod only defines Defs, it does not have to be a Godot project.
 
+#### Loading Mods
+The SaveLoad class is a singleton where the majority of your interactions with API will occur. It is recommended you load a list of mods (instead of each individually) so their load order can be correctly resolved. To load a list of mods you can specify the names of the mods and the sub-directories to include (the defs sub-directory is automatically included):
+```C#
+string[] mods = { "CoolTheme", "EpicBackground" };
+string[] folders = { "assets", "scripts", "addons", "scenes", ".godot/imported" };
+SaveLoad.Instance.Load(this, folders, mods);
+```
+
+The prior code loads mods asychronously. The first parameter in the Load() function is an optional ISaveLoadListener for listening to callbacks:
+```C#
+// Optionally update a ProgressBar's text with the asset currently being loaded...
+public void Loading(string def) {}    
+
+// Update a ProgressBar or other UI here...
+public void Progress(int loaded, int total) {}
+
+// Done loading, switch scenes...
+public void Complete() {}
+```
+
+You can also load and unload individual mods:
+```C#
+// Individual
+SaveLoad.Unload(mod1, mod2, ...);
+// ...or all currently loaded mods
+SaveLoad.Unload();
+```
+
 #### Creating Defs
 
 First, you must create a record that extends Def. Then, you can create JSON files using that type. Defs can safely reference other Defs - the DefConverter resolves them by name and the DependencyGraph resolves the order to load them in. Note that a single file can contain any number of defs.
@@ -48,9 +76,9 @@ public record ShirtDef : Def
 
 #### InstanceDef and NodeDef
 
-There are two built-in types that extend Def and can be instantiated: InstanceDef and NodeDef. An InstanceDef defines data that populates an object. The data is duplicated per instance so that it is unique. These Defs require that an InstanceType be defined and an optional dictionary of Properties to fill the object with. If your object is a simple Node2D or Node3D, you can choose to set the Type to one of the built-in InstanceDef2D or InstanceDef3D classes. A NodeDef is similar to an InstanceDef, but can take an optional Scene path to load/instantiate and an optional Script path to attach to the scene.
+There are two built-in types that extend Def and can be instantiated: InstanceDef and NodeDef. An InstanceDef defines data that populates an object. The data is duplicated per instance so that it is unique. These Defs require that an InstanceType be defined and an optional dictionary of Properties to populate the object with. If your object is a simple Node2D or Node3D, you can choose to set the Type to one of the built-in InstanceDef2D/3D classes. A NodeDef is similar to an InstanceDef, but can take an optional Scene path to load/instantiate and an optional Script path to attach to the scene.
 
-If the Type has a StringName Definition property, it will be set to the name of the Def used to create it. For one, this allows you to fetch data from the Def (see the IsCool property below). It exists in the Def but is not set on the instantiated object.
+If the Type has a StringName Definition property (like InstanceDef2D/3D), it will be set to the name of the Def used to create it. For one, this allows you to fetch data from the Def (see the IsCool property below). It exists in the Def but is not set on the instantiated object.
 
 The source for InstanceDef3D for reference:
 ```C#
@@ -130,46 +158,19 @@ foreach (CharacterInstanceDef def in SaveLoad.Instance.GetInstance<CharacterInst
 CharacterInstanceDef def = SaveLoad.Instance.GetInstance<CharacterInstanceDef, Character2D>("OrcInstanceDef");
 ```
 
-You can also use the DefNames and DefTypes dictionaries to access Defs directory:
+You can also use the DefNames and DefTypes dictionaries to access Defs directly:
 ```C#
 CharacterInstanceDef def = (CharacterInstanceDef) SaveLoad.Instance.DefNames["OrcInstanceDef"];
 // or to get a list
 List<CharacterInstanceDef> defs = (CharacterInstanceDef) SaveLoad.Instance.DefTypes[typeof(CharacterInstanceDef)];
 ```
 
-To create an object from an InstanceDef you can use the Instance() method or use the SaveLoad.Instance() for easy creation:
+To create an object from an InstanceDef you can use the Instance() method or use SaveLoad.Create() for easy creation:
 ```C#
 CharacterInstanceDef def = SaveLoad.Instance.GetInstance<CharacterInstanceDef, Character2D>("OrcInstanceDef");
 Character2D character = def.Instance<CharacterInstanceDef>();
-// or if you don't a reference to the def...
+// or if you don't have a reference to the def...
 character = SaveLoad.Instance.Create<CharacterInstanceDef, Character2D>("OrcInstanceDef");
-```
-
-Once you have a reference to an instance def, you can instantiate it by calling 
-
-#### Loading Mods
-The SaveLoad class is a singleton where the majority of your interactions with API will occur. It is recommended you load a list of mods (instead of each individually) so their load order can be correctly resolved. To load a list of mods you can specify the names of the mods and the sub-directories to include (the defs sub-directory is automatically included):
-```C#
-string[] mods = { "CoolTheme", "EpicBackground" };
-string[] folders = { "assets", "scripts", "addons", "scenes", ".godot/imported" };
-SaveLoad.Instance.Load(this, folders, mods);
-```
-
-The prior code loads mods asychronously. The first parameter in the Load() function is an optional ISaveLoadListener for listening to callbacks:
-```C#
-// Optionally update ProgressBar text with the asset currently being loaded...
-public void Loading(string def) {}    
-
-// Update a ProgressBar or other UI here...
-public void Progress(int loaded, int total) {}
-
-// Done loading, switch scenes...
-public void Complete() {}
-```
-
-You can also load and unload individual mods:
-```C#
-SaveLoad.Unload(mod1, mod2, ...);
 ```
 
 #### Mod DLL Usage
