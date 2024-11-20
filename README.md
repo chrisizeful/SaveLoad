@@ -115,7 +115,7 @@ An example of JSON that defines InstanceDefs:
 // TODO SaveLoad.Create
 
 SaveLoad provides numerous methods to get Defs of a certain type. Additionally, Defs can be fetched by name:
-```JSON
+```C#
 // All of type
 foreach (CharacterDef def in SaveLoad.Instance.Get<CharacterDef>())
 	// Add to a character select screen, maybe...
@@ -124,12 +124,12 @@ CharacterDef def = SaveLoad.Instance.Get<CharacterDef>("OrcDef");
 ```
 
 Fetching InstanceDefs is slighly different, as the InstanceType needs to be specified alongside the Def Type:
-```JSON
+```C#
 // All
-foreach (CharacterInstanceDef def in SaveLoad.Instance.GetInstance<Character2D, CharacterInstanceDef>())
+foreach (CharacterInstanceDef def in SaveLoad.Instance.GetInstance<CharacterInstanceDef, InstanceDef>())
 	// Add to a character select screen, maybe...
 // Single, by name
-CharacterInstanceDef def = SaveLoad.Instance.GetInstance<Character2D, CharacterInstanceDef>("OrcInstanceDef");
+CharacterInstanceDef def = SaveLoad.Instance.GetInstance<CharacterInstanceDef, Character2D>("OrcInstanceDef");
 ```
 
 Once you have a reference to an instance def, you can instantiate it by calling 
