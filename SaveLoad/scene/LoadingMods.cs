@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Godot;
 
 namespace SaveLoad;
@@ -9,6 +10,17 @@ namespace SaveLoad;
 public partial class LoadingMods : Control, ISaveLoadListener
 {
 
+	/// <summary>
+	/// A list of mods the user has enabled. In a normal project, this should be stored with some
+	/// kind of settings system - and a loading mods screen would fetch that saved value. It's here
+	/// so that the ModViewer UI can easily set it.
+	/// </summary>
+	public static List<string> Mods = new()
+	{
+		"Characters",
+		"EpicBackgrounds"
+	};
+
 	[Export]
 	public ProgressBar ProgressBar { get; private set; }
 	[Export]
@@ -16,10 +28,15 @@ public partial class LoadingMods : Control, ISaveLoadListener
 
 	public override void _Ready()
 	{
+		// Nothing to load...
+		if (Mods.Count == 0)
+		{
+			Complete();
+			return;
+		}
 		// Load mods and specify folders to include
-		string[] mods = { "Characters", "EpicBackgrounds" };
 		string[] folders = { "assets", "scripts", "addons", "scenes", ".godot/imported" };
-		SaveLoad.Instance.Load(this, folders, mods);
+		SaveLoad.Instance.Load(this, folders, Mods.ToArray());
 	}
 
 	// These methods are called asynchronously by SaveLoad, so to keep Godot happy any interaction with the SceneTree must
@@ -30,7 +47,7 @@ public partial class LoadingMods : Control, ISaveLoadListener
 	{
 		// Switch to main demo scene
 		CallDeferred(Node.MethodName.QueueFree);
-		Node demo = ResourceLoader.Load<PackedScene>("res://demo/Demo.tscn").Instantiate();
+		Node demo = ResourceLoader.Load<PackedScene>("res://scene/Demo.tscn").Instantiate();
 		GetTree().Root.CallDeferred(Node.MethodName.AddChild, demo);
 	}
 }

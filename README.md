@@ -2,6 +2,8 @@
 
 SaveLoad is a C# serialization, modding, and game content API for the Godot game engine.. It enables you to structure your game's content in a user-friendly way which can be easily expanded or modified. See below for a list of features and a basic API overview. Addiontionally, it is recommended to look at the demo project to see how a typical game may setup folders and mods.
 
+SaveLoad can be used as an addon by copying the folder located in addons (SaveLoad/addons/SaveLoad). It's also available as a Nuget package which can be viewed with the button above. The ModViewer folder in addons can optionally be copied as well - note it isn't in the Nuget package since it has assets that must be imported.
+
 ## Features Overview
 
 - **Def System:** Inspiried by the modding system of [Rimworld](https://rimworldgame.com/), every piece of game content is defined in JSON as a 'Def'. Allows for the easy creation, extension, organization, and updating of game content without the need for code.
@@ -35,7 +37,7 @@ string[] folders = ...;
 SaveLoad.Instance.Load(this, folders);
 ```
 
-The prior code loads mods asychronously. The first parameter in the Load() function is an optional ISaveLoadListener for listening to callbacks:
+The prior code loads mods asychronously. The first parameter in the Load() function is an optional ISaveLoadListener for listening to callbacks. Note that since these methods may be called asynchronously, all interactions with the SceneTree should be done with SetDeferred() and CallDeferred().
 ```C#
 // Optionally update a ProgressBar's text with the asset currently being loaded...
 public void Loading(string def) {}    

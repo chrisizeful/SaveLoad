@@ -11,41 +11,35 @@ public partial class ModViewer : Control
     List<Mod> loaded = new();
     public IReadOnlyList<Mod> Loaded => loaded;
 
-    public ModPreview Preview => (ModPreview) FindChild("Preview");
-    public DropList Enabled => (DropList) FindChild("Enabled");
-    public DropList Disabled => (DropList) FindChild("Disabled");
-    public LineEdit SearchEnabled => (LineEdit) FindChild("SearchEnabled");
-    public LineEdit SearchDisabled => (LineEdit) FindChild("SearchDisabled");
+    [Export]
+    public ModPreview Preview { get; private set; }
+    [Export]
+    public DropList Enabled { get; private set; }
+    [Export]
+    public DropList Disabled { get; private set; }
+    [Export]
+    public LineEdit SearchEnabled  { get; private set; }
+    [Export]
+    public LineEdit SearchDisabled { get; private set; }
+
+    [Export]
+    public Button Refresh { get; private set; }
+    [Export]
+    public Button Reload { get; private set; }
+    [Export]
+    public Button Import { get; private set; }
+    [Export]
+    public Button Export { get; private set; }
 
     public override void _Ready()
     {
         base._Ready();
         // Connect signals
-        Button apply = new()
-        {
-            Text = "UI_Save"
-        };
-        apply.AddThemeStyleboxOverride("normal", ResourceLoader.Load<StyleBox>("res://addons/ModViewer/assets/theme/Green.tres"));
-        apply.AddThemeStyleboxOverride("hover", ResourceLoader.Load<StyleBox>("res://addons/ModViewer/assets/theme/GreenHighlight.tres"));
-        apply.AddThemeStyleboxOverride("focus", ResourceLoader.Load<StyleBox>("res://addons/ModViewer/assets/theme/GreenHighlight.tres"));
-        apply.AddThemeStyleboxOverride("pressed", ResourceLoader.Load<StyleBox>("res://addons/ModViewer/assets/theme/GreenHighlight.tres"));
-        apply.Pressed += () => {
-            /* TODO
-            Settings.Instance.SetImmediate("Game", "Mods", Mod.FormattedList(Enabled.Mods));
-            Settings.Instance.Save();
-            MainMenu menu = this.FindParent<MainMenu>();
-            menu.QueueFree();
-            SaveLoad.Instance.Unload(SaveLoad.Instance.Mods.ToArray());
-            GetTree().Root.AddChild(ResourceLoader.Load<PackedScene>("res://scenes/ui/loading/LoadingMods.tscn").Instantiate());
-            */
-        };
-        apply.CustomMinimumSize = new Vector2(256, 0);
-        // TODO FindChild("HeaderContainer").AddChild(apply);
-        SearchEnabled.TextChanged += (text) => Enabled.Search(text);
-        SearchDisabled.TextChanged += (text) => Disabled.Search(text);
-        ((Button) FindChild("Refresh")).Pressed += OnRefreshPressed;
-        ((Button) FindChild("Import")).Pressed += OnImportPressed;
-        ((Button) FindChild("Export")).Pressed += OnExportPressed;
+        SearchEnabled.TextChanged += Enabled.Search;
+        SearchDisabled.TextChanged += Disabled.Search;
+        Refresh.Pressed += OnRefreshPressed;
+        Import.Pressed += OnImportPressed;
+        Export.Pressed += OnExportPressed;
         // Refresh, set enabled to currently loaded mods
         foreach (Mod mod in SaveLoad.Instance.Mods)
         {
@@ -66,7 +60,7 @@ public partial class ModViewer : Control
         }
         Dependencies();
     }
-
+    
     void OnRefreshPressed()
     {
         // Load mods

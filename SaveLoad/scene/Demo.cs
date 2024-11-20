@@ -1,4 +1,5 @@
 using Godot;
+using System.Linq;
 
 namespace SaveLoad;
 
@@ -12,6 +13,8 @@ public partial class Demo : Node
     public Node2D Characters { get; private set; }
     [Export]
     public CanvasLayer GUI { get; private set; }
+    [Export]
+    public ModViewer Viewer { get; private set; }
 
     public override void _Ready()
     {
@@ -35,6 +38,18 @@ public partial class Demo : Node
             sprite.Position = new((float) GD.RandRange(-100.0, 100.0), (float) GD.RandRange(-100.0, 100.0));
             Characters.AddChild(sprite);
         }
+        // Setup viewer reload
+        Viewer.Reload.Pressed += () => {
+            GetTree().Root.GetChild(0).QueueFree();
+            // Store the list of mods the user enabled, this would normally be stored with
+            // some kind of settings system.
+            LoadingMods.Mods = Viewer.Enabled.ModIDs;
+            // Have to unload all loaded mods and switch back to the loading mods screen so the new mod list
+            // can be properly loaded. While you could just check which new mods the user enabled, loading only
+            // those wouldn't properly sort their dependencies.
+            SaveLoad.Instance.Unload(SaveLoad.Instance.Mods.ToArray());
+            GetTree().Root.AddChild(ResourceLoader.Load<PackedScene>("res://scene/LoadingMods.tscn").Instantiate());
+        };
     }
 
     public override void _Input(InputEvent @event)

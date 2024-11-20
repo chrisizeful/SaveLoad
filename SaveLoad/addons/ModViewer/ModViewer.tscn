@@ -47,7 +47,7 @@ shader = ExtResource("9_yxgv7")
 shader_parameter/alpha = 1.0
 shader_parameter/mask = ExtResource("10_hbwfb")
 
-[node name="ModViewer" type="PanelContainer"]
+[node name="ModViewer" type="PanelContainer" node_paths=PackedStringArray("Preview", "Enabled", "Disabled", "SearchEnabled", "SearchDisabled", "Refresh", "Reload", "Import", "Export")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -56,6 +56,15 @@ grow_vertical = 2
 theme = SubResource("Theme_hlfia")
 theme_override_styles/panel = ExtResource("3_yhuwg")
 script = ExtResource("1_og5xy")
+Preview = NodePath("MarginContainer/HBoxContainer/Preview")
+Enabled = NodePath("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/EnabledContainer/ScrollContainer/MarginContainer/Enabled")
+Disabled = NodePath("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/DisabledContainer/ScrollContainer/MarginContainer/Disabled")
+SearchEnabled = NodePath("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/EnabledContainer/SearchEnabled")
+SearchDisabled = NodePath("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/DisabledContainer/SearchDisabled")
+Refresh = NodePath("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/DisabledContainer/PanelContainer/HBoxContainer/Refresh")
+Reload = NodePath("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/DisabledContainer/PanelContainer/HBoxContainer/Reload")
+Import = NodePath("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/EnabledContainer/PanelContainer/HBoxContainer/Import")
+Export = NodePath("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/EnabledContainer/PanelContainer/HBoxContainer/Export")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
@@ -113,14 +122,26 @@ Viewer = NodePath("../../../../../../../..")
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Refresh" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/DisabledContainer/PanelContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/DisabledContainer/PanelContainer"]
 layout_mode = 2
-focus_neighbor_left = NodePath("../../../EnabledContainer/PanelContainer/HBoxContainer/Export")
-focus_neighbor_right = NodePath("../../../EnabledContainer/PanelContainer/HBoxContainer/Import")
+
+[node name="Refresh" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/DisabledContainer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_neighbor_left = NodePath("../../../../EnabledContainer/PanelContainer/HBoxContainer/Export")
+focus_neighbor_right = NodePath("../../../../EnabledContainer/PanelContainer/HBoxContainer/Import")
 text = "Refresh"
 icon = ExtResource("6_6uycd")
 flat = true
-alignment = 0
+
+[node name="Reload" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/DisabledContainer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_neighbor_left = NodePath("../../../../EnabledContainer/PanelContainer/HBoxContainer/Export")
+focus_neighbor_right = NodePath("../../../../EnabledContainer/PanelContainer/HBoxContainer/Import")
+text = "Reload"
+icon = ExtResource("6_6uycd")
+flat = true
 
 [node name="VSeparator" type="VSeparator" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
@@ -167,7 +188,7 @@ layout_mode = 2
 [node name="Import" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/EnabledContainer/PanelContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-focus_neighbor_left = NodePath("../../../../DisabledContainer/PanelContainer/Refresh")
+focus_neighbor_left = NodePath("../../../../DisabledContainer/PanelContainer/HBoxContainer/Refresh")
 focus_neighbor_right = NodePath("../Export")
 text = "Import List"
 icon = ExtResource("7_04n7i")
@@ -177,7 +198,7 @@ flat = true
 layout_mode = 2
 size_flags_horizontal = 3
 focus_neighbor_left = NodePath("../Import")
-focus_neighbor_right = NodePath("../../../../DisabledContainer/PanelContainer/Refresh")
+focus_neighbor_right = NodePath("../../../../DisabledContainer/PanelContainer/HBoxContainer/Refresh")
 text = "Export List"
 icon = ExtResource("8_umv8w")
 flat = true

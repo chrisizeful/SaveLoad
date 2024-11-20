@@ -1,12 +1,13 @@
 [gd_scene load_steps=3 format=3 uid="uid://cit43j8rekhpn"]
 
-[ext_resource type="Script" path="res://demo/Demo.cs" id="1_k4qtw"]
+[ext_resource type="Script" path="res://scene/Demo.cs" id="1_k4qtw"]
 [ext_resource type="PackedScene" uid="uid://k1hpaqep5oso" path="res://addons/ModViewer/ModViewer.tscn" id="2_4jm7g"]
 
-[node name="Demo" type="Node2D" node_paths=PackedStringArray("Characters", "GUI")]
+[node name="Demo" type="Node2D" node_paths=PackedStringArray("Characters", "GUI", "Viewer")]
 script = ExtResource("1_k4qtw")
 Characters = NodePath("Characters")
 GUI = NodePath("GUI")
+Viewer = NodePath("GUI/Root/ModViewer")
 
 [node name="Characters" type="Node2D" parent="."]
 texture_filter = 1

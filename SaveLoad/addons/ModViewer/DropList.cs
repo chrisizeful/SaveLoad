@@ -12,7 +12,8 @@ public partial class DropList : Control
 
     List<ModEntry> entries = new();
     public IReadOnlyList<ModEntry> Entries => entries;
-    public IReadOnlyList<Mod> Mods => Entries.Select(e => e.Mod).ToList();
+    public IReadOnlyList<Mod> Mods => entries.Select(e => e.Mod).ToList();
+    public List<string> ModIDs => entries.Select(e => e.Mod).ToList().ConvertAll(m => m.ID);
 
     public override void _Ready()
     {
