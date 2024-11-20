@@ -1,0 +1,32 @@
+{
+	"$type": "SaveLoad.InstanceDef, SaveLoad",
+	"Name": "Character01",
+	"InstanceType": "Godot.Sprite2D, GodotSharp",
+	"Properties": {
+		"Texture": "res://assets/tiny_dungeon/tiny_dungeon.png:[0,112,16,16]"
+	}
+}
+{
+	"$type": "SaveLoad.InstanceDef, SaveLoad",
+	"Name": "Character02",
+	"InstanceType": "Godot.Sprite2D, GodotSharp",
+	"Properties": {
+		"Texture": "res://assets/tiny_dungeon/tiny_dungeon.png:[16,112,16,16]"
+	}
+}
+{
+	"$type": "SaveLoad.InstanceDef, SaveLoad",
+	"Name": "Character03",
+	"InstanceType": "Godot.Sprite2D, GodotSharp",
+	"Properties": {
+		"Texture": "res://assets/tiny_dungeon/tiny_dungeon.png:[32,112,16,16]"
+	}
+}
+{
+	"$type": "SaveLoad.InstanceDef, SaveLoad",
+	"Name": "Character04",
+	"InstanceType": "Godot.Sprite2D, GodotSharp",
+	"Properties": {
+		"Texture": "res://assets/tiny_dungeon/tiny_dungeon.png:[48,112,16,16]"
+	}
+}

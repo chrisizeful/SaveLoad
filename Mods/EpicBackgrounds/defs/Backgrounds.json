@@ -1,0 +1,50 @@
+{
+	"$type": "SaveLoad.BackgroundDef, SaveLoad",
+	"Name": "EpicBackground1",
+	"Background": "res://assets/battleback1.png"
+}
+{
+	"$type": "SaveLoad.BackgroundDef, SaveLoad",
+	"Name": "EpicBackground2",
+	"Background": "res://assets/battleback2.png"
+}
+{
+	"$type": "SaveLoad.BackgroundDef, SaveLoad",
+	"Name": "EpicBackground3",
+	"Background": "res://assets/battleback3.png"
+}
+{
+	"$type": "SaveLoad.BackgroundDef, SaveLoad",
+	"Name": "EpicBackground4",
+	"Background": "res://assets/battleback4.png"
+}
+{
+	"$type": "SaveLoad.BackgroundDef, SaveLoad",
+	"Name": "EpicBackground5",
+	"Background": "res://assets/battleback5.png"
+}
+{
+	"$type": "SaveLoad.BackgroundDef, SaveLoad",
+	"Name": "EpicBackground6",
+	"Background": "res://assets/battleback6.png"
+}
+{
+	"$type": "SaveLoad.BackgroundDef, SaveLoad",
+	"Name": "EpicBackground7",
+	"Background": "res://assets/battleback7.png"
+}
+{
+	"$type": "SaveLoad.BackgroundDef, SaveLoad",
+	"Name": "EpicBackground8",
+	"Background": "res://assets/battleback8.png"
+}
+{
+	"$type": "SaveLoad.BackgroundDef, SaveLoad",
+	"Name": "EpicBackground9",
+	"Background": "res://assets/battleback9.png"
+}
+{
+	"$type": "SaveLoad.BackgroundDef, SaveLoad",
+	"Name": "EpicBackground10",
+	"Background": "res://assets/battleback10.png"
+}

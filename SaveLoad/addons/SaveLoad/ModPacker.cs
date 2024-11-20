@@ -3,7 +3,7 @@ using Godot;
 namespace SaveLoad;
 
 /// <summary>
-/// A helper class to for packing files for a mod.
+/// A helper class for packing files for a mod.
 /// </summary>
 public class ModPacker
 {

@@ -3,12 +3,22 @@ using System;
 
 namespace SaveLoad;
 
+/// <summary>
+/// Used to place InstanceDefs in the editor. To use it add a DefNode3D to you scene and specify a DefName. Then,
+/// call <see cref="Replace"/> on the root node to replace all DefNode3Ds with InstanceDef instances.
+/// </summary>
 public partial class DefNode3D : Node3D
 {
     
     [Export]
     public StringName DefName;
 
+	/// <summary>
+	/// Iterates through the children of parent, replacing any DefNode3Ds with with InstanceDef
+	/// instances. The position of the DefNode3D is applied to the created instance.
+	/// </summary>
+	/// <param name="parent">The root node to check the children of.</param>
+	/// <param name="replace">A function that replaces a DefNode3D with a Node3D.</param>
 	public static void Replace(Node parent, Func<DefNode3D, Node3D> replace)
 	{
 		foreach (Node child in parent.GetChildren())
@@ -23,6 +33,11 @@ public partial class DefNode3D : Node3D
 		}
 	}
 
+	/// <summary>
+	/// Iterates through the children of parent, replacing any DefNode3Ds with with InstanceDef
+	/// instances. The position of the DefNode3D is applied to the created instance.
+	/// </summary>
+	/// <param name="parent">The root node to check the children of.</param>
     public static void Replace(Node parent)
 	{
 		Replace(parent, (def) => ((InstanceDef) SaveLoad.Instance.DefNames[def.DefName]).Instance<Node3D>());

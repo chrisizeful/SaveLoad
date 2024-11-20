@@ -3,9 +3,16 @@
 [ext_resource type="Script" path="res://demo/Demo.cs" id="1_k4qtw"]
 [ext_resource type="PackedScene" uid="uid://k1hpaqep5oso" path="res://addons/ModViewer/ModViewer.tscn" id="2_4jm7g"]
 
-[node name="Demo" type="Node2D" node_paths=PackedStringArray("GUI")]
+[node name="Demo" type="Node2D" node_paths=PackedStringArray("Characters", "GUI")]
 script = ExtResource("1_k4qtw")
+Characters = NodePath("Characters")
 GUI = NodePath("GUI")
+
+[node name="Characters" type="Node2D" parent="."]
+texture_filter = 1
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(3, 3)
 
 [node name="GUI" type="CanvasLayer" parent="."]
 visible = false

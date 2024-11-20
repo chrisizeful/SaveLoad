@@ -140,3 +140,5 @@ SaveLoad has been used in numerous personal projects and tested in exported proj
 
 ## Licensing
 SaveLoad is licensed under MIT - you are free to use it however you wish.
+
+The demo uses assets from Kenney's CC0 licensed [Tiny Dungeon](https://kenney.nl/assets/tiny-dungeon) asset pack. It also uses Nidhoggn's CC0 licensed [Backgrounds](https://opengameart.org/content/backgrounds-3).

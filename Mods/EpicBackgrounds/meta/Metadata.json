@@ -1,10 +1,10 @@
 {
-	"ID": "EpicBackground",
-	"Name": "Epic Background",
+	"ID": "EpicBackgrounds",
+	"Name": "Epic Backgrounds",
 	"Creator": "Chris Charbonneau",
 	"ModVersion": "1.0.0.0",
 	"GameVersion": "0.0.5.0",
-	"Description": "A cool new menu background!",
+	"Description": "Cool new backgrounds!",
 	"Incompatible": [
 	{
 		"Name": "Cool Theme",
