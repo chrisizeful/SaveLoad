@@ -34,7 +34,7 @@ public class ModPacker
     public void AddFolder(string folder)
     {
         DirAccess dir = DirAccess.Open(mod);
-        if (!dir.DirExists(folder))
+        if (dir == null || !dir.DirExists(folder))
             return;
         foreach(string file in Files.ListFiles($"{mod}/{folder}", null, true))
         {
