@@ -184,13 +184,28 @@ public static void OnStartup()
 }
 ```
 
+#### Object Serialization
+
+SaveLoad provides methods for easily saving and loading any object:
+```C#
+Node node = ...
+string json = SaveLoad.Save(node);
+// or save directly to a file
+SaveLoad.Save("res://save.json", node);
+
+Node loaded = SaveLoad.LoadJson(json);
+// or load directly from a file
+loaded = SaveLoad.Load("res://save.json");
+```
+
+
 ## Warnings
 
 #### Arbitrary Code Execution
 Mod C# assemblies are not sandboxed or otherwise prevented from executing arbitrary code. Meaning, mods users download from the internet have the capability to execute malicious code such as deleting user files. Deploy at your own risk and provide a warning to users. Read more on this issue [here](https://github.com/godotengine/godot/issues/7753) and [here](https://github.com/godotengine/godot-proposals/issues/5010).
 
 #### Work in Progress
-SaveLoad has been used in numerous personal projects and tested in exported projects on both Windows and Linux. However, it has yet to be thoroughly evaluated in a comercially available game. Any issues and pull requests are much appreciated.
+SaveLoad has been used in numerous personal projects and tested in exported projects on both Windows and Linux. However, it has yet to be thoroughly evaluated in a comercially available game. While the core concepts are soldified, some aspects may be broken or partially functional. Any issues and pull requests are much appreciated.
 
 ## Licensing
 SaveLoad is licensed under MIT - you are free to use it however you wish.

@@ -153,21 +153,58 @@ public class SaveLoad
         return JsonSerializer.CreateDefault();
     }
 
+    /// <summary>
+    /// Serialize an object to json.
+    /// </summary>
+    /// <param name="data">The object to serialize.</param>
+    /// <param name="formatting">Optional formatting specification.</param>
+    /// <returns>A JSON representation of the object.</returns>
     public async Task<string> Save(object data, Formatting formatting = Formatting.None)
     {
         return await Task.Run(() => JsonConvert.SerializeObject(data, formatting));
     }
 
+    /// <summary>
+    /// Serailize an object to json and save it to a file.
+    /// </summary>
+    /// <param name="path">The path to save to.</param>
+    /// <param name="data">The object to serialize.</param>
+    /// <param name="formatting">Optional formatting specification.</param>
     public async void Save(string path, object data, Formatting formatting = Formatting.None)
     {
         if (Files.MakeDirRecursive(path))
             Files.Write(path, await Save(data, formatting));
     }
 
+    /// <summary>
+    /// Load an object from a path asynchronously.
+    /// </summary>
+    /// <typeparam name="T">The type of the object.</typeparam>
+    /// <param name="path">The path of the JSON to load.</param>
+    /// <returns>The deserialized object.</returns>
     public async Task<T> LoadAsync<T>(string path) => await Task.Run(() => Load<T>(path));
+
+    /// <summary>
+    /// Load an object from a path synchronously.
+    /// </summary>
+    /// <typeparam name="T">The type of the object.</typeparam>
+    /// <param name="path">The path of the JSON to load.</param>
+    /// <returns>The deserialized object.</returns>
     public T Load<T>(string path, bool cache = false) => JsonConvert.DeserializeObject<T>(Files.GetAsText(path, cache));
+    
+    /// <summary>
+    /// Load an object from a JSON string.
+    /// </summary>
+    /// <typeparam name="T">The type of the object.</typeparam>
+    /// <param name="json">The JSON representation of an object.</param>
+    /// <returns>The deserialized object.</returns>
     public T LoadJson<T>(string json) => JsonConvert.DeserializeObject<T>(json);
 
+    /// <summary>
+    /// Load a single def from json.
+    /// </summary>
+    /// <param name="json">A JSON string.</param>
+    /// <returns></returns>
     public Def LoadDef(string json)
     {
         using JsonTextReader reader = new(new StringReader(json));
@@ -176,6 +213,11 @@ public class SaveLoad
         return null;
     }
 
+    /// <summary>
+    /// Load single def using a JObject synchronously.
+    /// </summary>
+    /// <param name="jo">The JObject storing the Def data.</param>
+    /// <returns>The deserialized Def.</returns>
     public Def LoadDef(JObject jo)
     {
         Def def = null;
@@ -220,6 +262,11 @@ public class SaveLoad
         return def;
     }
 
+    /// <summary>
+    /// Load a single Def asynchronously.
+    /// </summary>
+    /// <param name="json"></param>
+    /// <returns>The deserialized Def.</returns>
     public async Task<Def> LoadDefAsync(string json)
     {
         using JsonTextReader reader = new JsonTextReader(new StringReader(json));
@@ -228,7 +275,11 @@ public class SaveLoad
         return null;
     }
 
-    // Load single def using a JObject
+    /// <summary>
+    /// Load single def using a JObject asynchronously.
+    /// </summary>
+    /// <param name="jo">The JObject storing the Def data.</param>
+    /// <returns>The deserialized Def.</returns>
     public async Task<Def> LoadDefAsync(JObject jo)
     {
         return await Task.Run(() => LoadDef(jo));
