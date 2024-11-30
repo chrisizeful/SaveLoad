@@ -1,7 +1,7 @@
 <Project Sdk="Godot.NET.Sdk/4.3.0">
   <PropertyGroup>
     <PackageId>SaveLoad</PackageId>
-    <Version>0.5.2</Version>
+    <Version>0.5.3</Version>
     <Authors>Chris Charbonneau</Authors>
     <TargetFramework>net6.0</TargetFramework>
     <TargetFramework Condition=" '$(GodotTargetPlatform)' == 'android' ">net7.0</TargetFramework>
@@ -22,5 +22,7 @@
     </ItemGroup>
   <ItemGroup>
     <Content Include="addons\SaveLoad\**\*.*"/>
+    <Content Remove="addons\DefNode\**\*.*"/>
+    <Content Remove="addons\ModViewer\**\*.*"/>
   </ItemGroup>
 </Project>
