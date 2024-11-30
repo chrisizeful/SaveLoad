@@ -9,8 +9,8 @@ public partial class DefNodeLoader : EditorPlugin
 
 	public override void _EnablePlugin()
 	{
-		AddCustomType("Def2D", "Node2D", ResourceLoader.Load<CSharpScript>("res://addons/Goarch/def/DefNode2D.cs"), null);
-		AddCustomType("Def3D", "Node3D", ResourceLoader.Load<CSharpScript>("res://addons/Goarch/def/DefNode3D.cs"), null);
+		AddCustomType("Def2D", "Node2D", ResourceLoader.Load<CSharpScript>("res://addons/DefNode/DefNode2D.cs"), null);
+		AddCustomType("Def3D", "Node3D", ResourceLoader.Load<CSharpScript>("res://addons/DefNode/DefNode3D.cs"), null);
 	}
 
 	public override void _DisablePlugin()
