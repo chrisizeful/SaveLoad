@@ -24,3 +24,7 @@ window/size/viewport_height=720
 [dotnet]
 
 project/assembly_name="SaveLoad"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/DefNode/plugin.cfg")
