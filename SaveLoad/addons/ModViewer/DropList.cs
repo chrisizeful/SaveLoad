@@ -39,10 +39,11 @@ public partial class DropList : Control
     public override void _DropData(Vector2 pos, Variant data)
     {
         ModEntry entry = (ModEntry) data;
-        if (entry.GetParent() == this)
-            return;
-        entry.Reparent(this, false);
+        if (entry.GetParent() != this)
+        {
+            entry.Reparent(this, false);
+            Viewer.Dependencies();
+        }
         MoveChild(entry, GetChildCount());
-        Viewer.Dependencies();
     }
 }

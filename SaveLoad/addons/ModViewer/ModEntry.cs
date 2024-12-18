@@ -79,7 +79,14 @@ public partial class ModEntry : Button
     }
 
     public override bool _CanDropData(Vector2 pos, Variant data) => CanDrop;
-    public override void _DropData(Vector2 pos, Variant data) => GetParent<DropList>()._DropData(Position, data);
+    public override void _DropData(Vector2 pos, Variant data)
+    {
+        ModEntry entry = (ModEntry) data;
+        if (entry.GetParent() != GetParent())
+            GetParent<DropList>()._DropData(Position, data);
+        Node parent = entry.GetParent();
+        parent.MoveChild(entry, GetIndex());
+    }
 
     public override string ToString() => Mod.ID;
 
