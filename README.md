@@ -1,7 +1,7 @@
 # SaveLoad
 [![NuGet](https://img.shields.io/nuget/v/SaveLoad.svg)](https://www.nuget.org/packages/SaveLoad/)
 
-SaveLoad is a C# serialization, modding, and game content API for the Godot game engine.. It enables you to structure your game's content in a user-friendly way which can be easily expanded or modified. See below for a list of features and a basic API overview. Addiontionally, it is recommended to look at the demo project to see how a typical game may setup folders and mods.
+SaveLoad is a C# serialization, modding, and game content API for the Godot game engine. It enables you to structure your game's content in a user-friendly way which can be easily expanded or modified. See below for a list of features and a basic API overview. Addiontionally, it is recommended to look at the demo project to see how a typical game may setup folders and mods.
 
 SaveLoad can be used as an addon by copying the folder located in addons (SaveLoad/addons/SaveLoad). It's also available as a Nuget package which can be viewed with the button above. The ModViewer folder in addons can optionally be copied as well - note it isn't in the Nuget package since it has assets that must be imported. Additionally, optional DefNode and InstanceDef node types can be used by including the DefNode addon folder.
 
