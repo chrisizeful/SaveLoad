@@ -1,4 +1,7 @@
-# SaveLoad
+<p align="center">
+  <img src="https://i.imgur.com/OfBpO05.png" alt="Banner" />
+</p>
+
 [![NuGet](https://img.shields.io/nuget/v/SaveLoad.svg)](https://www.nuget.org/packages/SaveLoad/)
 
 SaveLoad is a C# serialization, modding, and game content API for the Godot game engine. It enables you to structure your game's content in a user-friendly way which can be easily expanded or modified. See below for a list of features and a basic API overview. Addiontionally, it is recommended to look at the demo project to see how a typical game may setup folders and mods.
@@ -221,4 +224,4 @@ SaveLoad has been used in numerous personal projects and tested in exported proj
 ## Licensing
 SaveLoad is licensed under MIT - you are free to use it however you wish.
 
-The demo uses assets from Kenney's CC0 licensed [Tiny Dungeon](https://kenney.nl/assets/tiny-dungeon) asset pack. It also uses Nidhoggn's CC0 licensed [Backgrounds](https://opengameart.org/content/backgrounds-3). The ModViewer scene uses assets from Kenney's CC0 licensed [Game Icons](https://kenney.nl/assets/game-icons).
+The demo uses assets from Kenney's CC0 licensed [Tiny Dungeon](https://kenney.nl/assets/tiny-dungeon) asset pack. It also uses Nidhoggn's CC0 licensed [Backgrounds](https://opengameart.org/content/backgrounds-3). The ModViewer scene uses assets from Kenney's CC0 licensed [Game Icons](https://kenney.nl/assets/game-icons). The banner logo uses the [Ubuntu Title](https://www.dafont.com/ubuntu-title.font) font.
