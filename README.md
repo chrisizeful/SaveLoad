@@ -21,13 +21,16 @@ SaveLoad can be used as an addon by copying the folder located in addons (SaveLo
 
 ## Installation
 
+#### Addons
+SaveLoad has three addons. The first, 'SaveLoad', is the main library. There are two optional ones: DefNode for using Defs in the Godot editor, and ModViewer for using the themed mod UI. To install addons, copy the appropriate folders from SaveLoad/addons into the addons folder of your poject. Read more about installing and enabling addons [here](https://docs.godotengine.org/en/stable/tutorials/plugins/editor/installing_plugins.html). 
+
 #### Folder Structure
 
 By default, the mods folder is placed next to the project directory. This is done to 1) prevent your project from importing assets from mods and 2) allow the mods folder to be placed next to the exectuable when exported. An additional directory (mods/packed) is created to store packed .pck files. See SaveLoader.PackDir and SaveLoader.ModDir.
 
 The folder structure of mods is up to you. You can either enforce they be setup a specific way, or load all files in each mod folder. See the loading mods section for more information. Mods are usually their own Godot projects. However, that is only required if they use assets (i.e. textures) since Godot requires they have an .import file. If a mod only defines Defs, it does not have to be a Godot project.
 
-#### Loading Mods
+## Loading Mods
 The SaveLoader class is a singleton where the majority of your interactions with API will occur. It is recommended you load a list of mods (instead of each individually) so their load order can be correctly resolved. To load a list of mods you can specify the names of the mods and the sub-directories to include (the defs sub-directory is automatically included).
 ```C#
 using namespace SaveLoad;
@@ -63,7 +66,7 @@ SaveLoader.Unload(mod1, mod2, ...);
 SaveLoader.Unload();
 ```
 
-#### Creating Defs
+## Creating Defs
 
 First, you must create a record that extends Def. Then, you can create JSON files using that type. Defs can safely reference other Defs - the DefConverter resolves them by name and the DependencyGraph resolves the order to load them in. Note that a single file can contain any number of defs.
 ```C#
@@ -152,7 +155,7 @@ An example of JSON that defines InstanceDefs:
 }
 ```
 
-#### Using Defs
+## Using Defs
 
 SaveLoader provides numerous methods to get Defs of a certain type. Additionally, Defs can be fetched by name:
 ```C#
@@ -187,7 +190,7 @@ Character2D character = def.Instance<CharacterInstanceDef>();
 character = SaveLoader.Instance.Create<CharacterInstanceDef, Character2D>("OrcInstanceDef");
 ```
 
-#### Mod DLL Usage
+## Mod DLL Usage
 
 A mod can hook into your game by using StartupAttribute on a static method. This method is automatically called when the mod is loaded. Note that depending on a how a mod is loaded, it could be called synchronously or asynchronously. Thus, all interactions with the SceneTree should be done with SetDeferred() and CallDeferred().
 ```C#
