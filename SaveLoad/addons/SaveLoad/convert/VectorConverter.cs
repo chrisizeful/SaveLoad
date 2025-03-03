@@ -8,6 +8,7 @@ namespace SaveLoad;
 /// <summary>
 /// De/serializes a <see cref="Vector2"/> to a string, i.e. "0.0,0.0" or "0.0, 0.0".
 /// </summary>
+// TODO Allow nullable vectors
 public class Vector2Converter : JsonConverter, IStringConverter
 {
 

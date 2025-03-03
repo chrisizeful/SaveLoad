@@ -313,13 +313,11 @@ public class SaveLoader
         }
 #if DEBUG
         // Begin packing (including internal)
-        ModPacker.Pack(PackParentDir, "Internal", folders);
         foreach (string mod in enabled)
             ModPacker.Pack($"{ModDir}{mod}", mod, folders);
-        // Load mod packs, internal last
+        // Load mod packs
         foreach (string mod in enabled)
             await AssetLoad.Instance.LoadResourcePack($"{PackDir}{mod}.pck");
-        await AssetLoad.Instance.LoadResourcePack($"{PackDir}Internal.pck");
 #else
         // Load packs recursively from mod folder
         await AssetLoad.Instance.LoadResourcePacks(ModDir);

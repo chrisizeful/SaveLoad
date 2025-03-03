@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://cit43j8rekhpn"]
 
-[ext_resource type="Script" path="res://scene/Demo.cs" id="1_k4qtw"]
+[ext_resource type="Script" uid="uid://big3o5ds0gkvt" path="res://scene/Demo.cs" id="1_k4qtw"]
 [ext_resource type="PackedScene" uid="uid://k1hpaqep5oso" path="res://addons/ModViewer/ModViewer.tscn" id="2_4jm7g"]
 
 [node name="Demo" type="Node2D" node_paths=PackedStringArray("Characters", "Viewer")]

@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://c3og1m5126tjo"]
 
-[ext_resource type="StyleBox" path="res://addons/ModViewer/assets/theme/Red.tres" id="1_k8wtu"]
-[ext_resource type="Script" path="res://addons/ModViewer/ModProblem.cs" id="2_jaoa5"]
+[ext_resource type="StyleBox" uid="uid://cdfa2jtg1qmfn" path="res://addons/ModViewer/assets/theme/Red.tres" id="1_k8wtu"]
+[ext_resource type="Script" uid="uid://bpogm8s6dq74x" path="res://addons/ModViewer/ModProblem.cs" id="2_jaoa5"]
 [ext_resource type="Texture2D" uid="uid://cbve6yhjv3pi3" path="res://addons/ModViewer/assets/icon-exclamation.png" id="2_lyx0s"]
 
 [node name="ModProblem" type="PanelContainer" node_paths=PackedStringArray("ProblemLabel")]

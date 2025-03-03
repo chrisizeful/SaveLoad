@@ -1,15 +1,15 @@
 [gd_scene load_steps=18 format=3 uid="uid://k1hpaqep5oso"]
 
 [ext_resource type="StyleBox" uid="uid://t5ndc3sd3g3j" path="res://addons/ModViewer/assets/theme/Textbox.tres" id="1_gai81"]
-[ext_resource type="Script" path="res://addons/ModViewer/ModViewer.cs" id="1_og5xy"]
+[ext_resource type="Script" uid="uid://dvjxv10t82y8c" path="res://addons/ModViewer/ModViewer.cs" id="1_og5xy"]
 [ext_resource type="StyleBox" uid="uid://j38e18d1mhjf" path="res://addons/ModViewer/assets/theme/Window.tres" id="3_yhuwg"]
 [ext_resource type="Texture2D" uid="uid://blhn386tm437g" path="res://addons/ModViewer/assets/icon-search.png" id="4_vs512"]
-[ext_resource type="Script" path="res://addons/ModViewer/DropList.cs" id="5_yesp2"]
+[ext_resource type="Script" uid="uid://b2uabrj38wfsp" path="res://addons/ModViewer/DropList.cs" id="5_yesp2"]
 [ext_resource type="Texture2D" uid="uid://l0nbixql4sw4" path="res://addons/ModViewer/assets/icon-refresh.png" id="6_6uycd"]
 [ext_resource type="Texture2D" uid="uid://cdveq0m13wxyd" path="res://addons/ModViewer/assets/icon-import.png" id="7_04n7i"]
 [ext_resource type="Texture2D" uid="uid://ci8drtnpeuya0" path="res://addons/ModViewer/assets/icon-reload.png" id="7_gwq5l"]
 [ext_resource type="Texture2D" uid="uid://crdttd5dvec4r" path="res://addons/ModViewer/assets/icon-export.png" id="8_umv8w"]
-[ext_resource type="Script" path="res://addons/ModViewer/ModPreview.cs" id="9_futgm"]
+[ext_resource type="Script" uid="uid://bfar3wbkakspe" path="res://addons/ModViewer/ModPreview.cs" id="9_futgm"]
 [ext_resource type="Shader" uid="uid://cwicwtetrjfg7" path="res://addons/ModViewer/assets/Mask.tres" id="9_yxgv7"]
 [ext_resource type="Texture2D" uid="uid://3xr7cmob6n6g" path="res://addons/ModViewer/assets/ModMask.png" id="10_hbwfb"]
 [ext_resource type="PackedScene" uid="uid://4xbi0hvqe810" path="res://addons/ModViewer/TogglePanel.tscn" id="12_gp5ci"]
@@ -45,8 +45,8 @@ corner_radius_bottom_left = 20
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_hcila"]
 shader = ExtResource("9_yxgv7")
-shader_parameter/alpha = 1.0
 shader_parameter/mask = ExtResource("10_hbwfb")
+shader_parameter/alpha = 1.0
 
 [node name="ModViewer" type="PanelContainer" node_paths=PackedStringArray("Preview", "Enabled", "Disabled", "SearchEnabled", "SearchDisabled", "Refresh", "Reload", "Import", "Export")]
 anchors_preset = 15

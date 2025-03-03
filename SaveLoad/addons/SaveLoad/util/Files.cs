@@ -184,7 +184,8 @@ public static class Files
         FileAccess file = FileAccess.Open(path, FileAccess.ModeFlags.Write);
         if (file == null)
             GD.PrintErr($"Files#Write", $"Failed to open file at \"{path}\" ({FileAccess.GetOpenError()})");
-        file.StoreString(text);
+        if (!file.StoreString(text))
+            GD.PrintErr($"Files#Write", $"Failed to write to file at \"{path}\" ({FileAccess.GetOpenError()})");
         file.Dispose();
     }
 

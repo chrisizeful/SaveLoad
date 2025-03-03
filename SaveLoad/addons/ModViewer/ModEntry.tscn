@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://d0uc2ene7smea"]
 
-[ext_resource type="Script" path="res://addons/ModViewer/ModEntry.cs" id="1_qavi5"]
+[ext_resource type="Script" uid="uid://bh7kkhdtg123j" path="res://addons/ModViewer/ModEntry.cs" id="1_qavi5"]
 [ext_resource type="Texture2D" uid="uid://ueoy7ke8simb" path="res://addons/ModViewer/assets/icon-steam.png" id="2_bdt8p"]
 
 [node name="ModEntry" type="Button" node_paths=PackedStringArray("NameLabel", "CreatorLabel", "VersionLabel", "External")]

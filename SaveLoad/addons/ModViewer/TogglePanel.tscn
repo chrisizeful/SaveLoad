@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://4xbi0hvqe810"]
 
-[ext_resource type="Script" path="res://addons/ModViewer/TogglePanel.cs" id="1_8lroj"]
+[ext_resource type="Script" uid="uid://b1ochcmm5yvu7" path="res://addons/ModViewer/TogglePanel.cs" id="1_8lroj"]
 [ext_resource type="Texture2D" uid="uid://damj6xtrh71lu" path="res://addons/ModViewer/assets/icon-expand.png" id="1_sl2r1"]
-[ext_resource type="Script" path="res://addons/ModViewer/ToggleButton.cs" id="2_83u3u"]
-[ext_resource type="StyleBox" path="res://addons/ModViewer/assets/theme/GrayDark.tres" id="4_iv0ih"]
+[ext_resource type="Script" uid="uid://b2ijx5k8xg1rp" path="res://addons/ModViewer/ToggleButton.cs" id="2_83u3u"]
+[ext_resource type="StyleBox" uid="uid://buidtsu370w2w" path="res://addons/ModViewer/assets/theme/GrayDark.tres" id="4_iv0ih"]
 
 [node name="TogglePanel" type="VBoxContainer" node_paths=PackedStringArray("Button")]
 offset_right = 128.0
