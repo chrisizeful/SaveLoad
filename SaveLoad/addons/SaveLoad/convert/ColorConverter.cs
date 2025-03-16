@@ -8,7 +8,7 @@ namespace SaveLoad;
 /// Converts a <see cref="Color"/> to JSON. The color is de/serialized as an HTML string.
 /// </summary>
 // TODO Allow nullable colors
-public class ColorConverter : JsonConverter<Color>
+public class ColorConverter : JsonConverter<Color>, IStringConverter
 {
 
     public override void WriteJson(JsonWriter writer, Color value, JsonSerializer serializer)
