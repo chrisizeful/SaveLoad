@@ -140,7 +140,7 @@ public class JObjectGraph<T> : DependencyGraph<T>
         {
             foreach (JProperty property in ((JObject) token).Properties())
             {
-                action.Invoke(property);
+                action(property);
                 CheckProperties(property.Value, action);
             }
         }

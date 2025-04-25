@@ -25,7 +25,7 @@ public partial class DefNode3D : Node3D
 		{
 			if (child is DefNode3D d3d)
 			{
-				Node3D instance = replace.Invoke(d3d);
+				Node3D instance = replace(d3d);
 				instance.Position = d3d.Position;
 				parent.AddChild(instance);
 				child.QueueFree();

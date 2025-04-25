@@ -25,7 +25,7 @@ public partial class DefNode2D : Node2D
 		{
 			if (child is DefNode2D d2d)
 			{
-				Node2D instance = replace.Invoke(d2d);
+				Node2D instance = replace(d2d);
 				instance.Position = d2d.Position;
 				parent.AddChild(instance);
 				child.QueueFree();

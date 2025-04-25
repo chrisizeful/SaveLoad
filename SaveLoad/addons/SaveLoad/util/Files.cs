@@ -90,13 +90,14 @@ public static class Files
             // Add relevant files
             else if (!dir.CurrentIsDir())
             {
-#if !DEBUG
-                // Trim export .remap extension
-                if (path.EndsWith(".remap"))
-                    path = path.TrimSuffix(".remap");
-                if (path.EndsWith(".import"))
-                    path = path.TrimSuffix(".import");
-#endif
+                if (OS.HasFeature("editor"))
+                {
+                    // Trim export .remap extension
+                    if (path.EndsWith(".remap"))
+                        path = path.TrimSuffix(".remap");
+                    if (path.EndsWith(".import"))
+                        path = path.TrimSuffix(".import");
+                }
                 if (type == null || path.EndsWith(type))
                     files.Add(path);
             }
@@ -113,7 +114,7 @@ public static class Files
     /// <returns></returns>
     public static List<string> ListDirs(string path, bool recursive = true)
     {
-        List<string> directories = new();
+        List<string> directories = [];
         DirAccess dir = DirAccess.Open(path);
         if (dir == null)
         {

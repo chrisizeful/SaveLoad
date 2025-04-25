@@ -70,16 +70,17 @@ public class SaveLoader
     }
 
     /// <summary>
-    /// The parent directory where mod .pck files will be packed to. In debug mode, this in in the project (res://)
+    /// The parent directory where mod .pck files will be packed to. In the editor, this in in the project (res://)
     /// folder, and in exported projects this is next to the running executable.
     /// </summary>
     public static string PackParentDir
     {
-#if DEBUG
-        get => "res://";
-#else
-        get => Path.GetDirectoryName(OS.GetExecutablePath()).Replace('\\', '/') + "/";
-#endif
+        get
+        {
+            if (OS.HasFeature("editor"))
+                return "res://";
+            return Path.GetDirectoryName(OS.GetExecutablePath()).Replace('\\', '/') + "/";
+        }
     }
 
     /// <summary>
@@ -92,16 +93,17 @@ public class SaveLoader
     public static string PackDir => PackParentDir + PackSubdir;
 
     /// <summary>
-    /// The directory where mods are stored. In debug mode, this is in the parent directory alongside the project. In an
+    /// The directory where mods are stored. In the editor, this is in the parent directory alongside the project. In an
     /// exported project this is next to th erunning executable. In both cases, the folder name is "Mods".
     /// </summary>
     public static string ModDir
     {
-#if DEBUG
-        get => Directory.GetParent(Directory.GetParent(ProjectSettings.GlobalizePath("res://")).ToString()).ToString().Replace("\\", "/") + "/Mods/";
-#else
-        get => Path.GetDirectoryName(OS.GetExecutablePath()).Replace('\\', '/') + "/Mods/";
-#endif
+        get
+        {
+            if (OS.HasFeature("editor"))
+                return Directory.GetParent(Directory.GetParent(ProjectSettings.GlobalizePath("res://")).ToString()).ToString().Replace("\\", "/") + "/Mods/";
+            return Path.GetDirectoryName(OS.GetExecutablePath()).Replace('\\', '/') + "/Mods/";
+        }
     }
 
     private SaveLoader()
@@ -114,7 +116,7 @@ public class SaveLoader
             NullValueHandling = NullValueHandling.Ignore,
             DefaultValueHandling = DefaultValueHandling.Include,
             MissingMemberHandling = MissingMemberHandling.Ignore,
-            Converters = new List<JsonConverter> {
+            Converters = [
                 new Int32Converter(),
                 new AabbConverter(),
                 new BasisConverter(),
@@ -130,12 +132,12 @@ public class SaveLoader
                 new Vector2Converter(), new Vector2IConverter(),
                 new Vector3Converter(), new Vector3IConverter(),
                 new Vector4Converter(), new Vector4IConverter()
-            },
-            ContractResolver = new IgnoreResolver(new List<string> {
+            ],
+            ContractResolver = new IgnoreResolver([
                 // Object
                 "DynamicObject",
                 "NativeInstance"
-            })
+            ])
         };
         Serializer = JsonSerializer.CreateDefault();
     }
@@ -311,17 +313,20 @@ public class SaveLoader
                 dirs[i] = Path.GetFileName(dirs[i]);
             enabled = dirs.ToArray();
         }
-#if DEBUG
-        // Begin packing (including internal)
-        foreach (string mod in enabled)
-            ModPacker.Pack($"{ModDir}{mod}", mod, folders);
-        // Load mod packs
-        foreach (string mod in enabled)
-            await AssetLoad.Instance.LoadResourcePack($"{PackDir}{mod}.pck");
-#else
-        // Load packs recursively from mod folder
-        await AssetLoad.Instance.LoadResourcePacks(ModDir);
-#endif
+        if (OS.HasFeature("editor"))
+        {
+            // Begin packing
+            foreach (string mod in enabled)
+                ModPacker.Pack($"{ModDir}{mod}", mod, folders);
+            // Load mod packs
+            foreach (string mod in enabled)
+                await AssetLoad.Instance.LoadResourcePack($"{PackDir}{mod}.pck");
+        }
+        else
+        {
+            // Load packs recursively from mod folder
+            await AssetLoad.Instance.LoadResourcePacks(ModDir);
+        }
         // Load mod types
         foreach (string modPath in enabled)
         {
@@ -459,7 +464,7 @@ public class SaveLoader
     public List<T> Get<T>() where T : Def 
     {
         if (!defTypes.TryGetValue(typeof(T), out var defs))
-            return new List<T>();
+            return [];
         return defs.Cast<T>().ToList();
     }
  

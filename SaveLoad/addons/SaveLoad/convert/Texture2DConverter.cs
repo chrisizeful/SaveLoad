@@ -42,7 +42,7 @@ public class Texture2DConverter : ResourceConverter
                 if (split.Length != 1)
                 {
                     int[] @out = GetRect(split[1]);
-                    Rect2 rect = new Rect2(@out[0], @out[1], @out[2], @out[3]);
+                    Rect2 rect = new(@out[0], @out[1], @out[2], @out[3]);
                     string path = "res://" + split[0];
                     if (ResourceLoader.Exists(path))
                     {
@@ -62,7 +62,7 @@ public class Texture2DConverter : ResourceConverter
                         };
                         Rect2 region = rect;
                         @out = GetRect(split[2]);
-                        Vector2 padding =  new Vector2(@out[0], @out[1]);
+                        Vector2 padding = new(@out[0], @out[1]);
                         padded.SetRegion(region, padding);
                         return padded;
                     }
