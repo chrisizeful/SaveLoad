@@ -90,7 +90,7 @@ public static class Files
             // Add relevant files
             else if (!dir.CurrentIsDir())
             {
-                if (OS.HasFeature("editor"))
+                if (!OS.HasFeature("editor"))
                 {
                     // Trim export .remap extension
                     if (path.EndsWith(".remap"))
