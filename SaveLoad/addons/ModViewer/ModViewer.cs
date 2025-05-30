@@ -11,7 +11,7 @@ namespace SaveLoad;
 public partial class ModViewer : Control
 {
 
-    List<Mod> loaded = new();
+    List<Mod> loaded = [];
     public IReadOnlyList<Mod> Loaded => loaded;
 
     [Export]
@@ -21,7 +21,7 @@ public partial class ModViewer : Control
     [Export]
     public DropList Disabled { get; private set; }
     [Export]
-    public LineEdit SearchEnabled  { get; private set; }
+    public LineEdit SearchEnabled { get; private set; }
     [Export]
     public LineEdit SearchDisabled { get; private set; }
 
@@ -33,6 +33,12 @@ public partial class ModViewer : Control
     public Button Import { get; private set; }
     [Export]
     public Button Export { get; private set; }
+
+    [ExportGroup("Dialog")]
+    [Export]
+    public int DialogWidth = 800;
+    [Export]
+    public int DialogHeight = 600;
 
     public override void _Ready()
     {
@@ -47,7 +53,9 @@ public partial class ModViewer : Control
         foreach (Mod mod in SaveLoader.Instance.Mods)
         {
             loaded.Add(mod);
-            Enabled.AddChild(Entry(mod));
+            ModEntry entry = Entry(mod);
+            Enabled.AddChild(entry);
+            EmitSignal(SignalName.EntryAdded, entry);
         }
         OnRefreshPressed();
     }
@@ -63,7 +71,7 @@ public partial class ModViewer : Control
         }
         Dependencies();
     }
-    
+
     void OnRefreshPressed()
     {
         // Load mods
@@ -82,7 +90,11 @@ public partial class ModViewer : Control
             else paths.Remove(entry.Mod.Directory);
         }
         // Create new entries
-        paths.ForEach(p => Disabled.AddChild(Entry(loaded.Find(m => m.Directory == p))));
+        paths.ForEach(p => {
+            ModEntry entry = Entry(loaded.Find(m => m.Directory == p));
+            Disabled.AddChild(entry);
+            EmitSignal(SignalName.EntryAdded, entry);
+        });
         // Apply searches
         Disabled.Search(SearchDisabled.Text);
         Enabled.Search(SearchEnabled.Text);
@@ -165,8 +177,11 @@ public partial class ModViewer : Control
     void OnExportPressed()
     {
         FileDialog dialog = GetDialog("Select a save file", FileDialog.FileModeEnum.SaveFile);
-        dialog.FileSelected += (string path) => Mod.SaveList(Enabled.Mods, path);
-        dialog.VisibilityChanged += () => { if (!dialog.Visible) dialog.QueueFree(); };
+        dialog.FileSelected += (path) => Mod.SaveList(Enabled.Mods, path);
+        dialog.VisibilityChanged += () => {
+            if (!dialog.Visible)
+                dialog.QueueFree();
+        };
     }
 
     FileDialog GetDialog(string title, FileDialog.FileModeEnum mode)
@@ -175,14 +190,17 @@ public partial class ModViewer : Control
         {
             Title = title,
             FileMode = mode,
-            MinSize = new(800, 600),
-            MaxSize = new(800, 600),
+            MinSize = new(DialogWidth, DialogHeight),
+            MaxSize = new(DialogWidth, DialogHeight),
             ModeOverridesTitle = false,
-            Unresizable = true,
+            Unresizable = false,
             Access = FileDialog.AccessEnum.Filesystem
         };
         GetParent().AddChild(dialog);
         dialog.PopupCentered();
         return dialog;
     }
+
+    [Signal]
+    public delegate void EntryAddedEventHandler(ModEntry entry);
 }
