@@ -15,11 +15,10 @@ public partial class LoadingMods : Control, ISaveLoaderListener
 	/// kind of settings system - and a loading mods screen would fetch that saved value. It's here
 	/// so that the ModViewer UI can easily set it.
 	/// </summary>
-	public static List<string> Mods = new()
-	{
+	public static List<string> Mods = [
 		"Characters",
 		"EpicBackgrounds"
-	};
+	];
 
 	[Export]
 	public ProgressBar ProgressBar { get; private set; }

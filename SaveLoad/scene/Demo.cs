@@ -31,11 +31,7 @@ public partial class Demo : Node
         }
         // Randomly add some characters, if any exist
         foreach (InstanceDef def in SaveLoader.Instance.GetInstances<InstanceDef, Sprite2D>())
-        {
-            Sprite2D sprite = def.Instance<Sprite2D>();
-            sprite.Position = new((float) GD.RandRange(-100.0, 100.0), (float) GD.RandRange(-100.0, 100.0));
-            Characters.AddChild(sprite);
-        }
+            AddCharacter(def.Instance<Sprite2D>());
         // Setup viewer reload
         Viewer.Reload.Pressed += () => {
             GetTree().Root.GetChild(0).QueueFree();
@@ -50,9 +46,33 @@ public partial class Demo : Node
         };
     }
 
+    void AddCharacter(Sprite2D sprite)
+    {
+        sprite.Rotation = (float) GD.RandRange(-Mathf.Pi, Mathf.Pi);
+        sprite.Scale = GD.Randf() < .5f ? Vector2.One : new(2.0f, 2.0f);
+        sprite.Position = new((float)GD.RandRange(-100.0, 100.0), (float)GD.RandRange(-100.0, 100.0));
+        Characters.AddChild(sprite);
+    }
+
     public override void _Input(InputEvent @event)
     {
         if (@event.IsActionPressed("ui_cancel"))
             Viewer.Visible = !Viewer.Visible;
+        if (@event.IsActionPressed("ui_accept") && Characters.GetChildCount() != 0)
+            SaveCharacter();
+    }
+
+    // Test saving and loading a node to JSON
+    async void SaveCharacter()
+    {
+        // The node to serialize and path to save it to
+        string path = "res://scene/save/character.json";
+        Node character = Characters.GetChild(GD.RandRange(0, Characters.GetChildCount() - 1));
+        // Serialize + save
+        string json = await SaveLoader.Instance.Save(character, Newtonsoft.Json.Formatting.Indented);
+		Files.Write(path, json);
+        // Load + deserialize
+        Sprite2D dupe = SaveLoader.Instance.LoadJson<Sprite2D>(Files.GetAsText(path));
+        AddCharacter(dupe);
     }
 }

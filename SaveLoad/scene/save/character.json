@@ -1,0 +1,5 @@
+{
+  "$type": "Godot.Sprite2D, GodotSharp, Version=4.4.1.0, Culture=neutral, PublicKeyToken=null",
+  "Texture": "res://assets/tiny_dungeon/tiny_dungeon.png:[48,112,16,16]",
+  "Position": "71.39882,-60.87322"
+}
