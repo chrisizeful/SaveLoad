@@ -37,19 +37,19 @@ public class SaveLoader
     public JsonSerializer Serializer { get; private set; }
     public JsonSerializerSettings Settings { get; private set; }
 
-    private Dictionary<Type, List<Def>> defTypes { get; } = new();
+    private Dictionary<Type, List<Def>> defTypes { get; } = [];
     /// <summary>
     /// Loaded mods by type.
     /// </summary>
     public IReadOnlyDictionary<Type, List<Def>> DefTypes => defTypes;
 
-    private Dictionary<string, Def> defNames { get; } = new();
+    private Dictionary<string, Def> defNames { get; } = [];
     /// <summary>
     /// Loaded mods by their unique name.
     /// </summary>
     public IReadOnlyDictionary<string, Def> DefNames => defNames;
 
-    private List<Mod> mods { get; } = new();
+    private List<Mod> mods { get; } = [];
     /// <summary>
     /// All currently loaded mods.
     /// </summary>

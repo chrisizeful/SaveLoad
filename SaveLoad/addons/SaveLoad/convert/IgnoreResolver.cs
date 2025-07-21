@@ -11,9 +11,9 @@ namespace SaveLoad;
 public class IgnoreResolver : DefaultContractResolver
 {
 
-    private readonly List<string> _ignoreProps;
+    private readonly HashSet<string> _ignoreProps;
 
-    public IgnoreResolver(List<string> ignoreProps)
+    public IgnoreResolver(HashSet<string> ignoreProps)
     {
         _ignoreProps = ignoreProps;
     }

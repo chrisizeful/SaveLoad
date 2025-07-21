@@ -14,7 +14,7 @@ public class NodeConverter : JsonConverter
 {
 
     // Properties to ignore
-    private readonly List<string> _ignore = new() {
+    private readonly HashSet<string> _ignore = [
         // Node
         "Owner",
         "NativeObject",
@@ -36,9 +36,9 @@ public class NodeConverter : JsonConverter
         "GlobalSkew",
         "Quaternion",
         "ZAsRelative"
-    };
+    ];
     // Default value instances
-    private readonly Dictionary<Type, object> _instances = new();
+    private readonly Dictionary<Type, object> _instances = [];
 
     public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
     {
