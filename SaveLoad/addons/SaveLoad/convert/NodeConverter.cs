@@ -1,6 +1,5 @@
 using Godot;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System.Reflection;
 using System.Collections.Generic;
 using System;
@@ -14,7 +13,7 @@ public class NodeConverter : JsonConverter
 {
 
     // Properties to ignore
-    private readonly HashSet<string> _ignore = [
+    private static readonly HashSet<string> _ignore = [
         // Node
         "Owner",
         "NativeObject",
@@ -38,34 +37,100 @@ public class NodeConverter : JsonConverter
         "ZAsRelative"
     ];
     // Default value instances
-    private readonly Dictionary<Type, object> _instances = [];
+    private static readonly Dictionary<Type, object> _instances = [];
 
+    public override bool CanWrite => false;
+
+    /// <summary>
+    /// Write JSON not supported as the written object should be a Dictionary<string, object>.
+    /// </summary>
     public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
     {
-        Node node = (Node) value;
-        if (!string.IsNullOrEmpty(node.SceneFilePath))
+        throw new NotSupportedException("NodeConverter does not support writing JSON.");
+    }
+
+    public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+    {
+        // Read a scene path
+        if (reader.TokenType == JsonToken.String)
+            return Create((string)reader.Value);
+        // Deserialize dictionary
+        var dict = serializer.Deserialize<Dictionary<string, object>>(reader);
+        if (!dict.TryGetValue("$nodeType", out object typeName))
+            return dict; // Not a Node, just a normal dictionary
+        var type = Type.GetType((string)typeName);
+        if (type == null || !typeof(Node).IsAssignableFrom(type))
+            return dict; // Not a Node, just a normal dictionary
+        return Create(type, serializer, dict);
+    }
+
+    private Node Create(string path) => ResourceLoader.Load<PackedScene>(path).Instantiate();
+    private Node Create(Type type, JsonSerializer serializer, Dictionary<string, object> dict)
+    {
+        // Create node using activator or scene
+        Node node = dict.TryGetValue("SceneFilePath", out var path)
+            ? Create((string)path)
+            : (Node)Activator.CreateInstance(Type.GetType((string)dict["$nodeType"]));
+        // Assure valid name
+        if (dict.TryGetValue("Name", out object value))
         {
-            writer.WriteValue(node.SceneFilePath);
-            return;
+            node.Name = new StringName((string)value);
+            dict.Remove("Name");
         }
-        Type type = node.GetType();
+        else
+        {
+            node.Name = new StringName(node.GetType().Name);
+        }
+        // Set properties
+        foreach (var kvp in dict)
+        {
+            if (kvp.Key == "$nodeType" || kvp.Key == "Children")
+                continue;
+            var prop = type.GetProperty(kvp.Key);
+            if (prop != null && prop.CanWrite)
+            {
+                var raw = (string)kvp.Value;
+                var jsonString = $"\"{raw.Replace("\"", "\\\"")}\"";
+                var dvalue = JsonConvert.DeserializeObject(jsonString, prop.PropertyType);
+                prop.SetValue(node, dvalue);
+            }
+        }
+        // Add children, if any
+        if (dict.TryGetValue("Children", out object cdict))
+            foreach (var child in (List<Dictionary<string, object>>)cdict)
+                node.AddChild(Create(Type.GetType((string)child["$nodeType"]), serializer, child));
+        return node;
+    }
+
+    public override bool CanConvert(Type objectType)
+    {
+        // Ensure this converter is only used as fallback if no Node-specific one exists for the type
+        foreach (JsonConverter converter in SaveLoader.Instance.Settings.Converters)
+            if (converter != this && converter.CanConvert(objectType))
+                return false;
+        return typeof(Node).IsAssignableFrom(objectType);
+    }
+
+    /// <summary>
+    /// Stores the properties of a node in a dictionary for serialization. This is
+    /// required as Nodes are not thread-safe and cannot be serialized directly on
+    /// a separate thread.
+    /// </summary>
+    public static Dictionary<string, object> Store(Node node)
+    {
+        var dict = new Dictionary<string, object>();
+        var type = node.GetType();
         // Get default value
         if (!_instances.TryGetValue(type, out var instance))
             instance = _instances[type] = Activator.CreateInstance(type);
-        // Start node
-        writer.WriteStartObject();
         // Always write node type
-        writer.WritePropertyName("$type");
-        serializer.Serialize(writer, node.GetType());
+        dict["$nodeType"] = type.AssemblyQualifiedName;
         // Write name, if valid
         string name = node.Name.ToString();
-        if (!string.IsNullOrEmpty(name) && !name.StartsWith("@"))
-        {
-            writer.WritePropertyName("Name");
-            serializer.Serialize(writer, name);
-        }
-        // Write node properties
-        foreach (PropertyInfo prop in node.GetType().GetProperties())
+        if (!string.IsNullOrEmpty(name) && !name.StartsWith('@'))
+            dict["Name"] = name;
+        // Store properties
+        foreach (var prop in type.GetProperties())
         {
             // Skip JsonIgnore properties
             if (prop.GetCustomAttribute<JsonIgnoreAttribute>() != null)
@@ -74,80 +139,24 @@ public class NodeConverter : JsonConverter
             if (_ignore.Contains(prop.Name) || prop.SetMethod == null)
                 continue;
             object propValue = prop.GetValue(node);
-            // Skip null properties
-            if (propValue == null)
+            // Skip null and default properties
+            if (propValue == null || propValue.Equals(prop.GetValue(instance)))
                 continue;
-            // Skip default properties
-            if (propValue.Equals(prop.GetValue(instance)))
-                continue;
-            // Write property
-            writer.WritePropertyName(prop.Name);
-            serializer.Serialize(writer, propValue);
+            dict[prop.Name] = propValue;
         }
-        // Write children
+        // Store children
         if (node.GetChildCount() != 0)
         {
-            writer.WritePropertyName("Children");
-            writer.WriteStartArray();
+            var children = new List<Dictionary<string, object>>();
             foreach (Node child in node.GetChildren())
-                serializer.Serialize(writer, child);
-            writer.WriteEndArray();
-        }
-        // End node
-        writer.WriteEndObject(); 
-    }
-
-    public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
-    {
-        // Instance using resource loader if token is a string, otherwise assume it's an object
-        if (reader.TokenType == JsonToken.String)
-            return Create((string) reader.Value);
-        return Create(JObject.Load(reader), serializer);
-    }
-
-    private Node Create(string path)
-    {
-        return ResourceLoader.Load<PackedScene>(path).Instantiate();
-    }
-
-    private Node Create(JObject jo, JsonSerializer serializer)
-    {
-        // Create node using activator or scene
-        Node node = jo.TryGetValue("SceneFilePath", out var path)
-            ? ResourceLoader.Load<PackedScene>((string) path).Instantiate<Node>()
-            : (Node) Activator.CreateInstance(Type.GetType((string) jo["$type"]));
-        // Assure valid name
-        if (!jo.ContainsKey("Name"))
-        {
-            node.Name = new StringName(node.GetType().Name);
-        }
-        else
-        {
-            node.Name = new StringName(jo["Name"].ToString());
-            jo.Remove("Name");
-        }
-        // Populate object
-        serializer.Populate(jo.CreateReader(), node);
-        // Add children, if any
-        if (jo.ContainsKey("Children"))
-        {
-            foreach (var child in jo["Children"])
             {
-                if (child is JObject joc)
-                    node.AddChild(Create(joc, serializer));
-                else if (child is JValue value)
-                    node.AddChild(Create((string) value));
+                var childDict = Store(child);
+                if (childDict.Count > 0)
+                    children.Add(childDict);
             }
+            if (children.Count > 0)
+                dict["Children"] = children;
         }
-        return node;
-    }
-
-    public override bool CanConvert(Type objectType)
-    {
-        // Ensure this converter is only used as fallback if no Node-specific one exist for the type
-        foreach (JsonConverter converter in SaveLoader.Instance.Settings.Converters)
-            if (converter != this && converter.CanConvert(objectType))
-                return false;
-        return typeof(Node).IsAssignableFrom(objectType);
+        return dict;
     }
 }

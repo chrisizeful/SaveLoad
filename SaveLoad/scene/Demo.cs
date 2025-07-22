@@ -68,10 +68,12 @@ public partial class Demo : Node
         // The node to serialize and path to save it to
         string path = "res://scene/save/character.json";
         Node character = Characters.GetChild(GD.RandRange(0, Characters.GetChildCount() - 1));
-        // Serialize + save
-        string json = await SaveLoader.Instance.Save(character, Newtonsoft.Json.Formatting.Indented);
+        // Store the node properties in a dictionary before serialization, on the main thread
+        var stored = NodeConverter.Store(character);
+        // Serialize + save to file
+        string json = await SaveLoader.Instance.Save(stored, Newtonsoft.Json.Formatting.Indented);
 		Files.Write(path, json);
-        // Load + deserialize
+        // Load from file + deserialize
         Sprite2D dupe = SaveLoader.Instance.LoadJson<Sprite2D>(Files.GetAsText(path));
         AddCharacter(dupe);
     }
