@@ -1,4 +1,5 @@
 using Godot;
+using Newtonsoft.Json;
 
 namespace SaveLoad;
 
@@ -9,5 +10,6 @@ public partial class InstanceDef3D : Node3D
 {
 
     public StringName Definition { get; set; }
+    [JsonIgnore]
 	public InstanceDef Def => SaveLoader.Instance.Get<InstanceDef>(Definition);
 }

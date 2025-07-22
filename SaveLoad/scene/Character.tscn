@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://bqhymasmpbk4"]
+
+[ext_resource type="Script" uid="uid://d1eybldbm1rjh" path="res://scene/Character.cs" id="1_xlw0v"]
+
+[node name="Character" type="Node2D" node_paths=PackedStringArray("Sprite")]
+script = ExtResource("1_xlw0v")
+Sprite = NodePath("Sprite")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+self_modulate = Color(1, 1, 1, 0.501961)

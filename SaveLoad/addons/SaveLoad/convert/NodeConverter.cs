@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System.Reflection;
 using System.Collections.Generic;
 using System;
+using Newtonsoft.Json.Linq;
 
 namespace SaveLoad;
 
@@ -34,7 +35,8 @@ public class NodeConverter : JsonConverter
         "GlobalTransform",
         "GlobalSkew",
         "Quaternion",
-        "ZAsRelative"
+        "ZAsRelative",
+        "NativePtr"
     ];
     // Default value instances
     private static readonly Dictionary<Type, object> _instances = [];
@@ -77,22 +79,34 @@ public class NodeConverter : JsonConverter
             node.Name = new StringName((string)value);
             dict.Remove("Name");
         }
-        else
-        {
-            node.Name = new StringName(node.GetType().Name);
-        }
-        // Set properties
+        node.Name ??= new StringName(node.GetType().Name);
+        // Set properties and fields
         foreach (var kvp in dict)
         {
             if (kvp.Key == "$nodeType" || kvp.Key == "Children")
                 continue;
-            var prop = type.GetProperty(kvp.Key);
+            var prop = type.GetProperty(kvp.Key, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
             if (prop != null && prop.CanWrite)
             {
-                var raw = (string)kvp.Value;
-                var jsonString = $"\"{raw.Replace("\"", "\\\"")}\"";
-                var dvalue = JsonConvert.DeserializeObject(jsonString, prop.PropertyType);
+                // Convert object to the property type
+                var dvalue = JToken.FromObject(kvp.Value).ToObject(prop.PropertyType, serializer);
                 prop.SetValue(node, dvalue);
+                continue;
+            }
+            var field = type.GetField(kvp.Key, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+            if (field != null)
+            {
+                var dvalue = JToken.FromObject(kvp.Value).ToObject(field.FieldType, serializer);
+                field.SetValue(node, dvalue);
+            }
+        }
+        // If the node is a scene, remove all children to avoid duplicates
+        if (dict.ContainsKey("SceneFilePath"))
+        {
+            foreach (Node child in node.GetChildren())
+            {
+                node.RemoveChild(child);
+                child.QueueFree();
             }
         }
         // Add children, if any
@@ -130,10 +144,13 @@ public class NodeConverter : JsonConverter
         if (!string.IsNullOrEmpty(name) && !name.StartsWith('@'))
             dict["Name"] = name;
         // Store properties
-        foreach (var prop in type.GetProperties())
+        foreach (var prop in type.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
         {
             // Skip JsonIgnore properties
             if (prop.GetCustomAttribute<JsonIgnoreAttribute>() != null)
+                continue;
+            // Skip exported properties
+            if (prop.GetCustomAttribute<ExportAttribute>() != null)
                 continue;
             // Skip ignored and read-only properties
             if (_ignore.Contains(prop.Name) || prop.SetMethod == null)
@@ -143,6 +160,21 @@ public class NodeConverter : JsonConverter
             if (propValue == null || propValue.Equals(prop.GetValue(instance)))
                 continue;
             dict[prop.Name] = propValue;
+        }
+        // Store fields
+        foreach (var field in type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
+        {
+            // Skip JsonIgnore fields
+            if (field.GetCustomAttribute<JsonIgnoreAttribute>() != null)
+                continue;
+            // Skip ignored and backing fields
+            if (_ignore.Contains(field.Name) ||field.Name.Contains("k__BackingField"))
+                continue;
+            var fieldValue = field.GetValue(node);
+            // Skip null and default fields
+            if (fieldValue == null || fieldValue.Equals(field.GetValue(instance)))
+                continue;
+            dict[field.Name] = fieldValue;
         }
         // Store children
         if (node.GetChildCount() != 0)

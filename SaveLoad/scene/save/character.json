@@ -1,6 +1,25 @@
 {
   "$type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib],[System.Object, System.Private.CoreLib]], System.Private.CoreLib",
-  "$nodeType": "Godot.Sprite2D, GodotSharp, Version=4.4.1.0, Culture=neutral, PublicKeyToken=null",
-  "Texture": "res://assets/tiny_dungeon/tiny_dungeon.png:[48,112,16,16]",
-  "Position": "-42.79456,18.1543"
+  "$nodeType": "SaveLoad.Character, SaveLoad, Version=0.5.7.0, Culture=neutral, PublicKeyToken=null",
+  "Definition": "Character01",
+  "Position": "35.544464,11.5140085",
+  "SceneFilePath": "res://scene/Character.tscn",
+  "bogus": {
+	"$type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib],[System.String, System.Private.CoreLib]], System.Private.CoreLib",
+	"hello": "world",
+	"foo": "bar",
+	"test": "123"
+  },
+  "Children": {
+	"$type": "System.Collections.Generic.List`1[[System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib],[System.Object, System.Private.CoreLib]], System.Private.CoreLib]], System.Private.CoreLib",
+	"$values": [
+	  {
+		"$type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib],[System.Object, System.Private.CoreLib]], System.Private.CoreLib",
+		"$nodeType": "Godot.Sprite2D, GodotSharp, Version=4.4.1.0, Culture=neutral, PublicKeyToken=null",
+		"Name": "Sprite",
+		"Texture": "res://assets/tiny_dungeon/tiny_dungeon.png:[0,112,16,16]",
+		"SelfModulate": "ffffff80"
+	  }
+	]
+  }
 }

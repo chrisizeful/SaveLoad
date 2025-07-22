@@ -1,0 +1,15 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://dx7g1o6kkkd0c"
+valid=false
+
+[deps]
+
+source_file="res://assets/playing-cards-pack/Cards/_cards.csv"
+
+[params]
+
+compress=true
+delimiter=0

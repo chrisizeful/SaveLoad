@@ -30,8 +30,11 @@ public partial class Demo : Node
             MoveChild(background, 0);
         }
         // Randomly add some characters, if any exist
-        foreach (InstanceDef def in SaveLoader.Instance.GetInstances<InstanceDef, Sprite2D>())
-            AddCharacter(def.Instance<Sprite2D>());
+        foreach (CharacterDef def in SaveLoader.Instance.GetInstances<CharacterDef, Character>())
+        {
+            Character character = def.Instance<Character>();
+            AddCharacter(character);
+        }
         // Setup viewer reload
         Viewer.Reload.Pressed += () => {
             GetTree().Root.GetChild(0).QueueFree();
@@ -46,12 +49,12 @@ public partial class Demo : Node
         };
     }
 
-    void AddCharacter(Sprite2D sprite)
+    void AddCharacter(Character character)
     {
-        sprite.Rotation = (float) GD.RandRange(-Mathf.Pi, Mathf.Pi);
-        sprite.Scale = GD.Randf() < .5f ? Vector2.One : new(2.0f, 2.0f);
-        sprite.Position = new((float)GD.RandRange(-100.0, 100.0), (float)GD.RandRange(-100.0, 100.0));
-        Characters.AddChild(sprite);
+        character.Rotation = (float)GD.RandRange(-Mathf.Pi, Mathf.Pi);
+        character.Scale = GD.Randf() < .5f ? Vector2.One : new(2.0f, 2.0f);
+        character.Position = new((float)GD.RandRange(-100.0, 100.0), (float)GD.RandRange(-100.0, 100.0));
+        Characters.AddChild(character);
     }
 
     public override void _Input(InputEvent @event)
@@ -74,7 +77,7 @@ public partial class Demo : Node
         string json = await SaveLoader.Instance.Save(stored, Newtonsoft.Json.Formatting.Indented);
 		Files.Write(path, json);
         // Load from file + deserialize
-        Sprite2D dupe = SaveLoader.Instance.LoadJson<Sprite2D>(Files.GetAsText(path));
+        Character dupe = SaveLoader.Instance.LoadJson<Character>(Files.GetAsText(path));
         AddCharacter(dupe);
     }
 }
