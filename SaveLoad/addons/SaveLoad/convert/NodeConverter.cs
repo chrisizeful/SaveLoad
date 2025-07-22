@@ -168,7 +168,7 @@ public class NodeConverter : JsonConverter
             if (field.GetCustomAttribute<JsonIgnoreAttribute>() != null)
                 continue;
             // Skip ignored and backing fields
-            if (_ignore.Contains(field.Name) ||field.Name.Contains("k__BackingField"))
+            if (_ignore.Contains(field.Name) || field.Name.Contains("k__BackingField"))
                 continue;
             var fieldValue = field.GetValue(node);
             // Skip null and default fields

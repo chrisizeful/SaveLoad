@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://bqhymasmpbk4"]
+
+[ext_resource type="Script" uid="uid://d1eybldbm1rjh" path="res://scene/2D/Character2D.cs" id="1_8krqx"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xlw0v"]
+
+[node name="Character" type="CharacterBody2D" node_paths=PackedStringArray("Sprite")]
+script = ExtResource("1_8krqx")
+Sprite = NodePath("Sprite")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+self_modulate = Color(1, 1, 1, 0.501961)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_xlw0v")

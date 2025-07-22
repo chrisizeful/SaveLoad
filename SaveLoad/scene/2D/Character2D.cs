@@ -4,12 +4,12 @@ using Newtonsoft.Json;
 
 namespace SaveLoad;
 
-public partial class Character : Node2D
+public partial class Character2D : Node2D
 {
 
     public StringName Definition { get; set; }
     [JsonIgnore]
-	public CharacterDef Def => SaveLoader.Instance.GetInstance<CharacterDef, Character>(Definition);
+	public Character2DDef Def => SaveLoader.Instance.GetInstance<Character2DDef, Character2D>(Definition);
 
     [Export]
     public Sprite2D Sprite { get; private set; }

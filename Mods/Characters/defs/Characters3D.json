@@ -1,0 +1,28 @@
+{
+	"$type": "SaveLoad.Character3DDef, SaveLoad",
+	"Name": "Character3D01",
+	"InstanceType": "SaveLoad.Character3D, SaveLoad",
+	"Scene": "res://scene/3D/Character3D.tscn",
+	"Texture": "res://assets/tiny_dungeon/tiny_dungeon.png:[0,112,16,16]"
+}
+{
+	"$type": "SaveLoad.Character3DDef, SaveLoad",
+	"Name": "Character3D02",
+	"InstanceType": "SaveLoad.Character3D, SaveLoad",
+	"Scene": "res://scene/3D/Character3D.tscn",
+	"Texture": "res://assets/tiny_dungeon/tiny_dungeon.png:[16,112,16,16]"
+}
+{
+	"$type": "SaveLoad.Character3DDef, SaveLoad",
+	"Name": "Character3D03",
+	"InstanceType": "SaveLoad.Character3D, SaveLoad",
+	"Scene": "res://scene/3D/Character3D.tscn",
+	"Texture": "res://assets/tiny_dungeon/tiny_dungeon.png:[32,112,16,16]"
+}
+{
+	"$type": "SaveLoad.Character3DDef, SaveLoad",
+	"Name": "Character3D04",
+	"InstanceType": "SaveLoad.Character3D, SaveLoad",
+	"Scene": "res://scene/3D/Character3D.tscn",
+	"Texture": "res://assets/tiny_dungeon/tiny_dungeon.png:[48,112,16,16]"
+}

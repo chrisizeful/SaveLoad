@@ -14,7 +14,16 @@ public record BackgroundDef : Def
 /// <summary>
 /// A basic custom InstanceDef.
 /// </summary>
-public record CharacterDef : NodeDef
+public record Character2DDef : NodeDef
+{
+
+    public Texture2D Texture { get; set; }
+}
+
+/// <summary>
+/// A basic custom InstanceDef.
+/// </summary>
+public record Character3DDef : NodeDef
 {
 
     public Texture2D Texture { get; set; }

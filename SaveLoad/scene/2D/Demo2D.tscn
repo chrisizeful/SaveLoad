@@ -1,10 +1,10 @@
 [gd_scene load_steps=3 format=3 uid="uid://cit43j8rekhpn"]
 
-[ext_resource type="Script" uid="uid://big3o5ds0gkvt" path="res://scene/Demo.cs" id="1_k4qtw"]
-[ext_resource type="PackedScene" uid="uid://k1hpaqep5oso" path="res://addons/ModViewer/ModViewer.tscn" id="2_4jm7g"]
+[ext_resource type="Script" uid="uid://big3o5ds0gkvt" path="res://scene/2D/Demo2D.cs" id="1_bbd52"]
+[ext_resource type="PackedScene" uid="uid://k1hpaqep5oso" path="res://addons/ModViewer/ModViewer.tscn" id="2_nvwhp"]
 
 [node name="Demo" type="Node2D" node_paths=PackedStringArray("Characters", "Viewer")]
-script = ExtResource("1_k4qtw")
+script = ExtResource("1_bbd52")
 Characters = NodePath("Characters")
 Viewer = NodePath("GUI/Root/ModViewer")
 
@@ -33,6 +33,6 @@ size_flags_horizontal = 0
 size_flags_vertical = 0
 text = "ESC: Toggle ModViewer UI"
 
-[node name="ModViewer" parent="GUI/Root" instance=ExtResource("2_4jm7g")]
+[node name="ModViewer" parent="GUI/Root" instance=ExtResource("2_nvwhp")]
 visible = false
 layout_mode = 2

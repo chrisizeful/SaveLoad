@@ -46,7 +46,7 @@ public partial class LoadingMods : Control, ISaveLoaderListener
 	{
 		// Switch to main demo scene
 		CallDeferred(Node.MethodName.QueueFree);
-		Node demo = ResourceLoader.Load<PackedScene>("res://scene/Demo.tscn").Instantiate();
+		Node demo = ResourceLoader.Load<PackedScene>("res://scene/3D/Demo3D.tscn").Instantiate();
 		GetTree().Root.CallDeferred(Node.MethodName.AddChild, demo);
 	}
 }

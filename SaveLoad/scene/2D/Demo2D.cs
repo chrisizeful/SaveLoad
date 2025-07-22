@@ -6,7 +6,7 @@ namespace SaveLoad;
 /// <summary>
 /// An example of using Defs and InstanceDefs. Use ESC to toggle the ModViewer UI.
 /// </summary>
-public partial class Demo : Node
+public partial class Demo2D : Node
 {
 
     [Export]
@@ -30,9 +30,9 @@ public partial class Demo : Node
             MoveChild(background, 0);
         }
         // Randomly add some characters, if any exist
-        foreach (CharacterDef def in SaveLoader.Instance.GetInstances<CharacterDef, Character>())
+        foreach (Character2DDef def in SaveLoader.Instance.GetInstances<Character2DDef, Character2D>())
         {
-            Character character = def.Instance<Character>();
+            Character2D character = def.Instance<Character2D>();
             AddCharacter(character);
         }
         // Setup viewer reload
@@ -49,7 +49,7 @@ public partial class Demo : Node
         };
     }
 
-    void AddCharacter(Character character)
+    void AddCharacter(Character2D character)
     {
         character.Rotation = (float)GD.RandRange(-Mathf.Pi, Mathf.Pi);
         character.Scale = GD.Randf() < .5f ? Vector2.One : new(2.0f, 2.0f);
@@ -77,7 +77,7 @@ public partial class Demo : Node
         string json = await SaveLoader.Instance.Save(stored, Newtonsoft.Json.Formatting.Indented);
 		Files.Write(path, json);
         // Load from file + deserialize
-        Character dupe = SaveLoader.Instance.LoadJson<Character>(Files.GetAsText(path));
+        Character2D dupe = SaveLoader.Instance.LoadJson<Character2D>(Files.GetAsText(path));
         AddCharacter(dupe);
     }
 }

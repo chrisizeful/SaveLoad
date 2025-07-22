@@ -1,0 +1,54 @@
+[gd_scene load_steps=5 format=3 uid="uid://3ikca3ingf58"]
+
+[ext_resource type="Script" uid="uid://dwpgptxgnn3os" path="res://scene/3D/Demo3D.cs" id="1_1rsqf"]
+[ext_resource type="PackedScene" uid="uid://k1hpaqep5oso" path="res://addons/ModViewer/ModViewer.tscn" id="2_px22v"]
+
+[sub_resource type="Environment" id="Environment_px22v"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_px22v"]
+size = Vector2(100, 100)
+
+[node name="Demo3D" type="Node3D" node_paths=PackedStringArray("Characters", "Viewer")]
+script = ExtResource("1_1rsqf")
+Characters = NodePath("Characters")
+Viewer = NodePath("GUI/Root/ModViewer")
+
+[node name="Characters" type="Node3D" parent="."]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.766044, 0.642788, 0, -0.642788, 0.766044, 0, 2, 1.275)
+projection = 1
+current = true
+size = 4.0
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_px22v")
+
+[node name="Floor" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_px22v")
+
+[node name="Light" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 0.749659, 0)
+
+[node name="GUI" type="CanvasLayer" parent="."]
+
+[node name="Root" type="MarginContainer" parent="GUI"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="Label" type="Label" parent="GUI/Root"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "ESC: Toggle ModViewer UI"
+
+[node name="ModViewer" parent="GUI/Root" instance=ExtResource("2_px22v")]
+visible = false
+layout_mode = 2

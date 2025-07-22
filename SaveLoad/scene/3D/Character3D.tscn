@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://ca266qxe61nyl"]
+
+[ext_resource type="Script" uid="uid://bkpssi886ejca" path="res://scene/3D/Character3D.cs" id="1_h48k1"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_o3cwu"]
+
+[node name="Character3D" type="CharacterBody3D" node_paths=PackedStringArray("Sprite")]
+script = ExtResource("1_h48k1")
+Sprite = NodePath("Sprite3D")
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+billboard = 1
+texture_filter = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("SphereShape3D_o3cwu")
