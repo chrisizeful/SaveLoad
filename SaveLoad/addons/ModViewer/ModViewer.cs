@@ -49,14 +49,7 @@ public partial class ModViewer : Control
         Refresh.Pressed += OnRefreshPressed;
         Import.Pressed += OnImportPressed;
         Export.Pressed += OnExportPressed;
-        // Refresh, set enabled to currently loaded mods
-        foreach (Mod mod in SaveLoader.Instance.Mods)
-        {
-            loaded.Add(mod);
-            ModEntry entry = Entry(mod);
-            Enabled.AddChild(entry);
-            EmitSignal(SignalName.EntryAdded, entry);
-        }
+        // Refresh
         OnRefreshPressed();
     }
 
@@ -76,7 +69,9 @@ public partial class ModViewer : Control
     {
         // Load mods
         var paths = Files.ListDirs(SaveLoader.ModDir, false);
-        paths.RemoveAll(p => loaded.FindIndex(m => m.Directory == p) != -1);
+        loaded.Clear();
+        foreach (Node node in Enabled.GetChildren()) node.QueueFree();
+        foreach (Node node in Disabled.GetChildren()) node.QueueFree();
         foreach (string path in paths)
         {
             Mod mod = SaveLoader.Instance.Load<Mod>($"{path}/meta/Metadata.json");
@@ -87,14 +82,17 @@ public partial class ModViewer : Control
         foreach (ModEntry entry in Enabled.Entries.Concat(Disabled.Entries))
         {
             if (!loaded.Contains(entry.Mod)) entry.QueueFree();
-            else paths.Remove(entry.Mod.Directory);
         }
         // Create new entries
-        paths.ForEach(p => {
-            ModEntry entry = Entry(loaded.Find(m => m.Directory == p));
-            Disabled.AddChild(entry);
+        foreach (Mod mod in loaded)
+        {
+            ModEntry entry = Entry(mod);
+            if (SaveLoader.Instance.Mods.Any(m => m.Name == mod.Name))
+                Enabled.AddChild(entry);
+            else
+                Disabled.AddChild(entry);
             EmitSignal(SignalName.EntryAdded, entry);
-        });
+        }
         // Apply searches
         Disabled.Search(SearchDisabled.Text);
         Enabled.Search(SearchEnabled.Text);
