@@ -1,14 +1,11 @@
 {
   "$type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib],[System.Object, System.Private.CoreLib]], System.Private.CoreLib",
   "$nodeType": "SaveLoad.Character3D, SaveLoad, Version=0.5.8.0, Culture=neutral, PublicKeyToken=null",
-  "Name": "Character3D02",
-  "Definition": "Character3D02",
-  "Position": "-1.7925088,0,1.8200892",
+  "Name": "Character3D04",
+  "Definition": "Character3D04",
+  "Position": "1.8231502,0,2.4383132",
   "SceneFilePath": "res://scene/3D/Character3D.tscn",
-  "foo": {
-    "$type": "Godot.Vector3, GodotSharp, Version=4.4.1.0, Culture=neutral, PublicKeyToken=null",
-    "value": "2,2,2"
-  },
+  "foo": "CQAAAAAAAEAAAABAAAAAQA==",
   "Children": {
     "$type": "System.Collections.Generic.List`1[[System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib],[System.Object, System.Private.CoreLib]], System.Private.CoreLib]], System.Private.CoreLib",
     "$values": [
@@ -16,7 +13,7 @@
         "$type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib],[System.Object, System.Private.CoreLib]], System.Private.CoreLib",
         "$nodeType": "Godot.Sprite3D, GodotSharp, Version=4.4.1.0, Culture=neutral, PublicKeyToken=null",
         "Name": "Sprite3D",
-        "Texture": "res://assets/tiny_dungeon/tiny_dungeon.png:[16,112,16,16]",
+        "Texture": "res://assets/tiny_dungeon/tiny_dungeon.png:[48,112,16,16]",
         "Billboard": "Enabled",
         "TextureFilter": "Nearest",
         "Position": "0,0.5,0"
