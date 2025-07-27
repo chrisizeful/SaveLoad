@@ -191,4 +191,6 @@ public class NodeConverter : JsonConverter
         }
         return dict;
     }
+
+    public static bool Ignore(string name) => _ignore.Contains(name);
 }

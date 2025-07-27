@@ -3,6 +3,7 @@ using Newtonsoft.Json.Linq;
 using Godot;
 using System.Collections.Generic;
 using System;
+using System.Reflection;
 
 namespace SaveLoad;
 
@@ -27,20 +28,35 @@ public class ResourceConverter : JsonConverter
         // Save a string if resource path is valid file path
         if (IsValid(resource.ResourcePath))
         {
-            writer.WriteValue(((Resource) value).ResourcePath);
+            writer.WriteValue(resource.ResourcePath);
+            return;
         }
-        // Otherwise serialize resource normally
-        else
+        // Otherwise serialize property-by-property
+        writer.WriteStartObject();
+        var type = resource.GetType();
+        writer.WritePropertyName("$type");
+        writer.WriteValue(type.AssemblyQualifiedName);
+        foreach (var prop in type.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
         {
-            serializer.Converters.Remove(this);
-            JObject jo = JObject.FromObject(resource, serializer);
-            jo.Remove("ResourcePath");
-            jo.Remove("LoadPath");
-            jo.Remove("ResourceName");
-            jo.Remove("ResourceLocalToScene");
-            jo.WriteTo(writer);
-            serializer.Converters.Add(this);
+            if (!prop.CanRead || NodeConverter.Ignore(prop.Name))
+                continue;
+            var propValue = prop.GetValue(resource);
+            if (propValue == null)
+                continue;
+            writer.WritePropertyName(prop.Name);
+            serializer.Serialize(writer, propValue);
         }
+        foreach (var field in type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
+        {
+            if (NodeConverter.Ignore(field.Name))
+                continue;
+            var fieldValue = field.GetValue(resource);
+            if (fieldValue == null)
+                continue;
+            writer.WritePropertyName(field.Name);
+            serializer.Serialize(writer, fieldValue);
+        }
+        writer.WriteEndObject();
     }
 
     public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)

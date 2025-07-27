@@ -1,17 +1,39 @@
-[gd_scene load_steps=3 format=3 uid="uid://ca266qxe61nyl"]
+[gd_scene load_steps=7 format=3 uid="uid://ca266qxe61nyl"]
 
 [ext_resource type="Script" uid="uid://bkpssi886ejca" path="res://scene/3D/Character3D.cs" id="1_h48k1"]
+[ext_resource type="Shader" uid="uid://b66gf4x7xs1p4" path="res://scene/3D/CircleRect.gdshader" id="2_o3cwu"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h48k1"]
+albedo_color = Color(0.270588, 0.105882, 1, 1)
+
+[sub_resource type="QuadMesh" id="QuadMesh_h48k1"]
+size = Vector2(0.25, 0.25)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_iixtd"]
+render_priority = 0
+shader = ExtResource("2_o3cwu")
+shader_parameter/radius = 0.4
+shader_parameter/border_width = 0.02
+shader_parameter/dash_length = 0.1
+shader_parameter/dash_gap = 0.05
+shader_parameter/speed = 1.0
+shader_parameter/border_color = Color(1, 1, 1, 1)
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_o3cwu"]
 
 [node name="Character3D" type="CharacterBody3D" node_paths=PackedStringArray("Sprite")]
 script = ExtResource("1_h48k1")
-Sprite = NodePath("Sprite3D")
+Sprite = NodePath("Sprite")
 
-[node name="Sprite3D" type="Sprite3D" parent="."]
+[node name="Sprite" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
-billboard = 1
-texture_filter = 0
+material_override = SubResource("StandardMaterial3D_h48k1")
+mesh = SubResource("QuadMesh_h48k1")
+
+[node name="Sprite2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+material_override = SubResource("ShaderMaterial_iixtd")
+mesh = SubResource("QuadMesh_h48k1")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
