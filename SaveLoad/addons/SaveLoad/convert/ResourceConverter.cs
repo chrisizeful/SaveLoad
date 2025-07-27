@@ -21,19 +21,23 @@ public class ResourceConverter : JsonConverter
     {
         { typeof(Texture2D), "res://addons/SaveLoad/assets/default/Missing.png" }
     };
+    private static readonly Dictionary<Type, object> _instances = [];
 
     public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
     {
-        Resource resource = (Resource) value;
+        Resource resource = (Resource)value;
         // Save a string if resource path is valid file path
         if (IsValid(resource.ResourcePath))
         {
             writer.WriteValue(resource.ResourcePath);
             return;
         }
+        // Get default value
+        var type = resource.GetType();
+        if (!_instances.TryGetValue(type, out var instance))
+            instance = _instances[type] = Activator.CreateInstance(type);
         // Otherwise serialize property-by-property
         writer.WriteStartObject();
-        var type = resource.GetType();
         writer.WritePropertyName("$type");
         writer.WriteValue(type.AssemblyQualifiedName);
         foreach (var prop in type.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
@@ -41,7 +45,7 @@ public class ResourceConverter : JsonConverter
             if (!prop.CanRead || NodeConverter.Ignore(prop.Name))
                 continue;
             var propValue = prop.GetValue(resource);
-            if (propValue == null)
+            if (propValue == null || propValue.Equals(prop.GetValue(instance)))
                 continue;
             writer.WritePropertyName(prop.Name);
             serializer.Serialize(writer, propValue);
@@ -51,7 +55,7 @@ public class ResourceConverter : JsonConverter
             if (NodeConverter.Ignore(field.Name))
                 continue;
             var fieldValue = field.GetValue(resource);
-            if (fieldValue == null)
+            if (fieldValue == null || fieldValue.Equals(field.GetValue(instance)))
                 continue;
             writer.WritePropertyName(field.Name);
             serializer.Serialize(writer, fieldValue);

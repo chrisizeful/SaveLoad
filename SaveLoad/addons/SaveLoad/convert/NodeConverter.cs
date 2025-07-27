@@ -36,7 +36,11 @@ public class NodeConverter : JsonConverter
         "GlobalSkew",
         "Quaternion",
         "ZAsRelative",
-        "NativePtr"
+        "NativePtr",
+        // Resource
+        "NativeInstance",
+        "ResourcePath",
+        "ResourceSceneUniqueId"
     ];
     // Default value instances
     private static readonly Dictionary<Type, object> _instances = [];
