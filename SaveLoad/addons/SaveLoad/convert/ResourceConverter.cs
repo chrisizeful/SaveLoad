@@ -68,7 +68,7 @@ public class ResourceConverter : JsonConverter
         // If token is just a string, load the resource using it as the path
         if (reader.TokenType == JsonToken.String)
         {
-            string path = (string) reader.Value;
+            string path = (string)reader.Value;
             if (!ResourceLoader.Exists(path))
             {
                 GD.PrintErr($"ResourceConverter#ReadJson: Default resource used in place of missing resource at \"{path}\"");
@@ -82,7 +82,7 @@ public class ResourceConverter : JsonConverter
         string rpath = jo["ResourcePath"]?.Value<string>();
         object resource;
         if (!IsValid(rpath))
-            resource = (Resource) Activator.CreateInstance(Type.GetType((string) jo["$type"]));
+            resource = (Resource)Activator.CreateInstance(Type.GetType((string)jo["$type"]));
         else
             resource = ResourceLoader.LoadThreadedGet(rpath);
         serializer.Populate(jreader, resource);
@@ -93,7 +93,7 @@ public class ResourceConverter : JsonConverter
     {
         if (Defaults.TryGetValue(type, out var path))
             return ResourceLoader.Load(path);
-        return (Resource) Activator.CreateInstance(type);
+        return (Resource)Activator.CreateInstance(type);
     }
 
     protected bool IsValid(string path)
@@ -103,7 +103,10 @@ public class ResourceConverter : JsonConverter
 
     public override bool CanConvert(Type objectType)
     {
-        return typeof(Resource).IsAssignableFrom(objectType) &&
-        !typeof(Texture2D).IsAssignableFrom(objectType);
+        // Ensure this converter is only used as fallback if no Resource-specific one exists for the type
+        foreach (JsonConverter converter in SaveLoader.Instance.Settings.Converters)
+            if (converter != this && converter.CanConvert(objectType))
+                return false;
+        return typeof(Resource).IsAssignableFrom(objectType);
     }
 }

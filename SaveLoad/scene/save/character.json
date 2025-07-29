@@ -6,46 +6,46 @@
   "SceneFilePath": "res://scene/3D/Character3D.tscn",
   "foo": "CQAAAAAAAEAAAABAAAAAQA==",
   "Children": {
-    "$type": "System.Collections.Generic.List`1[[System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib],[System.Object, System.Private.CoreLib]], System.Private.CoreLib]], System.Private.CoreLib",
-    "$values": [
-      {
-        "$type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib],[System.Object, System.Private.CoreLib]], System.Private.CoreLib",
-        "$nodeType": "Godot.MeshInstance3D, GodotSharp, Version=4.4.1.0, Culture=neutral, PublicKeyToken=null",
-        "Name": "Sprite",
-        "Mesh": {
-          "$type": "Godot.QuadMesh, GodotSharp, Version=4.4.1.0, Culture=neutral, PublicKeyToken=null",
-          "Size": "0.25,0.25"
-        },
-        "MaterialOverride": {
-          "$type": "Godot.StandardMaterial3D, GodotSharp, Version=4.4.1.0, Culture=neutral, PublicKeyToken=null",
-          "AlbedoColor": "451bffff",
-          "AlbedoTexture": "res://assets/tiny_dungeon/tiny_dungeon.png:[48,112,16,16]"
-        },
-        "Position": "0,0.5,0"
-      },
-      {
-        "$type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib],[System.Object, System.Private.CoreLib]], System.Private.CoreLib",
-        "$nodeType": "Godot.MeshInstance3D, GodotSharp, Version=4.4.1.0, Culture=neutral, PublicKeyToken=null",
-        "Name": "Sprite2",
-        "Mesh": {
-          "$type": "Godot.QuadMesh, GodotSharp, Version=4.4.1.0, Culture=neutral, PublicKeyToken=null",
-          "Size": "0.25,0.25"
-        },
-        "MaterialOverride": {
-          "$type": "Godot.ShaderMaterial, GodotSharp, Version=4.4.1.0, Culture=neutral, PublicKeyToken=null",
-          "Shader": "res://scene/3D/CircleRect.gdshader"
-        },
-        "Position": "0,0.5,0"
-      },
-      {
-        "$type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib],[System.Object, System.Private.CoreLib]], System.Private.CoreLib",
-        "$nodeType": "Godot.CollisionShape3D, GodotSharp, Version=4.4.1.0, Culture=neutral, PublicKeyToken=null",
-        "Name": "CollisionShape3D",
-        "Shape": {
-          "$type": "Godot.SphereShape3D, GodotSharp, Version=4.4.1.0, Culture=neutral, PublicKeyToken=null"
-        },
-        "Position": "0,0.5,0"
-      }
-    ]
+	"$type": "System.Collections.Generic.List`1[[System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib],[System.Object, System.Private.CoreLib]], System.Private.CoreLib]], System.Private.CoreLib",
+	"$values": [
+	  {
+		"$type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib],[System.Object, System.Private.CoreLib]], System.Private.CoreLib",
+		"$nodeType": "Godot.MeshInstance3D, GodotSharp, Version=4.4.1.0, Culture=neutral, PublicKeyToken=null",
+		"Name": "Sprite",
+		"Mesh": {
+		  "$type": "Godot.QuadMesh, GodotSharp, Version=4.4.1.0, Culture=neutral, PublicKeyToken=null",
+		  "Size": "0.25,0.25"
+		},
+		"MaterialOverride": {
+		  "$type": "Godot.StandardMaterial3D, GodotSharp, Version=4.4.1.0, Culture=neutral, PublicKeyToken=null",
+		  "AlbedoColor": "451bffff",
+		  "AlbedoTexture": "res://assets/tiny_dungeon/tiny_dungeon.png:[48,112,16,16]"
+		},
+		"Position": "0,0.5,0"
+	  },
+	  {
+		"$type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib],[System.Object, System.Private.CoreLib]], System.Private.CoreLib",
+		"$nodeType": "Godot.MeshInstance3D, GodotSharp, Version=4.4.1.0, Culture=neutral, PublicKeyToken=null",
+		"Name": "Sprite2",
+		"Mesh": {
+		  "$type": "Godot.QuadMesh, GodotSharp, Version=4.4.1.0, Culture=neutral, PublicKeyToken=null",
+		  "Size": "0.25,0.25"
+		},
+		"MaterialOverride": {
+		  "$type": "Godot.ShaderMaterial, GodotSharp, Version=4.4.1.0, Culture=neutral, PublicKeyToken=null",
+		  "Shader": "res://scene/3D/CircleRect.gdshader"
+		},
+		"Position": "0,0.5,0"
+	  },
+	  {
+		"$type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib],[System.Object, System.Private.CoreLib]], System.Private.CoreLib",
+		"$nodeType": "Godot.CollisionShape3D, GodotSharp, Version=4.4.1.0, Culture=neutral, PublicKeyToken=null",
+		"Name": "CollisionShape3D",
+		"Shape": {
+		  "$type": "Godot.SphereShape3D, GodotSharp, Version=4.4.1.0, Culture=neutral, PublicKeyToken=null"
+		},
+		"Position": "0,0.5,0"
+	  }
+	]
   }
 }

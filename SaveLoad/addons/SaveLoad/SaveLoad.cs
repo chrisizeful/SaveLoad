@@ -122,6 +122,7 @@ public class SaveLoader
                 new BasisConverter(),
                 new ColorConverter(),
                 new Texture2DConverter(),
+                new ShaderConverter(),
                 new ResourceConverter(),
                 new StringNameConverter(),
                 new NodeConverter(),
