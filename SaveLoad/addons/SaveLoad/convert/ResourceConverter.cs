@@ -32,19 +32,25 @@ public class ResourceConverter : JsonConverter
             writer.WriteValue(resource.ResourcePath);
             return;
         }
-        // Get default value
-        var type = resource.GetType();
-        if (!_instances.TryGetValue(type, out var instance))
-            instance = _instances[type] = Activator.CreateInstance(type);
         // Otherwise serialize property-by-property
         writer.WriteStartObject();
+        WriteObject(writer, value, serializer);
+        writer.WriteEndObject();
+    }
+
+    protected virtual void WriteObject(JsonWriter writer, object value, JsonSerializer serializer)
+    {
+        // Get default value
+        var type = value.GetType();
+        if (!_instances.TryGetValue(type, out var instance))
+            instance = _instances[type] = Activator.CreateInstance(type);
         writer.WritePropertyName("$type");
         writer.WriteValue(type.AssemblyQualifiedName);
         foreach (var prop in type.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
         {
             if (!prop.CanRead || NodeConverter.Ignore(prop.Name))
                 continue;
-            var propValue = prop.GetValue(resource);
+            var propValue = prop.GetValue(value);
             if (propValue == null || propValue.Equals(prop.GetValue(instance)))
                 continue;
             writer.WritePropertyName(prop.Name);
@@ -54,13 +60,12 @@ public class ResourceConverter : JsonConverter
         {
             if (NodeConverter.Ignore(field.Name))
                 continue;
-            var fieldValue = field.GetValue(resource);
+            var fieldValue = field.GetValue(value);
             if (fieldValue == null || fieldValue.Equals(field.GetValue(instance)))
                 continue;
             writer.WritePropertyName(field.Name);
             serializer.Serialize(writer, fieldValue);
         }
-        writer.WriteEndObject();
     }
 
     public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
@@ -103,10 +108,8 @@ public class ResourceConverter : JsonConverter
 
     public override bool CanConvert(Type objectType)
     {
-        // Ensure this converter is only used as fallback if no Resource-specific one exists for the type
-        foreach (JsonConverter converter in SaveLoader.Instance.Settings.Converters)
-            if (converter != this && converter.CanConvert(objectType))
-                return false;
+        if (typeof(Texture2D).IsAssignableFrom(objectType) || typeof(ShaderMaterial).IsAssignableFrom(objectType))
+            return false;
         return typeof(Resource).IsAssignableFrom(objectType);
     }
 }
